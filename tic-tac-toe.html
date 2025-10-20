@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圈圈叉叉遊戲</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        
+        .game-container {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin: 20px auto;
+            background-color: #333;
+            padding: 5px;
+            border-radius: 5px;
+        }
+        
+        .cell {
+            background-color: white;
+            border: none;
+            font-size: 36px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        
+        .cell:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .cell:disabled {
+            cursor: not-allowed;
+        }
+        
+        .status {
+            font-size: 18px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        
+        .winner {
+            color: #4CAF50;
+        }
+        
+        .draw {
+            color: #FF9800;
+        }
+        
+        .turn {
+            color: #2196F3;
+        }
+        
+        .reset-button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .reset-button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>圈圈叉叉遊戲</h1>
+        <div class="status turn" id="status">輪到 X</div>
+        <div class="game-board" id="gameBoard">
+            <button class="cell" data-index="0"></button>
+            <button class="cell" data-index="1"></button>
+            <button class="cell" data-index="2"></button>
+            <button class="cell" data-index="3"></button>
+            <button class="cell" data-index="4"></button>
+            <button class="cell" data-index="5"></button>
+            <button class="cell" data-index="6"></button>
+            <button class="cell" data-index="7"></button>
+            <button class="cell" data-index="8"></button>
+        </div>
+        <button class="reset-button" id="resetButton">重新開始</button>
+    </div>
+
+    <script>
+        class TicTacToe {
+            constructor() {
+                this.board = Array(9).fill('');
+                this.currentPlayer = 'X';
+                this.gameActive = true;
+                this.statusElement = document.getElementById('status');
+                this.cells = document.querySelectorAll('.cell');
+                this.resetButton = document.getElementById('resetButton');
+                
+                this.winningConditions = [
+                    [0, 1, 2], [3, 4, 5], [6, 7, 8], // rows
+                    [0, 3, 6], [1, 4, 7], [2, 5, 8], // columns
+                    [0, 4, 8], [2, 4, 6] // diagonals
+                ];
+                
+                this.initializeGame();
+            }
+            
+            initializeGame() {
+                this.cells.forEach((cell, index) => {
+                    cell.addEventListener('click', () => this.handleCellClick(index));
+                });
+                
+                this.resetButton.addEventListener('click', () => this.resetGame());
+                this.updateStatus();
+            }
+            
+            handleCellClick(index) {
+                if (this.board[index] !== '' || !this.gameActive) {
+                    return;
+                }
+                
+                this.board[index] = this.currentPlayer;
+                this.cells[index].textContent = this.currentPlayer;
+                this.cells[index].disabled = true;
+                
+                if (this.checkWinner()) {
+                    this.gameActive = false;
+                    this.statusElement.textContent = `${this.currentPlayer} 獲勝！`;
+                    this.statusElement.className = 'status winner';
+                    this.disableAllCells();
+                    return;
+                }
+                
+                if (this.checkDraw()) {
+                    this.gameActive = false;
+                    this.statusElement.textContent = '平手！';
+                    this.statusElement.className = 'status draw';
+                    return;
+                }
+                
+                this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X';
+                this.updateStatus();
+            }
+            
+            checkWinner() {
+                return this.winningConditions.some(condition => {
+                    const [a, b, c] = condition;
+                    return this.board[a] !== '' && 
+                           this.board[a] === this.board[b] && 
+                           this.board[b] === this.board[c];
+                });
+            }
+            
+            checkDraw() {
+                return this.board.every(cell => cell !== '');
+            }
+            
+            disableAllCells() {
+                this.cells.forEach(cell => {
+                    cell.disabled = true;
+                });
+            }
+            
+            updateStatus() {
+                this.statusElement.textContent = `輪到 ${this.currentPlayer}`;
+                this.statusElement.className = 'status turn';
+            }
+            
+            resetGame() {
+                this.board = Array(9).fill('');
+                this.currentPlayer = 'X';
+                this.gameActive = true;
+                
+                this.cells.forEach(cell => {
+                    cell.textContent = '';
+                    cell.disabled = false;
+                });
+                
+                this.updateStatus();
+            }
+        }
+        
+        // Initialize the game when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new TicTacToe();
+        });
+    </script>
+</body>
+</html>

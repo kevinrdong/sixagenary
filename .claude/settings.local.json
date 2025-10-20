@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run serve:*)",
+      "Bash(claude mcp add:*)",
+      "mcp__figma-developer-mcp__get_figma_data",
+      "Bash(claude mcp remove:*)",
+      "WebFetch(domain:www.figma.com)",
+      "mcp__figma-developer-mcp__download_figma_images",
+      "Bash(git init)",
+      "Bash(git add .)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
