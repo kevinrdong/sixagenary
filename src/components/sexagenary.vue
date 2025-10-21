@@ -192,6 +192,7 @@
                     <!-- 內容容器 -->
                     <div class="p6-content">
                         <!-- 這裡可以添加其他內容 -->
+                        {{ showresult(result) }}
                     </div>
 
                     <!-- 底部撑开空间，让页面可以滚动到底部 -->
@@ -975,6 +976,21 @@ export default {
             console.log('最多被選中的 tag:', result.value)
         }
 
+        const showresult = (result) => {
+            // 1浪漫 2冒險 3理智 4領導 5助人
+            if(result == 1){
+                return '浪漫'
+            }else if(result == 2){
+                return '冒險'
+            }else if(result == 3){
+                return '理智'
+            }else if(result == 4){
+                return '領導'
+            }else if(result == 5){
+                return '助人'
+            }
+        }
+
         onMounted(() => {
             nextTick(() => {
                 if (textContainer.value) {
@@ -1086,6 +1102,7 @@ export default {
             tagCounts,
             result,
             showGlow,
+            showresult,
         }
     }
 }
