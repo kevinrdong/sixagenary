@@ -1123,9 +1123,10 @@ export default {
 .background-video {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    height: 100vh;
     object-fit: cover;
     object-position: center;
     z-index: 0;
@@ -1385,9 +1386,10 @@ export default {
 .p1-background-video {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    height: 100vh;
     object-fit: cover;
     object-position: center;
     z-index: 0;
@@ -1698,9 +1700,10 @@ export default {
 .p5-background-video {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: auto;
+    height: 100vh;
     object-fit: cover;
     object-position: center;
     z-index: 0;
@@ -1837,9 +1840,15 @@ export default {
 }
 
 .p6-background-image {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
     display: block;
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: 100vh;
+    object-fit: cover;
+    object-position: center;
 }
 
 .p6-content {
