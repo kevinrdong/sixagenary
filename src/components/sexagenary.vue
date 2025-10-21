@@ -1403,7 +1403,8 @@ export default {
 
 .p1-content {
     position: absolute;
-    top: 160px;
+    /* top: 160px; */
+    top: 10%;
     left: 0;
     right: 0;
     display: flex;
