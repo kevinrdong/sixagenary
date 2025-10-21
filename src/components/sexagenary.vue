@@ -236,6 +236,9 @@ export default {
 
         const updateScreenSize = () => {
             isWideScreen.value = window.innerWidth >= 768
+            // 設定真實的視窗高度（解決移動裝置 100vh 問題）
+            const vh = window.innerHeight * 0.01
+            document.documentElement.style.setProperty('--vh', `${vh}px`)
         }
         const question = ref({
             q1: [
@@ -999,6 +1002,9 @@ export default {
                 }
             })
 
+            // 初始化視窗高度
+            updateScreenSize()
+
             // 添加 resize 事件監聽
             window.addEventListener('resize', updateScreenSize)
 
@@ -1113,7 +1119,7 @@ export default {
 .question-screen {
     position: relative;
     width: 100vw;
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     max-width: 768px;
     max-height: 1024px;
     overflow: hidden;
@@ -1126,7 +1132,7 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     width: auto;
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     object-fit: cover;
     object-position: center;
     z-index: 0;
@@ -1238,7 +1244,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
     background-color: #000;
 }
 
@@ -1246,7 +1252,7 @@ export default {
 .p0-screen {
     position: relative;
     width: 46vh; /* 402/874 ≈ 0.46 */
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     overflow: hidden;
 }
 
@@ -1360,7 +1366,7 @@ export default {
     .p0-screen {
         width: 100vw;
         height: 217.4vw; /* 874/402 ≈ 2.174 */
-        max-height: 100vh;
+        max-height: calc(var(--vh, 1vh) * 100);
     }
 }
 
@@ -1376,7 +1382,7 @@ export default {
 .p1-screen {
     position: relative;
     width: 46vh;
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     overflow: hidden;
     background-color: #000000;
     display: flex;
@@ -1389,7 +1395,7 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     width: auto;
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     object-fit: cover;
     object-position: center;
     z-index: 0;
@@ -1502,7 +1508,7 @@ export default {
     .p1-screen {
         width: 100vw;
         height: 217.4vw;
-        max-height: 100vh;
+        max-height: calc(var(--vh, 1vh) * 100);
     }
 }
 
@@ -1703,7 +1709,7 @@ export default {
     left: 50%;
     transform: translateX(-50%);
     width: auto;
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     object-fit: cover;
     object-position: center;
     z-index: 0;
@@ -1846,7 +1852,7 @@ export default {
     transform: translateX(-50%);
     display: block;
     width: auto;
-    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
     object-fit: cover;
     object-position: center;
 }
