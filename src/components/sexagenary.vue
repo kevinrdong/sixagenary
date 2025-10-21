@@ -40,10 +40,7 @@
 
                 <div class="p1-content">
                     <!-- 上方文字说明 -->
-                    <div class="p1-text-top">
-                        忙碌的日常幾乎壓垮了你，在學校、工作、家庭間漫無目的地累積壓力——是時候讓靈魂放鬆，把腦中暫存檔歸零。<br><br>
-                        累了不是你的錯，但你可以選擇暫時逃跑！
-                    </div>
+                    <div class="p1-text-top" v-html="p1TextTopDisplay"></div>
 
                     <!-- 插图 -->
                     <!-- <img :src="require('@/assets/images/p1-illustration-c3e447.png')" alt="插圖" class="p1-illustration" /> -->
@@ -51,10 +48,7 @@
 
                 <!-- 下方内容 -->
                 <div class="p1-bottom-section">
-                    <div class="p1-text-bottom">
-                        人生太難，不如躲進異世界中<br>
-                        ▼ 點擊下方按鈕，讓靈魂暫時逃離日常 ▼
-                    </div>
+                    <div class="p1-text-bottom" v-html="p1TextBottomDisplay"></div>
 
                     <!-- 按钮 -->
                     <div class="p1-button" @click="startP1VideoAndTransition">
@@ -88,6 +82,7 @@
                                 v-for="(card, index) in cards"
                                 :key="`card-${index}`"
                                 class="p3-card"
+                                :class="{ 'p3-card-selected': getCardPosition(index) === 'center' && showGlow }"
                                 :style="getCardStyle(index)"
                                 @click="selectCard(index)"
                             >
@@ -96,7 +91,7 @@
                         </div>
 
                         <!-- 渐变遮罩 -->
-                        <div class="p3-gradient-overlay"></div>
+                        <!-- <div class="p3-gradient-overlay"></div> -->
                     </div>
 
                     <!-- 按钮组 -->
@@ -151,15 +146,25 @@
                                     class="option-item"
                                     @click="selectOption(index)"
                                 >
-                                    <img :src="option.image" :alt="`選項 ${index + 1}`" class="option-bg" />
                                     <span class="option-text">{{ option.text }}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </transition>
+                <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p3-logo" />
             </div>
             <div class="question-screen" v-else-if="step == 5" key="p5">
+                <!-- 背景視頻 -->
+                <video
+                    ref="p5Video"
+                    class="p5-background-video"
+                    :src="require('@/assets/images/clacing.mp4')"
+                    autoplay
+                    muted
+                    playsinline
+                ></video>
+
                 <!-- 結尾 - 捲軸動畫 -->
                 <div class="p5-container">
 
@@ -211,10 +216,19 @@ export default {
         const questionNum = ref(0)
         const textContainer = ref(null)
         const p1Video = ref(null)
+        const p5Video = ref(null)
         const loadingDots = ref('.')
         const tagCounts = ref({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }) // 統計各個 tag 的次數
         const result = ref(null) // 最多被選中的 tag
         let loadingInterval = null
+        let p5Timeout = null
+
+        // P1 打字機效果相關
+        const p1TextTop = '忙碌的日常幾乎壓垮了你，在學校、工作、家庭間漫無目的地累積壓力——是時候讓靈魂放鬆，把腦中暫存檔歸零。<br><br>累了不是你的錯，但你可以選擇暫時逃跑！'
+        const p1TextBottom = '人生太難，不如躲進異世界中<br>▼ 點擊下方按鈕，讓靈魂暫時逃離日常 ▼'
+        const p1TextTopDisplay = ref('')
+        const p1TextBottomDisplay = ref('')
+        let typewriterInterval = null
 
         // 響應式屏幕寬度檢測
         const isWideScreen = ref(window.innerWidth >= 768)
@@ -735,6 +749,8 @@ export default {
         const hasDragged = ref(false) // 是否进行了拖曳操作
         const startX = ref(0)
         const dragOffset = ref(0) // 当前拖拽偏移量
+        const showGlow = ref(false) // 控制光暈顯示
+        let glowTimeout = null // 光暈延遲計時器
 
         // 计算每张卡片的位置（left/center/right）
         const getCardPosition = (index) => {
@@ -742,6 +758,17 @@ export default {
             if (diff === 0) return 'center'
             if (diff === 1) return 'right'
             return 'left'
+        }
+
+        // 觸發光暈延遲顯示
+        const triggerGlowDelay = () => {
+            showGlow.value = false
+            if (glowTimeout) {
+                clearTimeout(glowTimeout)
+            }
+            glowTimeout = setTimeout(() => {
+                showGlow.value = true
+            }, 600)
         }
 
         // 计算卡片样式
@@ -831,6 +858,7 @@ export default {
                 newIndex = cards.value.length - 1
             }
             currentCardIndex.value = newIndex
+            triggerGlowDelay()
             console.log('上一張 - 索引:', newIndex, '卡片:', cards.value[newIndex].name)
         }
 
@@ -841,6 +869,7 @@ export default {
                 newIndex = 0
             }
             currentCardIndex.value = newIndex
+            triggerGlowDelay()
             console.log('下一張 - 索引:', newIndex, '卡片:', cards.value[newIndex].name)
         }
 
@@ -860,6 +889,62 @@ export default {
         const resetSelection = () => {
             // 重置到中间卡片（index=1，对应id=2）
             currentCardIndex.value = 1
+        }
+
+        // P1 打字機效果
+        const startTypewriter = () => {
+            // 清除可能存在的計時器
+            if (typewriterInterval) {
+                clearInterval(typewriterInterval)
+            }
+
+            // 重置顯示文字
+            p1TextTopDisplay.value = ''
+            p1TextBottomDisplay.value = ''
+
+            let topIndex = 0
+            let bottomIndex = 0
+            const topLength = p1TextTop.length
+            const bottomLength = p1TextBottom.length
+
+            // 先顯示上方文字
+            typewriterInterval = setInterval(() => {
+                if (topIndex < topLength) {
+                    // 處理 HTML 標籤，一次性顯示整個標籤
+                    if (p1TextTop[topIndex] === '<') {
+                        const closeTagIndex = p1TextTop.indexOf('>', topIndex)
+                        if (closeTagIndex !== -1) {
+                            p1TextTopDisplay.value += p1TextTop.substring(topIndex, closeTagIndex + 1)
+                            topIndex = closeTagIndex + 1
+                        } else {
+                            p1TextTopDisplay.value += p1TextTop[topIndex]
+                            topIndex++
+                        }
+                    } else {
+                        p1TextTopDisplay.value += p1TextTop[topIndex]
+                        topIndex++
+                    }
+                } else if (bottomIndex < bottomLength) {
+                    // 上方文字完成後顯示下方文字
+                    if (p1TextBottom[bottomIndex] === '<') {
+                        const closeTagIndex = p1TextBottom.indexOf('>', bottomIndex)
+                        if (closeTagIndex !== -1) {
+                            p1TextBottomDisplay.value += p1TextBottom.substring(bottomIndex, closeTagIndex + 1)
+                            bottomIndex = closeTagIndex + 1
+                        } else {
+                            p1TextBottomDisplay.value += p1TextBottom[bottomIndex]
+                            bottomIndex++
+                        }
+                    } else {
+                        p1TextBottomDisplay.value += p1TextBottom[bottomIndex]
+                        bottomIndex++
+                    }
+                } else {
+                    // 兩段文字都完成
+                    clearInterval(typewriterInterval)
+                    typewriterInterval = null
+                }
+            }, 50) // 每 50 毫秒顯示一個字
         }
 
         // P1 視頻播放並轉場
@@ -900,14 +985,26 @@ export default {
 
             // 添加 resize 事件監聽
             window.addEventListener('resize', updateScreenSize)
+
+            // 初始化光暈延遲
+            triggerGlowDelay()
         })
 
-        // 監聽 step 變化，當進入 step 5 時啟動打字動畫
+        // 監聽 step 變化
         watch(step, (newStep) => {
-            if (newStep === 5) {
+            if (newStep === 1) {
+                // 進入 P1 頁面時啟動打字機效果
+                startTypewriter()
+            } else if (newStep === 3) {
+                // 進入卡片選擇頁面時觸發光暈延遲
+                triggerGlowDelay()
+            } else if (newStep === 5) {
                 // 清除可能存在的舊計時器
                 if (loadingInterval) {
                     clearInterval(loadingInterval)
+                }
+                if (p5Timeout) {
+                    clearTimeout(p5Timeout)
                 }
 
                 // 啟動打字動畫
@@ -920,11 +1017,20 @@ export default {
                         loadingDots.value = '.'
                     }
                 }, 500) // 每 500 毫秒切換一次
+
+                // 7 秒後跳轉到 step 6
+                p5Timeout = setTimeout(() => {
+                    step.value = 6
+                }, 7000)
             } else {
                 // 離開 step 5 時清除計時器
                 if (loadingInterval) {
                     clearInterval(loadingInterval)
                     loadingInterval = null
+                }
+                if (p5Timeout) {
+                    clearTimeout(p5Timeout)
+                    p5Timeout = null
                 }
             }
         })
@@ -933,6 +1039,15 @@ export default {
         onUnmounted(() => {
             if (loadingInterval) {
                 clearInterval(loadingInterval)
+            }
+            if (glowTimeout) {
+                clearTimeout(glowTimeout)
+            }
+            if (p5Timeout) {
+                clearTimeout(p5Timeout)
+            }
+            if (typewriterInterval) {
+                clearInterval(typewriterInterval)
             }
             // 移除 resize 事件監聽
             window.removeEventListener('resize', updateScreenSize)
@@ -950,9 +1065,13 @@ export default {
             // currentOptions,
             textContainer,
             p1Video,
+            p5Video,
+            p1TextTopDisplay,
+            p1TextBottomDisplay,
             cards,
             cardsWrapper,
             currentCardIndex,
+            getCardPosition,
             getCardStyle,
             startDrag,
             onDrag,
@@ -966,6 +1085,7 @@ export default {
             loadingDots,
             tagCounts,
             result,
+            showGlow,
         }
     }
 }
@@ -1016,9 +1136,12 @@ export default {
 
 .logo {
     position: absolute;
-    top: 21px;
-    width: 142px;
-    height: auto;
+    bottom: 41px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 123px;
+    height: 18.01px;
+    z-index: 2;
 }
 
 .exhibition-text {
@@ -1042,46 +1165,44 @@ export default {
 .options {
     position: absolute;
     top: 600px;
-    width: 345px;
+    width: 370px;
     display: flex;
     flex-direction: column;
-    gap: -5px;
+    gap: 10px;
 }
 
 .option-item {
     position: relative;
-    width: 345px;
-    height: 60px;
+    width: 370px;
+    height: 40px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: transform 0.2s ease;
+    background: #EEEEEEBF;
+    border-radius: 20px;
+    padding: 8px 74px;
+    opacity: 1;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 0px 8px 2px rgba(255, 255, 255, 0.3);
 }
 
 .option-item:hover {
     transform: scale(1.02);
 }
 
-.option-bg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-}
-
 .option-text {
     position: relative;
-    color: #FFFFFF;
+    color: #524735;
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
     font-weight: 900;
     font-size: 13px;
     line-height: 1.846em;
     letter-spacing: 0.154em;
     text-align: center;
-    text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
     z-index: 1;
-    padding: 0 20px;
+    white-space: nowrap;
 }
 
 .fade-enter-active,
@@ -1395,7 +1516,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 .p3-cards-wrapper {
@@ -1417,18 +1538,26 @@ export default {
     position: absolute;
     width: auto;
     height: 100%;
-    max-height: 400px;
+    max-height: 500px;
     aspect-ratio: 144 / 424;
-    border-radius: 3px;
-    border: 2px solid rgba(255, 255, 255, 0.4);
+    /* border: 2px solid rgba(255, 255, 255, 0.4); */
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.4);
-    overflow: hidden;
     cursor: pointer;
     transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    left: 50%;
+    left: 45%;
     top: 50%;
     margin-left: calc(-72px * 0.85); /* 半個卡片寬度 * scale */
     margin-top: calc(-212px * 0.85); /* 半個卡片高度 * scale */
+    border-radius: 20px;
+}
+
+.p3-card-selected {
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    box-shadow:
+        0px 0px 10px 2.5px rgba(255, 255, 255, 0.3),
+        0px 0px 20px 5px rgba(255, 255, 255, 0.2),
+        0px 0px 30px 7.5px rgba(255, 255, 255, 0.1),
+        0px 8px 16px 0px rgba(0, 0, 0, 0.4);
 }
 
 .p3-card img {
@@ -1436,6 +1565,9 @@ export default {
     height: 100%;
     object-fit: cover;
     pointer-events: none;
+    border-radius: 20px;
+    overflow: hidden;
+    display: block;
 }
 
 .p3-gradient-overlay {
@@ -1546,15 +1678,24 @@ export default {
 }
 
 /* P5 結尾頁面樣式 */
+.p5-background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+}
+
 .p5-container {
     position: relative;
     width: 100%;
     height: 100%;
-    background-image: url('../assets/images/p5-background.png');
-    background-size: cover;
-    background-position: center;
     display: flex;
     flex-direction: column;
+    z-index: 1;
 }
 
 .p5-status-bar {
@@ -1597,8 +1738,9 @@ export default {
 
 .p5-content {
     position: absolute;
-    top: 102px;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     width: 100%;
     display: flex;
     flex-direction: column;

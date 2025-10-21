@@ -8,7 +8,10 @@
       "WebFetch(domain:www.figma.com)",
       "mcp__figma-developer-mcp__download_figma_images",
       "Bash(git init)",
-      "Bash(git add .)"
+      "Bash(git add .)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nfeat: 完成互動式山水畫測驗應用初始版本\n\n- 調整 P1 頁面布局以匹配 Figma 設計稿\n- 新增 P1 背景視頻功能（點擊按鈕播放，5秒後自動跳轉）\n- 實現 tag 統計系統，追蹤用戶選擇並計算最常選中的標籤\n- 配置 P5 和 P6 結果頁面的背景圖片和垂直滾動功能\n- 更新三種山水畫路線的問題文本和選項內容\n- 新增選項 tag 屬性以支援性格分析\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git config user.name \"Kevin\")",
+      "Bash(git config user.email \"yukenakisa@gmail.com\")"
     ],
     "deny": [],
     "ask": []
