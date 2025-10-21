@@ -780,17 +780,17 @@ export default {
             const position = getCardPosition(index)
             const styles = {
                 center: {
-                    transform: 'translateX(0) translateY(-30px) scale(1)',
+                    transform: 'translateX(-50%) translateY(-30px) scale(1)',
                     zIndex: 3,
                     opacity: 1
                 },
                 left: {
-                    transform: 'translateX(-180px) translateY(20px) scale(0.85)',
+                    transform: 'translateX(calc(-50% - 180px)) translateY(20px) scale(0.85)',
                     zIndex: 1,
                     opacity: 0.7
                 },
                 right: {
-                    transform: 'translateX(180px) translateY(20px) scale(0.85)',
+                    transform: 'translateX(calc(-50% + 180px)) translateY(20px) scale(0.85)',
                     zIndex: 1,
                     opacity: 0.7
                 }
@@ -1115,11 +1115,22 @@ export default {
 
 </script>
 
+<style>
+html,
+body {
+    background-color: #000;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+</style>
+
 <style scoped>
 .question-screen {
     position: relative;
     width: 100vw;
     height: calc(var(--vh, 1vh) * 100);
+    min-height: calc(var(--vh, 1vh) * 100);
     max-width: 768px;
     max-height: 1024px;
     overflow: hidden;
@@ -1244,7 +1255,9 @@ export default {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    min-height: 100vh;
     min-height: calc(var(--vh, 1vh) * 100);
+    height: 100%;
     background-color: #000;
 }
 
@@ -1525,6 +1538,7 @@ export default {
     position: relative;
     width: 100%;
     height: 100%;
+    min-height: calc(var(--vh, 1vh) * 100);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1532,6 +1546,7 @@ export default {
     gap: 40px;
     padding: 100px 0 80px;
     box-sizing: border-box;
+    background: #000;
 }
 
 .p3-image-container {
@@ -1570,9 +1585,9 @@ export default {
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.4);
     cursor: pointer;
     transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    left: 45%;
+    left: 50%;
     top: 50%;
-    margin-left: calc(-72px * 0.85); /* 半個卡片寬度 * scale */
+    margin-left: 0;
     margin-top: calc(-212px * 0.85); /* 半個卡片高度 * scale */
     border-radius: 20px;
 }
