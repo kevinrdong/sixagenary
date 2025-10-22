@@ -2,6 +2,7 @@
   "name": "sexagenary",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://southnpm-enduringlegacy-quiz.com.tw",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
