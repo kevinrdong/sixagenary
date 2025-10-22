@@ -1,4 +1,4 @@
-# sexagenary
+# sixagenary
 
 ## Project setup
 ```

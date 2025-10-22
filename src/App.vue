@@ -1,16 +1,16 @@
 <template>
   <div id="app">
-    <sexagenary />
+    <sixagenary />
   </div>
 </template>
 
 <script>
-import sexagenary from './components/sexagenary.vue'
+import sixagenary from './components/sixagenary.vue'
 
 export default {
   name: 'App',
   components: {
-    sexagenary
+    sixagenary
   }
 }
 </script>
