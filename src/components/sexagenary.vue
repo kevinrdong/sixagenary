@@ -152,7 +152,7 @@
                         </div>
                     </div>
                 </transition>
-                <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p3-logo" />
+                <!-- <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p3-logo" /> -->
             </div>
             <div class="question-screen" v-else-if="step == 5" key="p5">
                 <!-- 背景視頻 -->
