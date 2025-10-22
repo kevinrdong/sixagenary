@@ -23,6 +23,17 @@ export default {
   font-style: normal;
 }
 
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
 * {
   font-family: 'Swei B2 Sugar CJK TC', Avenir, Helvetica, Arial, sans-serif;
 }
@@ -32,10 +43,15 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  width: 100%;
+  height: 100%;
   min-height: 100vh;
+  min-height: calc(var(--vh, 1vh) * 100);
   display: flex;
   justify-content: center;
-  align-items: center;
-  background-color: #f0f0f0;
+  align-items: flex-start;
+  background-color: #000;
+  overflow: hidden;
+  overscroll-behavior: none;
 }
 </style>

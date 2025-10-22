@@ -195,9 +195,6 @@
                         {{ showresult(result) }}
                     </div>
 
-                    <!-- 底部撑开空间，让页面可以滚动到底部 -->
-                    <div class="p6-spacer"></div>
-
                     <!-- Logo -->
                     <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p6-logo" />
                 </div>
@@ -1115,16 +1112,6 @@ export default {
 
 </script>
 
-<style>
-html,
-body {
-    background-color: #000;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-}
-</style>
-
 <style scoped>
 .question-screen {
     position: relative;
@@ -1134,6 +1121,7 @@ body {
     max-width: 768px;
     max-height: 1024px;
     overflow: hidden;
+    overscroll-behavior: none;
     background: #000;
 }
 
@@ -1157,12 +1145,13 @@ body {
     height: 408px;
     background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 63%);
     pointer-events: none;
+    z-index: 0;
 }
 
 .content {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: calc(var(--vh, 1vh) * 100);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1181,7 +1170,7 @@ body {
 
 .exhibition-text {
     position: absolute;
-    top: 157px;
+    top: 16%;
     width: 346px;
     text-align: center;
     color: #FFFFFF;
@@ -1199,11 +1188,16 @@ body {
 
 .options {
     position: absolute;
-    top: 600px;
+    /* top: 550px; */
+    top: 67%;
     width: 370px;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    z-index: 10;
+    padding-bottom: 100px;
+    max-height: calc(var(--vh, 1vh) * 100 - 550px - 60px);
+    overflow-y: visible;
 }
 
 .option-item {
@@ -1255,10 +1249,13 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    width: 100%;
+    height: 100%;
     min-height: 100vh;
     min-height: calc(var(--vh, 1vh) * 100);
-    height: 100%;
     background-color: #000;
+    overflow: hidden;
+    overscroll-behavior: none;
 }
 
 /* P0 主視覺樣式 */
@@ -1851,26 +1848,26 @@ body {
 
 /* P6 結果頁面樣式 */
 .p6-screen {
-    overflow-y: auto;
+    overflow-y: scroll;
     overflow-x: hidden;
+    overscroll-behavior-y: contain;
+    height: calc(var(--vh, 1vh) * 100);
+    -webkit-overflow-scrolling: touch;
 }
 
 .p6-container {
     position: relative;
     width: 100%;
+    min-height: 100%;
     display: block;
+    background: transparent;
 }
 
 .p6-background-image {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
     display: block;
-    width: auto;
-    height: calc(var(--vh, 1vh) * 100);
-    object-fit: cover;
-    object-position: center;
+    width: 100%;
+    height: auto;
+    vertical-align: bottom;
 }
 
 .p6-content {
@@ -1887,14 +1884,10 @@ body {
     z-index: 1;
 }
 
-.p6-spacer {
-    display: none;
-}
-
 .p6-logo {
     position: absolute;
+    bottom: 40px;
     left: 50%;
-    bottom: 5%;
     transform: translateX(-50%);
     width: 123px;
     height: 18.01px;
