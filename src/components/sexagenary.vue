@@ -201,6 +201,18 @@
                 </div>
             </div>
         </transition>
+
+        <!-- 隱藏的視頻預載入元素 -->
+        <div style="position: absolute; width: 0; height: 0; overflow: hidden; opacity: 0; pointer-events: none;">
+            <video
+                v-for="(videoSrc, index) in preloadVideoList"
+                :key="`preload-${index}`"
+                :src="videoSrc"
+                preload="auto"
+                muted
+                playsinline
+            ></video>
+        </div>
     </div>
 
 </template>
@@ -231,6 +243,9 @@ export default {
 
         // 響應式屏幕寬度檢測
         const isWideScreen = ref(window.innerWidth >= 768)
+
+        // 預載入視頻列表
+        const preloadVideoList = ref([])
 
         const updateScreenSize = () => {
             isWideScreen.value = window.innerWidth >= 768
@@ -1012,16 +1027,8 @@ export default {
                 ...videoSource.q3
             ]
 
-            // 合併所有需要預載入的視頻
-            const allVideos = [...fixedVideos, ...allBackgroundVideos]
-
-            // 預載入每個視頻
-            allVideos.forEach(videoSrc => {
-                const video = document.createElement('video')
-                video.preload = 'auto'
-                video.src = videoSrc
-                video.load()
-            })
+            // 合併所有需要預載入的視頻，並賦值給 preloadVideoList
+            preloadVideoList.value = [...fixedVideos, ...allBackgroundVideos]
 
             // 預載入 P3 卡片圖片
             const cardImages = cards.value.map(card => card.image)
@@ -1030,7 +1037,7 @@ export default {
                 img.src = imgSrc
             })
 
-            console.log('預載入', allVideos.length, '個視頻和', cardImages.length, '張圖片')
+            console.log('預載入', preloadVideoList.value.length, '個視頻和', cardImages.length, '張圖片')
         }
 
         onMounted(() => {
@@ -1160,6 +1167,7 @@ export default {
             result,
             showGlow,
             showresult,
+            preloadVideoList,
         }
     }
 }
