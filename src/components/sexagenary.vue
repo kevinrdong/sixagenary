@@ -161,6 +161,7 @@
                     class="p5-background-video"
                     :src="require('@/assets/images/clacing.mp4')"
                     autoplay
+                    loop
                     muted
                     playsinline
                 ></video>
@@ -1069,6 +1070,15 @@ export default {
                 if (p5Timeout) {
                     clearTimeout(p5Timeout)
                 }
+
+                // 確保 P5 視頻播放（移動裝置可能需要手動觸發）
+                nextTick(() => {
+                    if (p5Video.value) {
+                        p5Video.value.play().catch(err => {
+                            console.log('P5 視頻自動播放失敗:', err)
+                        })
+                    }
+                })
 
                 // 啟動打字動畫
                 loadingInterval = setInterval(() => {
