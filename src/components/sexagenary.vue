@@ -991,6 +991,47 @@ export default {
             }
         }
 
+        // 預載入視頻和圖片
+        const preloadAssets = () => {
+            // P1 和 P5 的視頻
+            const fixedVideos = [
+                require('@/assets/images/step1_bg.mp4'),
+                require('@/assets/images/clacing.mp4')
+            ]
+
+            // 根據屏幕尺寸決定預載入哪些背景視頻
+            const videoSource = isWideScreen.value
+                ? options.value.backgroundVideosTablet
+                : options.value.backgroundVideos
+
+            // 收集所有背景視頻
+            const allBackgroundVideos = [
+                ...videoSource.q1,
+                ...videoSource.q2,
+                ...videoSource.q3
+            ]
+
+            // 合併所有需要預載入的視頻
+            const allVideos = [...fixedVideos, ...allBackgroundVideos]
+
+            // 預載入每個視頻
+            allVideos.forEach(videoSrc => {
+                const video = document.createElement('video')
+                video.preload = 'auto'
+                video.src = videoSrc
+                video.load()
+            })
+
+            // 預載入 P3 卡片圖片
+            const cardImages = cards.value.map(card => card.image)
+            cardImages.forEach(imgSrc => {
+                const img = new Image()
+                img.src = imgSrc
+            })
+
+            console.log('預載入', allVideos.length, '個視頻和', cardImages.length, '張圖片')
+        }
+
         onMounted(() => {
             nextTick(() => {
                 if (textContainer.value) {
@@ -1007,6 +1048,9 @@ export default {
 
             // 初始化光暈延遲
             triggerGlowDelay()
+
+            // 預載入所有視頻和圖片
+            preloadAssets()
         })
 
         // 監聽 step 變化
