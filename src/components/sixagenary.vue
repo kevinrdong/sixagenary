@@ -40,7 +40,7 @@
 
                 <div class="p1-content">
                     <!-- 上方文字说明 -->
-                    <div class="p1-text-top" v-html="p1TextTopDisplay"></div>
+                    <div class="p1-text-top" :class="{ 'p1-text-fade-out': p1TextHidden }" v-html="p1TextTopDisplay"></div>
 
                     <!-- 插图 -->
                     <!-- <img :src="require('@/assets/images/p1-illustration-c3e447.png')" alt="插圖" class="p1-illustration" /> -->
@@ -48,10 +48,10 @@
 
                 <!-- 下方内容 -->
                 <div class="p1-bottom-section">
-                    <div class="p1-text-bottom" v-html="p1TextBottomDisplay"></div>
+                    <div class="p1-text-bottom" :class="{ 'p1-text-fade-out': p1TextHidden }" v-html="p1TextBottomDisplay"></div>
 
                     <!-- 按钮 -->
-                    <div class="p1-button" @click="startP1VideoAndTransition">
+                    <div class="p1-button" :class="{ 'p1-button-scale-up': p1ButtonClicked, 'p1-text-fade-out': p1TextHidden }" @click="startP1VideoAndTransition">
                         <img :src="require('@/assets/images/p1-button-bg.svg')" alt="按鈕背景" class="p1-button-bg" />
                         <span class="p1-button-text">進入異世界冒險</span>
                     </div>
@@ -62,6 +62,10 @@
             </div>
 
             <div class="question-screen" v-else-if="step == 3" key="p3">
+                <div class="txt">
+                    <p>選擇一幅畫</p>
+                    <p>進入你的專屬結局</p>
+                </div>
                 <!-- 主内容 -->
                 <div class="p3-main-content">
                     <!-- 图片容器 -->
@@ -103,10 +107,10 @@
                         </div>
 
                         <!-- 重新选择按钮 -->
-                        <div class="p3-button" @click="resetSelection">
+                        <!-- <div class="p3-button" @click="resetSelection">
                             <img :src="require('@/assets/images/p1-button-bg.svg')" alt="按鈕背景" class="p3-button-bg" />
                             <span class="p3-button-text">重新選擇</span>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
 
@@ -231,6 +235,8 @@ export default {
         const loadingDots = ref('.')
         const tagCounts = ref({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }) // 統計各個 tag 的次數
         const result = ref(null) // 最多被選中的 tag
+        const p1ButtonClicked = ref(false) // 控制按鈕點擊縮放動畫
+        const p1TextHidden = ref(false) // 控制文字隱藏
         let loadingInterval = null
         let p5Timeout = null
 
@@ -967,10 +973,26 @@ export default {
         // P1 視頻播放並轉場
         const startP1VideoAndTransition = () => {
             if (p1Video.value) {
-                p1Video.value.play()
+                // 觸發按鈕縮放動畫
+                p1ButtonClicked.value = true
+
+                // 延遲隱藏文字
+                setTimeout(() => {
+                    p1TextHidden.value = true
+                }, 300) // 按鈕放大後 0.3 秒文字消失
+
+                // 播放視頻
+                setTimeout(() => {
+                    p1Video.value.play()
+                }, 600) // 0.6 秒後播放視頻
+
+                // 跳轉到下一步
                 setTimeout(() => {
                     step.value = 3
-                }, 5000) // 5秒後跳轉
+                    // 重置狀態
+                    p1ButtonClicked.value = false
+                    p1TextHidden.value = false
+                }, 5600) // 5 秒視頻 + 0.6 秒延遲
             }
         }
 
@@ -1168,6 +1190,8 @@ export default {
             showGlow,
             showresult,
             preloadVideoList,
+            p1ButtonClicked,
+            p1TextHidden,
         }
     }
 }
@@ -1298,7 +1322,7 @@ export default {
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s ease;
+  transition: opacity 1s ease;
 }
 
 .fade-enter-from,
@@ -1370,6 +1394,16 @@ export default {
     max-width: 365px;
     height: auto;
     z-index: 2;
+    animation: slowGlow 2.5s ease-in-out infinite;
+}
+
+@keyframes slowGlow {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
 }
 
 .p0-text-container {
@@ -1414,6 +1448,18 @@ export default {
     padding: 4px 12px;
     background-color: #FFFFFF;
     border-radius: 20px;
+    animation: subtleRipple 2.6s ease-in-out infinite;
+}
+
+@keyframes subtleRipple {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.03);
+        opacity: 0.95;
+    }
 }
 
 .p0-subtitle {
@@ -1497,6 +1543,7 @@ export default {
     letter-spacing: 0.1333em;
     text-align: center;
     text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    transition: opacity 0.3s ease;
 }
 
 .p1-illustration {
@@ -1528,6 +1575,11 @@ export default {
     letter-spacing: 0.1333em;
     text-align: center;
     text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    transition: opacity 0.3s ease;
+}
+
+.p1-text-fade-out {
+    opacity: 0;
 }
 
 .p1-button {
@@ -1537,11 +1589,32 @@ export default {
     justify-content: center;
     padding: 2px 90px;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    animation: buttonBreathing 2.5s ease-in-out infinite;
+    transition: opacity 0.3s ease;
+}
+
+@keyframes buttonBreathing {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.08);
+    }
 }
 
 .p1-button:hover {
+    animation: none;
     transform: scale(1.05);
+}
+
+.p1-button-scale-up {
+    animation: none;
+    transform: scale(1.5);
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.p1-button.p1-text-fade-out {
+    opacity: 0;
 }
 
 .p1-button-bg {
@@ -1593,6 +1666,22 @@ export default {
 }
 
 /* P3 三選一卡片選擇樣式 */
+.txt {
+    width: 100%;
+    text-align: center;
+    color: #FFFFFF;
+    font-family: 'Swei B2 Sugar CJK TC', sans-serif;
+    font-size: 15px;
+    line-height: 1.5em;
+    top: 2%;
+    position: absolute;
+    z-index: 1;
+}
+
+.txt p {
+    margin-bottom: 0;
+}
+
 .p3-main-content {
     position: relative;
     width: 100%;
