@@ -3,12 +3,6 @@
         <transition name="fade" mode="out-in">
             <!-- 入口 -->
             <div class="p0-screen" v-if="step == 0" @click="step = 1" key="p0">
-                <!-- 背景层（全屏） -->
-                <div class="p0-bg-layers">
-                    <div class="p0-bg-layer-1"></div>
-                    <div class="p0-bg-layer-2"></div>
-                    <div class="p0-bg-layer-3"></div>
-                </div>
 
                 <!-- 底部小图 -->
                 <img :src="require('@/assets/images/p0-bottom-image.png')" alt="裝飾圖" class="p0-bottom-image" />
@@ -21,11 +15,8 @@
                             <div class="p0-subtitle">點擊測你的<span style="color: rgb(158 110 29);">靈魂逃跑</span>指數</div>
                         </div>
                     </div>
-                    <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p0-logo" />
                 </div>
 
-                <!-- 主视觉插图（放在文本容器之后，这样在CSS中可以更容易定位） -->
-                <img :src="require('@/assets/images/p0-main-visual-9254d2.png')" alt="主視覺" class="p0-main-visual" />
             </div>
             <!-- P1-1 劇情前導 -->
             <div class="p1-screen" v-else-if="step == 1" key="p1">
@@ -1276,7 +1267,9 @@ export default {
     position: absolute;
     /* top: 550px; */
     top: 67%;
-    width: 370px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 350px;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -1288,7 +1281,7 @@ export default {
 
 .option-item {
     position: relative;
-    width: 370px;
+    width: 350px;
     height: 40px;
     cursor: pointer;
     display: flex;
@@ -1304,7 +1297,11 @@ export default {
 }
 
 .option-item:hover {
-    transform: scale(1.02);
+    transform: scale(1.05);
+}
+
+.option-item:active {
+    transform: scale(1.08);
 }
 
 .option-text {
@@ -1350,39 +1347,10 @@ export default {
     width: 46vh; /* 402/874 ≈ 0.46 */
     height: calc(var(--vh, 1vh) * 100);
     overflow: hidden;
-}
-
-.p0-bg-layers {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-}
-
-.p0-bg-layer-1 {
-    flex: 1;
-    background-color: #B4AE65;
-}
-
-.p0-bg-layer-2 {
-    flex: 1;
-    background-color: #E0D070;
-}
-
-.p0-bg-layer-3 {
-    flex: 1;
-    background-color: #899C9A;
-}
-
-.p0-main-visual {
-    position: absolute;
-    bottom: var(--text-container-height, 120px);
-    left: 0;
-    width: 100%;
-    height: auto;
-    z-index: 1;
+    background-image: url('~@/assets/images/step0_main.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .p0-bottom-image {
@@ -1471,12 +1439,6 @@ export default {
     letter-spacing: 0.23077em;
     text-align: center;
     cursor: pointer;
-}
-
-.p0-logo {
-    width: 109.72px;
-    height: 16.01px;
-    margin-top: 16px;
 }
 
 /* 响应式调整 - 当宽度不够时，改为宽度100%，高度按比例 */
@@ -2016,8 +1978,8 @@ export default {
 
 .p6-background-image {
     display: block;
-    width: 100%;
-    height: auto;
+    width: auto;
+    height: 100vh;
     vertical-align: bottom;
 }
 
