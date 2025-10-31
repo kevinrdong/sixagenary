@@ -188,7 +188,7 @@
                     <!-- 內容容器 -->
                     <div class="p6-content">
                         <!-- 這裡可以添加其他內容 -->
-                        {{ showresult(result) }}
+                        {{ showresult(result) + 123 }}
                     </div>
 
                     <!-- Logo -->
