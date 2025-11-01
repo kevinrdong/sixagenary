@@ -888,9 +888,8 @@ export default {
                     questionNum.value++;
                 }
 
-                // 延後 500ms 再隱藏星星（讓星星飛出效果多顯示一會兒）
+                // 延遲 1000ms（等待淡出動畫完成）後再隱藏星星
                 setTimeout(() => {
-                    // 移除星星效果，但保留按鈕變色
                     const allButtons = document.querySelectorAll('.option-item')
                     allButtons.forEach(btn => {
                         btn.classList.remove('option-item-touched')
@@ -903,18 +902,20 @@ export default {
                     allStars.forEach(star => {
                         star.style.opacity = '0'
                         star.style.visibility = 'hidden'
+                        star.style.display = 'none'
                     })
 
                     // 強制清除所有可能的懸停狀態
+                    document.body.classList.add('no-hover')
                     if (document.activeElement) {
                         document.activeElement.blur()
                     }
 
                     // 觸發重繪，確保狀態更新
                     document.body.offsetHeight
-                }, 500)
+                }, 1000)
 
-                // 延遲 1100ms 再移除按鈕變色（等待淡出動畫完成）
+                // 延遲 1100ms 再移除按鈕變色和清理所有狀態
                 setTimeout(() => {
                     const selectedButtons = document.querySelectorAll('.option-item-selected')
                     selectedButtons.forEach(btn => {
@@ -927,7 +928,11 @@ export default {
                     allStarsCleanup.forEach(star => {
                         star.style.opacity = ''
                         star.style.visibility = ''
+                        star.style.display = ''
                     })
+
+                    // 移除 no-hover class
+                    document.body.classList.remove('no-hover')
                 }, 1100)
             }, 300)
         }
@@ -1522,6 +1527,16 @@ export default {
     color: #ffffff !important;
     box-shadow: 0 0 25px #fec1958c !important;
   }
+
+  /* 防止星星繼承 hover 狀態的背景色 */
+  .option-item:hover .star-1,
+  .option-item:hover .star-2,
+  .option-item:hover .star-3,
+  .option-item:hover .star-4,
+  .option-item:hover .star-5,
+  .option-item:hover .star-6 {
+    background-color: transparent !important;
+  }
 }
 
 /* 移動端觸控效果 - 使用 JavaScript 添加的 class */
@@ -1531,6 +1546,16 @@ export default {
   box-shadow: 0 0 25px #fec1958c !important;
 }
 
+/* 防止星星繼承 touched 狀態的背景色 */
+.option-item-touched .star-1,
+.option-item-touched .star-2,
+.option-item-touched .star-3,
+.option-item-touched .star-4,
+.option-item-touched .star-5,
+.option-item-touched .star-6 {
+  background-color: transparent !important;
+}
+
 /* 移動端選中狀態 - 只控制按鈕顏色，不控制星星 */
 .option-item-selected {
   background-color: #524735 !important;
@@ -1538,21 +1563,49 @@ export default {
   box-shadow: 0 0 25px #fec1958c !important;
 }
 
+/* 防止星星繼承 selected 狀態的背景色 */
+.option-item-selected .star-1,
+.option-item-selected .star-2,
+.option-item-selected .star-3,
+.option-item-selected .star-4,
+.option-item-selected .star-5,
+.option-item-selected .star-6 {
+  background-color: transparent !important;
+}
+
 /* 通用點擊效果（移動端和桌面端） */
-button.option-item:active,
-button.option-item:active * {
+button.option-item:active {
   background-color: #524735 !important;
   color: #ffffff !important;
   box-shadow: 0 0 25px #fec1958c !important;
 }
 
+/* 防止星星繼承背景色 */
+button.option-item:active .star-1,
+button.option-item:active .star-2,
+button.option-item:active .star-3,
+button.option-item:active .star-4,
+button.option-item:active .star-5,
+button.option-item:active .star-6 {
+  background-color: transparent !important;
+}
+
 /* 針對觸控裝置的額外樣式 */
 @media (hover: none) and (pointer: coarse) {
-  button.option-item:active,
-  button.option-item:active * {
+  button.option-item:active {
     background-color: #524735 !important;
     color: #ffffff !important;
     box-shadow: 0 0 25px #fec1958c !important;
+  }
+
+  /* 防止星星繼承背景色 */
+  button.option-item:active .star-1,
+  button.option-item:active .star-2,
+  button.option-item:active .star-3,
+  button.option-item:active .star-4,
+  button.option-item:active .star-5,
+  button.option-item:active .star-6 {
+    background-color: transparent !important;
   }
 }
 
@@ -1569,9 +1622,40 @@ button.option-item {
 .hide-stars .star-3,
 .hide-stars .star-4,
 .hide-stars .star-5,
-.hide-stars .star-6 {
+.hide-stars .star-6,
+.no-hover .star-1,
+.no-hover .star-2,
+.no-hover .star-3,
+.no-hover .star-4,
+.no-hover .star-5,
+.no-hover .star-6 {
   opacity: 0 !important;
   visibility: hidden !important;
+  display: none !important;
+}
+
+/* 禁用所有 hover 和 active 效果 */
+.no-hover .option-item:hover .star-1,
+.no-hover .option-item:hover .star-2,
+.no-hover .option-item:hover .star-3,
+.no-hover .option-item:hover .star-4,
+.no-hover .option-item:hover .star-5,
+.no-hover .option-item:hover .star-6,
+.no-hover .option-item:active .star-1,
+.no-hover .option-item:active .star-2,
+.no-hover .option-item:active .star-3,
+.no-hover .option-item:active .star-4,
+.no-hover .option-item:active .star-5,
+.no-hover .option-item:active .star-6,
+.no-hover .option-item-touched .star-1,
+.no-hover .option-item-touched .star-2,
+.no-hover .option-item-touched .star-3,
+.no-hover .option-item-touched .star-4,
+.no-hover .option-item-touched .star-5,
+.no-hover .option-item-touched .star-6 {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  display: none !important;
 }
 
 /* 星星飛出效果 - 適用於所有裝置 */
