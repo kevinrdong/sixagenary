@@ -850,6 +850,7 @@ export default {
         // 處理移動端觸控開始
         const handleTouchStart = (event) => {
             event.currentTarget.classList.add('option-item-touched')
+            event.currentTarget.classList.add('option-item-selected')
         }
 
         // 處理移動端觸控結束
@@ -875,6 +876,10 @@ export default {
 
             // 在這裡處理選項選擇邏輯
             setTimeout(() => {
+                // 立即移除星星效果，但保留按鈕變色
+                const allButtons = document.querySelectorAll('.option-item-touched')
+                allButtons.forEach(btn => btn.classList.remove('option-item-touched'))
+
                 // 檢查是否為最後一個問題
                 const totalQuestions = question.value['q' + type.value].length
                 if (questionNum.value >= totalQuestions - 1) {
@@ -887,10 +892,10 @@ export default {
                     questionNum.value++;
                 }
 
-                // 切換題目後，延遲 1100ms 再移除變色狀態（等待淡出動畫完成）
+                // 延遲 1100ms 再移除按鈕變色（等待淡出動畫完成）
                 setTimeout(() => {
-                    const allButtons = document.querySelectorAll('.option-item-touched')
-                    allButtons.forEach(btn => btn.classList.remove('option-item-touched'))
+                    const selectedButtons = document.querySelectorAll('.option-item-selected')
+                    selectedButtons.forEach(btn => btn.classList.remove('option-item-selected'))
                 }, 1100)
             }, 300)
         }
@@ -1489,6 +1494,13 @@ export default {
 
 /* 移動端觸控效果 - 使用 JavaScript 添加的 class */
 .option-item-touched {
+  background-color: #524735 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 25px #fec1958c !important;
+}
+
+/* 移動端選中狀態 - 只控制按鈕顏色，不控制星星 */
+.option-item-selected {
   background-color: #524735 !important;
   color: #ffffff !important;
   box-shadow: 0 0 25px #fec1958c !important;
