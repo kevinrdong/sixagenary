@@ -886,28 +886,6 @@ export default {
                 } else {
                     // 繼續下一個問題
                     questionNum.value++;
-
-                    // 立即在下一幀清除新題目的星星（防止 hover 狀態殘留）
-                    nextTick(() => {
-                        setTimeout(() => {
-                            const allNewStars = document.querySelectorAll('.star-1, .star-2, .star-3, .star-4, .star-5, .star-6')
-                            allNewStars.forEach(star => {
-                                star.style.opacity = '0'
-                                star.style.visibility = 'hidden'
-                                star.style.display = 'none'
-                            })
-
-                            // 強制清除所有按鈕的 hover 狀態
-                            const allNewButtons = document.querySelectorAll('.option-item')
-                            allNewButtons.forEach(btn => {
-                                // 觸發重排，打斷 hover 狀態
-                                btn.style.pointerEvents = 'none'
-                                setTimeout(() => {
-                                    btn.style.pointerEvents = ''
-                                }, 0)
-                            })
-                        }, 0)
-                    })
                 }
 
                 // 延遲 1000ms（等待淡出動畫完成）後再隱藏星星
