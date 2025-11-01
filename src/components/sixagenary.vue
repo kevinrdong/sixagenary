@@ -135,14 +135,136 @@
 
                             <!-- 選項按鈕 -->
                             <div class="options">
-                                <div
+                                <!-- <div
                                     v-for="(option, index) in options['q' + type][questionNum]"
                                     :key="index"
                                     class="option-item"
                                     @click="selectOption(index)"
                                 >
                                     <span class="option-text">{{ option.text }}</span>
-                                </div>
+                                </div> -->
+                                <button
+                                    v-for="(option, index) in options['q' + type][questionNum]"
+                                    :key="index"
+                                    class="option-item"
+                                    @click="selectOption(index)"
+                                >
+                                    {{ option.text }}
+                                    <div class="star-1">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            xml:space="preserve"
+                                            version="1.1"
+                                            style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                            viewBox="0 0 784.11 815.53"
+                                            xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        >
+                                        <defs></defs>
+                                        <g id="Layer_x0020_1">
+                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                            <path
+                                            class="fil0"
+                                            d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                            ></path>
+                                        </g>
+                                        </svg>
+                                    </div>
+                                    <div class="star-2">
+                                        <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xml:space="preserve"
+                                        version="1.1"
+                                        style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                        viewBox="0 0 784.11 815.53"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        >
+                                        <defs></defs>
+                                        <g id="Layer_x0020_1">
+                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                            <path
+                                            class="fil0"
+                                            d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                            ></path>
+                                        </g>
+                                        </svg>
+                                    </div>
+                                    <div class="star-3">
+                                        <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xml:space="preserve"
+                                        version="1.1"
+                                        style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                        viewBox="0 0 784.11 815.53"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        >
+                                        <defs></defs>
+                                        <g id="Layer_x0020_1">
+                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                            <path
+                                            class="fil0"
+                                            d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                            ></path>
+                                        </g>
+                                        </svg>
+                                    </div>
+                                    <div class="star-4">
+                                        <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xml:space="preserve"
+                                        version="1.1"
+                                        style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                        viewBox="0 0 784.11 815.53"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        >
+                                        <defs></defs>
+                                        <g id="Layer_x0020_1">
+                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                            <path
+                                            class="fil0"
+                                            d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                            ></path>
+                                        </g>
+                                        </svg>
+                                    </div>
+                                    <div class="star-5">
+                                        <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xml:space="preserve"
+                                        version="1.1"
+                                        style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                        viewBox="0 0 784.11 815.53"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        >
+                                        <defs></defs>
+                                        <g id="Layer_x0020_1">
+                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                            <path
+                                            class="fil0"
+                                            d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                            ></path>
+                                        </g>
+                                        </svg>
+                                    </div>
+                                    <div class="star-6">
+                                        <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        xml:space="preserve"
+                                        version="1.1"
+                                        style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+                                        viewBox="0 0 784.11 815.53"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink"
+                                        >
+                                        <defs></defs>
+                                        <g id="Layer_x0020_1">
+                                            <metadata id="CorelCorpID_0Corel-Layer"></metadata>
+                                            <path
+                                            class="fil0"
+                                            d="M392.05 0c-20.9,210.08 -184.06,378.41 -392.05,407.78 207.96,29.37 371.12,197.68 392.05,407.74 20.93,-210.06 184.09,-378.37 392.05,-407.74 -207.98,-29.38 -371.16,-197.69 -392.06,-407.78z"
+                                            ></path>
+                                        </g>
+                                        </svg>
+                                    </div>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -188,7 +310,7 @@
                     <!-- 內容容器 -->
                     <div class="p6-content">
                         <!-- 這裡可以添加其他內容 -->
-                        {{ showresult(result) + 123 }}
+                        {{ showresult(result) }}
                     </div>
 
                     <!-- Logo -->
@@ -1279,7 +1401,7 @@ export default {
     overflow-y: visible;
 }
 
-.option-item {
+/* .option-item {
     position: relative;
     width: 350px;
     height: 40px;
@@ -1302,7 +1424,62 @@ export default {
 
 .option-item:active {
     transform: scale(1.08);
+} */
+.option-item {
+    position: relative;
+    background: #ffffff;
+    width: 310px;
+    height: 40px;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 74px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+    color: #524735;
+    border: 1.5px solid #524735;
+    border-radius: 50px;
+    box-shadow: 0 0 0 #fec1958c;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    margin: 10px auto;
+    padding: 10px 30px;
+    display: inline-block;
 }
+
+.option-item:hover {
+  background-color: #524735;
+  color: #ffffff;
+  box-shadow: 0 0 25px #fec1958c;
+}
+
+.fil0 {
+  fill: #fffdef;
+}
+
+/* 星星動畫部分 */
+.star-1, .star-2, .star-3, .star-4, .star-5, .star-6 {
+  position: absolute;
+  height: auto;
+  z-index: -5;
+  filter: drop-shadow(0 0 0 #fffdef);
+}
+
+.star-1 { top: 20%; left: 20%; width: 25px; transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96); }
+.star-2 { top: 45%; left: 45%; width: 15px; transition: all 1s cubic-bezier(0, 0.4, 0, 1.01); }
+.star-3 { top: 40%; left: 40%; width: 5px;  transition: all 1s cubic-bezier(0, 0.4, 0, 1.01); }
+.star-4 { top: 20%; left: 40%; width: 8px;  transition: all 0.8s cubic-bezier(0, 0.4, 0, 1.01); }
+.star-5 { top: 25%; left: 45%; width: 15px; transition: all 0.6s cubic-bezier(0, 0.4, 0, 1.01); }
+.star-6 { top: 5%;  left: 50%; width: 5px;  transition: all 0.8s ease; }
+
+.option-item:hover .star-1 { top: -80%; left: -10%; filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
+.option-item:hover .star-2 { top: -25%; left: 10%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
+.option-item:hover .star-3 { top: 55%; left: 25%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
+.option-item:hover .star-4 { top: 30%; left: 80%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
+.option-item:hover .star-5 { top: 25%; left: 105%; filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
+.option-item:hover .star-6 { top: 5%;  left: 60%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
+
 
 .option-text {
     position: relative;
@@ -2006,4 +2183,6 @@ export default {
     height: 18.01px;
     z-index: 2;
 }
+
+
 </style>
