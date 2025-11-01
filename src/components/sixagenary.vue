@@ -148,6 +148,9 @@
                                     :key="index"
                                     class="option-item"
                                     @click="selectOption(index)"
+                                    @touchstart="handleTouchStart"
+                                    @touchend="handleTouchEnd"
+                                    @touchcancel="handleTouchEnd"
                                 >
                                     {{ option.text }}
                                     <div class="star-1">
@@ -844,6 +847,16 @@ export default {
             ],
         })
 
+        // 處理移動端觸控開始
+        const handleTouchStart = (event) => {
+            event.currentTarget.classList.add('option-item-touched')
+        }
+
+        // 處理移動端觸控結束
+        const handleTouchEnd = () => {
+            // 不立即移除，保持變色效果直到切換題目
+        }
+
         const selectOption = (index) => {
             console.log('選擇了選項:', index + 1)
 
@@ -855,6 +868,11 @@ export default {
                 })
             }
 
+            // 移除所有按鈕的 focus/active 狀態，防止移動裝置上的選中狀態殘留
+            if (document.activeElement) {
+                document.activeElement.blur()
+            }
+
             // 在這裡處理選項選擇邏輯
             setTimeout(() => {
                 // 檢查是否為最後一個問題
@@ -862,12 +880,18 @@ export default {
                 if (questionNum.value >= totalQuestions - 1) {
                     // 計算最多被選中的 tag
                     calculateMostFrequentTag()
-                    // 已完成所有問題，跳轉到結尾頁面
+                    // 已完成所有問題,跳轉到結尾頁面
                     step.value = 5
                 } else {
                     // 繼續下一個問題
                     questionNum.value++;
                 }
+
+                // 切換題目後，延遲 1100ms 再移除變色狀態（等待淡出動畫完成）
+                setTimeout(() => {
+                    const allButtons = document.querySelectorAll('.option-item-touched')
+                    allButtons.forEach(btn => btn.classList.remove('option-item-touched'))
+                }, 1100)
             }, 300)
         }
 
@@ -1274,6 +1298,8 @@ export default {
             options,
             question,
             selectOption,
+            handleTouchStart,
+            handleTouchEnd,
             questionNum,
             currentQuestion,
             currentBackgroundVideo,
@@ -1398,7 +1424,7 @@ export default {
     z-index: 10;
     padding-bottom: 100px;
     max-height: calc(var(--vh, 1vh) * 100 - 550px - 60px);
-    overflow-y: visible;
+    overflow: visible;
 }
 
 /* .option-item {
@@ -1446,12 +1472,118 @@ export default {
     margin: 10px auto;
     padding: 10px 30px;
     display: inline-block;
+    overflow: visible;
+    font-family: 'Swei B2 Sugar CJK TC', sans-serif;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
 }
 
-.option-item:hover {
-  background-color: #524735;
-  color: #ffffff;
-  box-shadow: 0 0 25px #fec1958c;
+/* 桌面裝置 hover 效果 */
+@media (hover: hover) and (pointer: fine) {
+  .option-item:hover {
+    background-color: #524735 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 25px #fec1958c !important;
+  }
+}
+
+/* 移動端觸控效果 - 使用 JavaScript 添加的 class */
+.option-item-touched {
+  background-color: #524735 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 25px #fec1958c !important;
+}
+
+/* 通用點擊效果（移動端和桌面端） */
+button.option-item:active,
+button.option-item:active * {
+  background-color: #524735 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 25px #fec1958c !important;
+}
+
+/* 針對觸控裝置的額外樣式 */
+@media (hover: none) and (pointer: coarse) {
+  button.option-item:active,
+  button.option-item:active * {
+    background-color: #524735 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 25px #fec1958c !important;
+  }
+}
+
+/* WebKit 觸控反饋 */
+button.option-item {
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* 星星飛出效果 - 適用於所有裝置 */
+.option-item:hover .star-1,
+.option-item:active .star-1,
+.option-item-touched .star-1 {
+  top: -80%;
+  left: -10%;
+  filter: drop-shadow(0 0 10px #fffdef);
+  z-index: 20;
+  opacity: 1;
+  visibility: visible;
+}
+
+.option-item:hover .star-2,
+.option-item:active .star-2,
+.option-item-touched .star-2 {
+  top: -25%;
+  left: 10%;
+  filter: drop-shadow(0 0 10px #fffdef);
+  z-index: 20;
+  opacity: 1;
+  visibility: visible;
+}
+
+.option-item:hover .star-3,
+.option-item:active .star-3,
+.option-item-touched .star-3 {
+  top: 55%;
+  left: 25%;
+  filter: drop-shadow(0 0 10px #fffdef);
+  z-index: 20;
+  opacity: 1;
+  visibility: visible;
+}
+
+.option-item:hover .star-4,
+.option-item:active .star-4,
+.option-item-touched .star-4 {
+  top: 30%;
+  left: 80%;
+  filter: drop-shadow(0 0 10px #fffdef);
+  z-index: 20;
+  opacity: 1;
+  visibility: visible;
+}
+
+.option-item:hover .star-5,
+.option-item:active .star-5,
+.option-item-touched .star-5 {
+  top: 25%;
+  left: 105%;
+  filter: drop-shadow(0 0 10px #fffdef);
+  z-index: 20;
+  opacity: 1;
+  visibility: visible;
+}
+
+.option-item:hover .star-6,
+.option-item:active .star-6,
+.option-item-touched .star-6 {
+  top: 5%;
+  left: 60%;
+  filter: drop-shadow(0 0 10px #fffdef);
+  z-index: 20;
+  opacity: 1;
+  visibility: visible;
 }
 
 .fil0 {
@@ -1462,8 +1594,12 @@ export default {
 .star-1, .star-2, .star-3, .star-4, .star-5, .star-6 {
   position: absolute;
   height: auto;
-  z-index: -5;
+  z-index: 10;
   filter: drop-shadow(0 0 0 #fffdef);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .star-1 { top: 20%; left: 20%; width: 25px; transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96); }
@@ -1472,13 +1608,6 @@ export default {
 .star-4 { top: 20%; left: 40%; width: 8px;  transition: all 0.8s cubic-bezier(0, 0.4, 0, 1.01); }
 .star-5 { top: 25%; left: 45%; width: 15px; transition: all 0.6s cubic-bezier(0, 0.4, 0, 1.01); }
 .star-6 { top: 5%;  left: 50%; width: 5px;  transition: all 0.8s ease; }
-
-.option-item:hover .star-1 { top: -80%; left: -10%; filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
-.option-item:hover .star-2 { top: -25%; left: 10%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
-.option-item:hover .star-3 { top: 55%; left: 25%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
-.option-item:hover .star-4 { top: 30%; left: 80%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
-.option-item:hover .star-5 { top: 25%; left: 105%; filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
-.option-item:hover .star-6 { top: 5%;  left: 60%;  filter: drop-shadow(0 0 10px #fffdef); z-index: 2; }
 
 
 .option-text {
