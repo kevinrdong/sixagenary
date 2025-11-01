@@ -876,10 +876,6 @@ export default {
 
             // 在這裡處理選項選擇邏輯
             setTimeout(() => {
-                // 立即移除星星效果，但保留按鈕變色
-                const allButtons = document.querySelectorAll('.option-item-touched')
-                allButtons.forEach(btn => btn.classList.remove('option-item-touched'))
-
                 // 檢查是否為最後一個問題
                 const totalQuestions = question.value['q' + type.value].length
                 if (questionNum.value >= totalQuestions - 1) {
@@ -892,10 +888,46 @@ export default {
                     questionNum.value++;
                 }
 
+                // 延後 500ms 再隱藏星星（讓星星飛出效果多顯示一會兒）
+                setTimeout(() => {
+                    // 移除星星效果，但保留按鈕變色
+                    const allButtons = document.querySelectorAll('.option-item')
+                    allButtons.forEach(btn => {
+                        btn.classList.remove('option-item-touched')
+                        // 添加強制隱藏星星的 class
+                        btn.classList.add('hide-stars')
+                    })
+
+                    // 強制隱藏所有星星 div
+                    const allStars = document.querySelectorAll('.star-1, .star-2, .star-3, .star-4, .star-5, .star-6')
+                    allStars.forEach(star => {
+                        star.style.opacity = '0'
+                        star.style.visibility = 'hidden'
+                    })
+
+                    // 強制清除所有可能的懸停狀態
+                    if (document.activeElement) {
+                        document.activeElement.blur()
+                    }
+
+                    // 觸發重繪，確保狀態更新
+                    document.body.offsetHeight
+                }, 500)
+
                 // 延遲 1100ms 再移除按鈕變色（等待淡出動畫完成）
                 setTimeout(() => {
                     const selectedButtons = document.querySelectorAll('.option-item-selected')
-                    selectedButtons.forEach(btn => btn.classList.remove('option-item-selected'))
+                    selectedButtons.forEach(btn => {
+                        btn.classList.remove('option-item-selected')
+                        btn.classList.remove('hide-stars')
+                    })
+
+                    // 清除內聯樣式
+                    const allStarsCleanup = document.querySelectorAll('.star-1, .star-2, .star-3, .star-4, .star-5, .star-6')
+                    allStarsCleanup.forEach(star => {
+                        star.style.opacity = ''
+                        star.style.visibility = ''
+                    })
                 }, 1100)
             }, 300)
         }
@@ -1531,13 +1563,23 @@ button.option-item {
   -webkit-touch-callout: none;
 }
 
+/* 強制隱藏星星 - 優先級最高 */
+.hide-stars .star-1,
+.hide-stars .star-2,
+.hide-stars .star-3,
+.hide-stars .star-4,
+.hide-stars .star-5,
+.hide-stars .star-6 {
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
 /* 星星飛出效果 - 適用於所有裝置 */
 .option-item:hover .star-1,
 .option-item:active .star-1,
 .option-item-touched .star-1 {
   top: -80%;
   left: -10%;
-  filter: drop-shadow(0 0 10px #fffdef);
   z-index: 20;
   opacity: 1;
   visibility: visible;
@@ -1548,7 +1590,6 @@ button.option-item {
 .option-item-touched .star-2 {
   top: -25%;
   left: 10%;
-  filter: drop-shadow(0 0 10px #fffdef);
   z-index: 20;
   opacity: 1;
   visibility: visible;
@@ -1559,7 +1600,6 @@ button.option-item {
 .option-item-touched .star-3 {
   top: 55%;
   left: 25%;
-  filter: drop-shadow(0 0 10px #fffdef);
   z-index: 20;
   opacity: 1;
   visibility: visible;
@@ -1570,7 +1610,6 @@ button.option-item {
 .option-item-touched .star-4 {
   top: 30%;
   left: 80%;
-  filter: drop-shadow(0 0 10px #fffdef);
   z-index: 20;
   opacity: 1;
   visibility: visible;
@@ -1581,7 +1620,6 @@ button.option-item {
 .option-item-touched .star-5 {
   top: 25%;
   left: 105%;
-  filter: drop-shadow(0 0 10px #fffdef);
   z-index: 20;
   opacity: 1;
   visibility: visible;
@@ -1592,7 +1630,6 @@ button.option-item {
 .option-item-touched .star-6 {
   top: 5%;
   left: 60%;
-  filter: drop-shadow(0 0 10px #fffdef);
   z-index: 20;
   opacity: 1;
   visibility: visible;
@@ -1612,6 +1649,12 @@ button.option-item {
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, visibility 0.3s ease;
+  background: transparent !important;
+}
+
+.star-1 svg, .star-2 svg, .star-3 svg, .star-4 svg, .star-5 svg, .star-6 svg {
+  background: transparent !important;
+  display: block;
 }
 
 .star-1 { top: 20%; left: 20%; width: 25px; transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96); }
