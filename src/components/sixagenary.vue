@@ -1687,12 +1687,12 @@ button.option-item {
   display: block;
 }
 
-.star-1 { top: 13%; left: 0; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-2 { top: -25%; left: 0; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-3 { top: 55%; left: 0; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-4 { top: 50%; left: 0; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-5 { top: 35%; left: 0; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-6 { top: -5%; left: 0; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.star-1 { top: 13%; left: -4%; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.star-2 { top: -21%; left: 9%; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.star-3 { top: 87%; left: 12%; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.star-4 { top:82%; left: 90%; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.star-5 { top: 43%; left: 100%; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.star-6 { top: 3%; left: 85%; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
 
 
 .option-text {
