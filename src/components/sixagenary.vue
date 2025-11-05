@@ -45,7 +45,7 @@
                 <!-- 下方内容 -->
                 <div class="p1-bottom-section" :class="{ 'p1-text-fade-out': p1TextHidden }">
                     <div class="p1-text-bottom">
-                        <div class="p1-text-bottom-line1" v-html="p1TextBottom1Display"></div>
+                        <!-- <div class="p1-text-bottom-line1" v-html="p1TextBottom1Display"></div> -->
                         <div class="p1-text-bottom-line2" v-html="p1TextBottom2Display"></div>
                     </div>
 
@@ -1418,7 +1418,7 @@ export default {
 
 .logo {
     position: absolute;
-    bottom: 41px;
+    bottom: 15px;
     left: 50%;
     transform: translateX(-50%);
     width: 123px;
@@ -1453,7 +1453,7 @@ export default {
     width: 350px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 1px;
     z-index: 10;
     padding-bottom: 100px;
     max-height: calc(var(--vh, 1vh) * 100 - 550px - 60px);
@@ -2088,7 +2088,7 @@ button.option-item {
     padding: 2px 90px;
     cursor: pointer;
     opacity: 0;
-    animation: fadeInButton 1s ease-in-out 3.3s forwards, buttonBreathing 2.5s ease-in-out 3.3s infinite;
+    animation: fadeInButton 1s ease-in-out 3.3s forwards;
     transition: opacity 0.3s ease;
 }
 
@@ -2101,24 +2101,30 @@ button.option-item {
     }
 }
 
-@keyframes buttonBreathing {
-    0%, 100% {
-        transform: scale(1);
+@keyframes shadowBlink {
+    0%, 50%, 100% {
+        text-shadow:
+            0 0 20px rgba(255, 255, 255, 0.8),
+            0 0 40px rgba(255, 255, 255, 0.6),
+            0 0 60px rgba(255, 255, 255, 0.4);
     }
-    50% {
-        transform: scale(1.08);
+    25%, 75% {
+        text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
     }
 }
 
 .p1-button:hover {
-    animation: none;
-    transform: scale(1.05);
+    /* 保持 hover 效果 */
 }
 
 .p1-button-scale-up {
     animation: none;
     transform: scale(1.5);
     transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.p1-button-scale-up .p1-button-text {
+    animation: none;
 }
 
 .p1-button.p1-text-fade-out {
@@ -2145,6 +2151,7 @@ button.option-item {
     text-align: center;
     text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
     z-index: 1;
+    animation: shadowBlink 3s infinite;
 }
 
 .p1-logo {
@@ -2154,7 +2161,7 @@ button.option-item {
     transform: translateX(-50%);
     width: 123px;
     height: 18.01px;
-    z-index: 2;
+    z-index: 11;
 }
 
 /* P1 响应式调整 */
