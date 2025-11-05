@@ -888,7 +888,16 @@ export default {
 
         // 處理移動端觸控結束
         const handleTouchEnd = () => {
-            // 不立即移除，保持變色效果直到切換題目
+            // 延遲移除 touch 效果，給點擊事件時間觸發
+            setTimeout(() => {
+                // 只移除沒有被選中的選項的 touched 狀態
+                const allButtons = document.querySelectorAll('.option-item')
+                allButtons.forEach(btn => {
+                    if (!btn.classList.contains('option-item-selected')) {
+                        btn.classList.remove('option-item-touched')
+                    }
+                })
+            }, 300)
         }
 
         const selectOption = (index) => {
