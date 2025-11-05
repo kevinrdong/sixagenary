@@ -1418,7 +1418,7 @@ export default {
 
 .logo {
     position: absolute;
-    bottom: 15px;
+    bottom: 35px;
     left: 50%;
     transform: translateX(-50%);
     width: 123px;
@@ -1453,7 +1453,7 @@ export default {
     width: 350px;
     display: flex;
     flex-direction: column;
-    gap: 1px;
+    gap: 0;
     z-index: 10;
     padding-bottom: 100px;
     max-height: calc(var(--vh, 1vh) * 100 - 550px - 60px);
@@ -1502,7 +1502,7 @@ export default {
     box-shadow: 0 0 0 #fec1958c;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
-    margin: 10px auto;
+    margin: 5px auto;
     padding: 10px 30px;
     display: inline-block;
     overflow: visible;
