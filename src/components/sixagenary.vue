@@ -2115,7 +2115,7 @@ button.option-item {
 
 .p1-logo {
     position: absolute;
-    bottom: 41px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     width: 123px;
