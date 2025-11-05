@@ -882,8 +882,8 @@ export default {
 
         // 處理移動端觸控開始
         const handleTouchStart = (event) => {
-           // event.currentTarget.classList.add('option-item-touched')
-           // event.currentTarget.classList.add('option-item-selected')
+           event.currentTarget.classList.add('option-item-touched')
+           event.currentTarget.classList.add('option-item-selected')
         }
 
         // 處理移動端觸控結束
@@ -898,6 +898,7 @@ export default {
                 allButtons.forEach(btn => {
                     if (!btn.classList.contains('option-item-selected')) {
                         btn.classList.remove('option-item-touched')
+                        btn.blur()
                     }
                 })
             }, 300)
