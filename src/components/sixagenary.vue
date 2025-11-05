@@ -918,6 +918,12 @@ export default {
 
             // 在這裡處理選項選擇邏輯
             setTimeout(() => {
+                // 在切換題目前，先強制隱藏所有星星
+                const allButtons = document.querySelectorAll('.option-item')
+                allButtons.forEach(btn => {
+                    btn.classList.add('hide-stars')
+                })
+
                 // 檢查是否為最後一個問題
                 const totalQuestions = question.value['q' + type.value].length
                 if (questionNum.value >= totalQuestions - 1) {
@@ -930,12 +936,13 @@ export default {
                     questionNum.value++;
                 }
 
-                // 等待淡出動畫完成後（1秒）再移除按鈕狀態
+                // 等待淡出動畫完成後（1秒）再移除按鈕狀態和隱藏 class
                 setTimeout(() => {
                     const allButtons = document.querySelectorAll('.option-item')
                     allButtons.forEach(btn => {
                         btn.classList.remove('option-item-touched')
                         btn.classList.remove('option-item-selected')
+                        btn.classList.remove('hide-stars')
                     })
                 }, 1000)
             }, 800)
@@ -1633,6 +1640,18 @@ button.option-item {
 .option-item-touched .star-6 {
   opacity: 1 !important;
   transform: scale(1.5) !important;
+}
+
+/* 強制隱藏星星 - 切換題目時使用 */
+.hide-stars .star-1,
+.hide-stars .star-2,
+.hide-stars .star-3,
+.hide-stars .star-4,
+.hide-stars .star-5,
+.hide-stars .star-6 {
+  opacity: 0 !important;
+  transform: scale(0) !important;
+  transition: none !important;
 }
 
 .fil0 {
