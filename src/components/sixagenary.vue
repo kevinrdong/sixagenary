@@ -887,7 +887,10 @@ export default {
         }
 
         // 處理移動端觸控結束
-        const handleTouchEnd = () => {
+        const handleTouchEnd = (event) => {
+            // 立即讓按鈕失去焦點，避免 hover 狀態黏住
+            event.currentTarget.blur()
+
             // 延遲移除 touch 效果，給點擊事件時間觸發
             setTimeout(() => {
                 // 只移除沒有被選中的選項的 touched 狀態
@@ -912,14 +915,15 @@ export default {
             }
 
             // 移除所有按鈕的 focus/active 狀態，防止移動裝置上的選中狀態殘留
-            if (document.activeElement) {
-                document.activeElement.blur()
-            }
+            // 對所有按鈕執行 blur，以解除手機上的 hover 狀態
+            const allButtons = document.querySelectorAll('.option-item')
+            allButtons.forEach(btn => {
+                btn.blur()
+            })
 
             // 在這裡處理選項選擇邏輯
             setTimeout(() => {
                 // 在切換題目前，先強制隱藏所有星星
-                const allButtons = document.querySelectorAll('.option-item')
                 allButtons.forEach(btn => {
                     btn.classList.add('hide-stars')
                 })
