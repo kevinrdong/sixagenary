@@ -320,8 +320,25 @@
 
                     <!-- 內容容器 -->
                     <div class="p6-content">
-                        <!-- 這裡可以添加其他內容 -->
-                        {{ showresult(result) }}
+                        <!-- 根據 result 值顯示對應的結果圖片 -->
+                        <img v-if="result" :src="require(`@/assets/images/result_${result}.png`)" alt="測驗結果" class="p6-result-image" />
+
+                        <!-- 按鈕區 -->
+                        <div class="p6-buttons">
+                            <button class="p6-btn">
+                                <span class="p6-btn-text">點擊瞭解更多《甲子萬年特展》</span>
+                            </button>
+                            <button class="p6-btn" @click="restartQuiz">
+                                <span class="p6-btn-text">再玩一次</span>
+                            </button>
+                        </div>
+
+                        <!-- 分享提示區 -->
+                        <div class="p6-share-section">
+                            <div class="p6-share-line"></div>
+                            <div class="p6-share-text">分享你的心得，拿南故宮限量好禮！</div>
+                            <div class="p6-share-line"></div>
+                        </div>
                     </div>
 
                     <!-- Logo -->
@@ -901,53 +918,15 @@ export default {
                     questionNum.value++;
                 }
 
-                // 延遲 1000ms（等待淡出動畫完成）後再隱藏星星
+                // 等待淡出動畫完成後（1秒）再移除按鈕狀態
                 setTimeout(() => {
                     const allButtons = document.querySelectorAll('.option-item')
                     allButtons.forEach(btn => {
                         btn.classList.remove('option-item-touched')
-                        // 添加強制隱藏星星的 class
-                        btn.classList.add('hide-stars')
-                    })
-
-                    // 強制隱藏所有星星 div
-                    const allStars = document.querySelectorAll('.star-1, .star-2, .star-3, .star-4, .star-5, .star-6')
-                    allStars.forEach(star => {
-                        star.style.opacity = '0'
-                        star.style.visibility = 'hidden'
-                        star.style.display = 'none'
-                    })
-
-                    // 強制清除所有可能的懸停狀態
-                    document.body.classList.add('no-hover')
-                    if (document.activeElement) {
-                        document.activeElement.blur()
-                    }
-
-                    // 觸發重繪，確保狀態更新
-                    document.body.offsetHeight
-                }, 1000)
-
-                // 延遲 1100ms 再移除按鈕變色和清理所有狀態
-                setTimeout(() => {
-                    const selectedButtons = document.querySelectorAll('.option-item-selected')
-                    selectedButtons.forEach(btn => {
                         btn.classList.remove('option-item-selected')
-                        btn.classList.remove('hide-stars')
                     })
-
-                    // 清除內聯樣式
-                    const allStarsCleanup = document.querySelectorAll('.star-1, .star-2, .star-3, .star-4, .star-5, .star-6')
-                    allStarsCleanup.forEach(star => {
-                        star.style.opacity = ''
-                        star.style.visibility = ''
-                        star.style.display = ''
-                    })
-
-                    // 移除 no-hover class
-                    document.body.classList.remove('no-hover')
-                }, 1100)
-            }, 300)
+                }, 1000)
+            }, 800)
         }
 
         // 卡片数据 - 只保留三张
@@ -1106,6 +1085,19 @@ export default {
             currentCardIndex.value = 1
         }
 
+        // 重新開始測驗
+        const restartQuiz = () => {
+            // 重置所有狀態
+            step.value = 1
+            questionNum.value = 0
+            tagCounts.value = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+            result.value = null
+            currentCardIndex.value = 1
+
+            // 重新啟動 P1 打字機效果
+            startTypewriter()
+        }
+
         // P1 打字機效果
         const startTypewriter = () => {
             // 清除可能存在的計時器
@@ -1119,7 +1111,7 @@ export default {
             let index = 0
             const length = p1TextBottom2.length
 
-            // 延遲 3.3 秒後開始打字機效果 (1.3s + 2s)
+            // 延遲 1.5 秒後開始打字機效果，緊接在 p1-text-top 淡入完成後 (0.3s + 1.2s = 1.5s)
             setTimeout(() => {
                 typewriterInterval = setInterval(() => {
                     if (index < length) {
@@ -1130,7 +1122,7 @@ export default {
                         typewriterInterval = null
                     }
                 }, 50) // 每 50 毫秒顯示一個字
-            }, 3300)
+            }, 1500)
         }
 
         // P1 轉場
@@ -1145,7 +1137,7 @@ export default {
                 if (p1Video.value) {
                     p1Video.value.play()
                 }
-            }, 300) // 按鈕放大後 0.3 秒，文字和圖片開始淡出，視頻同時淡入並播放
+            }, 600) // 按鈕文字特效完成後（0.6秒），文字和圖片開始淡出，視頻同時淡入並播放
         }
 
         // P1 視頻播放結束
@@ -1353,6 +1345,7 @@ export default {
             nextCard,
             confirmSelection,
             resetSelection,
+            restartQuiz,
             startP1VideoAndTransition,
             loadingDots,
             tagCounts,
@@ -1607,121 +1600,27 @@ button.option-item {
   -webkit-touch-callout: none;
 }
 
-/* 強制隱藏星星 - 優先級最高 */
-.hide-stars .star-1,
-.hide-stars .star-2,
-.hide-stars .star-3,
-.hide-stars .star-4,
-.hide-stars .star-5,
-.hide-stars .star-6,
-.no-hover .star-1,
-.no-hover .star-2,
-.no-hover .star-3,
-.no-hover .star-4,
-.no-hover .star-5,
-.no-hover .star-6 {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  display: none !important;
-}
-
-/* 禁用所有 hover 和 active 效果 */
-.no-hover .option-item:hover .star-1,
-.no-hover .option-item:hover .star-2,
-.no-hover .option-item:hover .star-3,
-.no-hover .option-item:hover .star-4,
-.no-hover .option-item:hover .star-5,
-.no-hover .option-item:hover .star-6,
-.no-hover .option-item:active .star-1,
-.no-hover .option-item:active .star-2,
-.no-hover .option-item:active .star-3,
-.no-hover .option-item:active .star-4,
-.no-hover .option-item:active .star-5,
-.no-hover .option-item:active .star-6,
-.no-hover .option-item-touched .star-1,
-.no-hover .option-item-touched .star-2,
-.no-hover .option-item-touched .star-3,
-.no-hover .option-item-touched .star-4,
-.no-hover .option-item-touched .star-5,
-.no-hover .option-item-touched .star-6 {
-  opacity: 0 !important;
-  visibility: hidden !important;
-  display: none !important;
-}
-
-/* 移動端專用：禁用單純的 hover（不包括 touched 和 active） */
-@media (hover: none) {
-  .option-item:hover:not(.option-item-touched):not(:active) .star-1,
-  .option-item:hover:not(.option-item-touched):not(:active) .star-2,
-  .option-item:hover:not(.option-item-touched):not(:active) .star-3,
-  .option-item:hover:not(.option-item-touched):not(:active) .star-4,
-  .option-item:hover:not(.option-item-touched):not(:active) .star-5,
-  .option-item:hover:not(.option-item-touched):not(:active) .star-6 {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    display: none !important;
-  }
-}
-
-/* 星星飛出效果 - 適用於所有裝置 */
+/* 星星顯示效果 - 點擊/觸摸時立即出現並放大 1.5 倍 */
 .option-item:hover .star-1,
 .option-item:active .star-1,
-.option-item-touched .star-1 {
-  top: -80%;
-  left: -10%;
-  z-index: 20;
-  opacity: 1;
-  visibility: visible;
-}
-
+.option-item-touched .star-1,
 .option-item:hover .star-2,
 .option-item:active .star-2,
-.option-item-touched .star-2 {
-  top: -25%;
-  left: 10%;
-  z-index: 20;
-  opacity: 1;
-  visibility: visible;
-}
-
+.option-item-touched .star-2,
 .option-item:hover .star-3,
 .option-item:active .star-3,
-.option-item-touched .star-3 {
-  top: 55%;
-  left: 25%;
-  z-index: 20;
-  opacity: 1;
-  visibility: visible;
-}
-
+.option-item-touched .star-3,
 .option-item:hover .star-4,
 .option-item:active .star-4,
-.option-item-touched .star-4 {
-  top: 30%;
-  left: 80%;
-  z-index: 20;
-  opacity: 1;
-  visibility: visible;
-}
-
+.option-item-touched .star-4,
 .option-item:hover .star-5,
 .option-item:active .star-5,
-.option-item-touched .star-5 {
-  top: 25%;
-  left: 105%;
-  z-index: 20;
-  opacity: 1;
-  visibility: visible;
-}
-
+.option-item-touched .star-5,
 .option-item:hover .star-6,
 .option-item:active .star-6,
 .option-item-touched .star-6 {
-  top: 5%;
-  left: 60%;
-  z-index: 20;
-  opacity: 1;
-  visibility: visible;
+  opacity: 1 !important;
+  transform: scale(1.5) !important;
 }
 
 .fil0 {
@@ -1733,11 +1632,10 @@ button.option-item {
   position: absolute;
   height: auto;
   z-index: 10;
-  filter: drop-shadow(0 0 0 #fffdef);
+  filter: drop-shadow(0 0 10px #fffdef);
   pointer-events: none;
   opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transform: scale(0);
   background: transparent !important;
 }
 
@@ -1746,12 +1644,12 @@ button.option-item {
   display: block;
 }
 
-.star-1 { top: 20%; left: 20%; width: 25px; transition: all 1s cubic-bezier(0.05, 0.83, 0.43, 0.96); }
-.star-2 { top: 45%; left: 45%; width: 15px; transition: all 1s cubic-bezier(0, 0.4, 0, 1.01); }
-.star-3 { top: 40%; left: 40%; width: 5px;  transition: all 1s cubic-bezier(0, 0.4, 0, 1.01); }
-.star-4 { top: 20%; left: 40%; width: 8px;  transition: all 0.8s cubic-bezier(0, 0.4, 0, 1.01); }
-.star-5 { top: 25%; left: 45%; width: 15px; transition: all 0.6s cubic-bezier(0, 0.4, 0, 1.01); }
-.star-6 { top: 5%;  left: 50%; width: 5px;  transition: all 0.8s ease; }
+.star-1 { top: 13%; left: -14%; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.star-2 { top: -25%; left: 10%; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.star-3 { top: 55%; left: 23%; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.star-4 { top: 50%; left: 90%; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.star-5 { top: 35%; left: 95%; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.star-6 { top: -5%; left: 75%; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
 
 
 .option-text {
@@ -2088,8 +1986,8 @@ button.option-item {
     padding: 2px 90px;
     cursor: pointer;
     opacity: 0;
-    animation: fadeInButton 1s ease-in-out 3.3s forwards;
-    transition: opacity 0.3s ease;
+    animation: fadeInButton 1s ease-in-out 1.4s forwards;
+    transition: all 0.2s ease;
 }
 
 @keyframes fadeInButton {
@@ -2119,12 +2017,19 @@ button.option-item {
 
 .p1-button-scale-up {
     animation: none;
-    transform: scale(1.5);
-    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 1 !important;
 }
 
 .p1-button-scale-up .p1-button-text {
     animation: none;
+    transform: scale(1.3);
+    opacity: 0;
+    transition: all 0.6s ease;
+}
+
+/* 當父容器淡出時，保持按鈕可見，由按鈕自己的動畫控制 */
+.p1-text-fade-out .p1-button {
+    opacity: 1 !important;
 }
 
 .p1-button.p1-text-fade-out {
@@ -2152,6 +2057,7 @@ button.option-item {
     text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
     z-index: 1;
     animation: shadowBlink 3s infinite;
+    transition: opacity 1.2s ease;
 }
 
 .p1-logo {
@@ -2529,35 +2435,124 @@ button.option-item {
     background: transparent;
 }
 
+.p6-container::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    right: 3px;
+    bottom: 3px;
+    border: 2px solid #888888;
+    pointer-events: none;
+    z-index: 10;
+}
+
 .p6-background-image {
     display: block;
-    width: auto;
-    height: 100vh;
+    width: 100%;
+    height: auto;
     vertical-align: bottom;
 }
 
 .p6-content {
     position: absolute;
-    top: 102px;
+    top: 0;
     left: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    padding: 0 16px;
+    gap: 20px;
+    padding: 0;
     box-sizing: border-box;
     z-index: 1;
 }
 
+.p6-result-image {
+    width: 80%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+}
+
+.p6-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 30px 25px;
+    box-sizing: border-box;
+}
+
+.p6-btn {
+    position: relative;
+    width: 100%;
+    height: 30px;
+    background-color: transparent;
+    background-image: url('~@/assets/images/step6btnbg.png');
+    background-size: 100% 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease;
+}
+
+.p6-btn:hover {
+    transform: scale(1.05);
+}
+
+.p6-btn:active {
+    transform: scale(0.98);
+}
+
+.p6-btn-text {
+    font-family: 'Swei B2 Sugar CJK TC', sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    z-index: 1;
+}
+
+.p6-share-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 0 30px;
+    margin-top: -20px;
+    box-sizing: border-box;
+}
+
+.p6-share-line {
+    width: 100%;
+    height: 2px;
+    background-color: #888888;
+}
+
+.p6-share-text {
+    font-family: 'Swei B2 Sugar CJK TC', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    text-align: center;
+    white-space: nowrap;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
 .p6-logo {
     position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 20px;
+    right: 20px;
     width: 123px;
     height: 18.01px;
-    z-index: 2;
+    z-index: 20;
 }
 
 
