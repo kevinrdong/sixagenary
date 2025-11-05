@@ -328,10 +328,10 @@
 
                         <!-- 按鈕區 -->
                         <div class="p6-buttons">
-                            <button class="p6-btn">
+                            <button class="p6-btn" @click="reloadPage">
                                 <span class="p6-btn-text">點擊瞭解更多《甲子萬年特展》</span>
                             </button>
-                            <button class="p6-btn" @click="location.reload()">
+                            <button class="p6-btn" @click="reloadPage">
                                 <span class="p6-btn-text">再玩一次</span>
                             </button>
                         </div>
@@ -1122,6 +1122,11 @@ export default {
             startTypewriter()
         }
 
+        // 刷新頁面
+        const reloadPage = () => {
+            window.location.reload()
+        }
+
         // P1 打字機效果
         const startTypewriter = () => {
             // 清除可能存在的計時器
@@ -1370,6 +1375,7 @@ export default {
             confirmSelection,
             resetSelection,
             restartQuiz,
+            reloadPage,
             startP1VideoAndTransition,
             loadingDots,
             tagCounts,
