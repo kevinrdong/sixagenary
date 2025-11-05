@@ -20,26 +20,23 @@
             </div>
             <!-- P1-1 劇情前導 -->
             <div class="p1-screen" v-else-if="step == 1" key="p1">
-                <!-- 背景視頻 -->
-                <video
-                    ref="p1Video"
-                    class="p1-background-video"
-                    :src="require('@/assets/images/step1_bg.mp4')"
-                    muted
-                    playsinline
-                ></video>
-
                 <div class="p1-content">
                     <!-- 上方文字说明 -->
-                    <div class="p1-text-top" :class="{ 'p1-text-fade-out': p1TextHidden }" v-html="p1TextTopDisplay"></div>
+                    <div class="p1-text-top" :class="{ 'p1-text-fade-out': p1TextHidden }">
+                        <div class="p1-text-top-line1" v-html="p1TextTop1Display"></div>
+                        <div class="p1-text-top-line2" v-html="p1TextTop2Display"></div>
+                    </div>
 
                     <!-- 插图 -->
-                    <!-- <img :src="require('@/assets/images/p1-illustration-c3e447.png')" alt="插圖" class="p1-illustration" /> -->
+                    <img :src="require('@/assets/images/step1_bg.png')" alt="插圖" class="p1-illustration" />
                 </div>
 
                 <!-- 下方内容 -->
                 <div class="p1-bottom-section">
-                    <div class="p1-text-bottom" :class="{ 'p1-text-fade-out': p1TextHidden }" v-html="p1TextBottomDisplay"></div>
+                    <div class="p1-text-bottom" :class="{ 'p1-text-fade-out': p1TextHidden }">
+                        <div class="p1-text-bottom-line1" v-html="p1TextBottom1Display"></div>
+                        <div class="p1-text-bottom-line2" v-html="p1TextBottom2Display"></div>
+                    </div>
 
                     <!-- 按钮 -->
                     <div class="p1-button" :class="{ 'p1-button-scale-up': p1ButtonClicked, 'p1-text-fade-out': p1TextHidden }" @click="startP1VideoAndTransition">
@@ -356,11 +353,15 @@ export default {
         let loadingInterval = null
         let p5Timeout = null
 
-        // P1 打字機效果相關
-        const p1TextTop = '忙碌的日常幾乎壓垮了你，在學校、工作、家庭間漫無目的地累積壓力——是時候讓靈魂放鬆，把腦中暫存檔歸零。<br><br>累了不是你的錯，但你可以選擇暫時逃跑！'
-        const p1TextBottom = '人生太難，不如躲進異世界中<br>▼ 點擊下方按鈕，讓靈魂暫時逃離日常 ▼'
-        const p1TextTopDisplay = ref('')
-        const p1TextBottomDisplay = ref('')
+        // P1 文字內容
+        const p1TextTop1 = '忙碌的日常幾乎壓垮了你，在學校、工作、家庭間漫無目的地累積壓力——是時候讓靈魂放鬆，把腦中暫存檔歸零。'
+        const p1TextTop2 = '累了不是你的錯，但你可以選擇暫時逃跑！'
+        const p1TextBottom1 = '人生太難，不如躲進異世界中'
+        const p1TextBottom2 = '▼ 點擊下方按鈕，讓靈魂暫時逃離日常 ▼'
+        const p1TextTop1Display = ref(p1TextTop1)
+        const p1TextTop2Display = ref(p1TextTop2)
+        const p1TextBottom1Display = ref(p1TextBottom1)
+        const p1TextBottom2Display = ref('')
         let typewriterInterval = null
 
         // 響應式屏幕寬度檢測
@@ -1101,78 +1102,42 @@ export default {
             }
 
             // 重置顯示文字
-            p1TextTopDisplay.value = ''
-            p1TextBottomDisplay.value = ''
+            p1TextBottom2Display.value = ''
 
-            let topIndex = 0
-            let bottomIndex = 0
-            const topLength = p1TextTop.length
-            const bottomLength = p1TextBottom.length
+            let index = 0
+            const length = p1TextBottom2.length
 
-            // 先顯示上方文字
-            typewriterInterval = setInterval(() => {
-                if (topIndex < topLength) {
-                    // 處理 HTML 標籤，一次性顯示整個標籤
-                    if (p1TextTop[topIndex] === '<') {
-                        const closeTagIndex = p1TextTop.indexOf('>', topIndex)
-                        if (closeTagIndex !== -1) {
-                            p1TextTopDisplay.value += p1TextTop.substring(topIndex, closeTagIndex + 1)
-                            topIndex = closeTagIndex + 1
-                        } else {
-                            p1TextTopDisplay.value += p1TextTop[topIndex]
-                            topIndex++
-                        }
+            // 延遲 3.3 秒後開始打字機效果 (1.3s + 2s)
+            setTimeout(() => {
+                typewriterInterval = setInterval(() => {
+                    if (index < length) {
+                        p1TextBottom2Display.value += p1TextBottom2[index]
+                        index++
                     } else {
-                        p1TextTopDisplay.value += p1TextTop[topIndex]
-                        topIndex++
+                        clearInterval(typewriterInterval)
+                        typewriterInterval = null
                     }
-                } else if (bottomIndex < bottomLength) {
-                    // 上方文字完成後顯示下方文字
-                    if (p1TextBottom[bottomIndex] === '<') {
-                        const closeTagIndex = p1TextBottom.indexOf('>', bottomIndex)
-                        if (closeTagIndex !== -1) {
-                            p1TextBottomDisplay.value += p1TextBottom.substring(bottomIndex, closeTagIndex + 1)
-                            bottomIndex = closeTagIndex + 1
-                        } else {
-                            p1TextBottomDisplay.value += p1TextBottom[bottomIndex]
-                            bottomIndex++
-                        }
-                    } else {
-                        p1TextBottomDisplay.value += p1TextBottom[bottomIndex]
-                        bottomIndex++
-                    }
-                } else {
-                    // 兩段文字都完成
-                    clearInterval(typewriterInterval)
-                    typewriterInterval = null
-                }
-            }, 50) // 每 50 毫秒顯示一個字
+                }, 50) // 每 50 毫秒顯示一個字
+            }, 3300)
         }
 
-        // P1 視頻播放並轉場
+        // P1 轉場
         const startP1VideoAndTransition = () => {
-            if (p1Video.value) {
-                // 觸發按鈕縮放動畫
-                p1ButtonClicked.value = true
+            // 觸發按鈕縮放動畫
+            p1ButtonClicked.value = true
 
-                // 延遲隱藏文字
-                setTimeout(() => {
-                    p1TextHidden.value = true
-                }, 300) // 按鈕放大後 0.3 秒文字消失
+            // 延遲隱藏文字
+            setTimeout(() => {
+                p1TextHidden.value = true
+            }, 300) // 按鈕放大後 0.3 秒文字消失
 
-                // 播放視頻
-                setTimeout(() => {
-                    p1Video.value.play()
-                }, 600) // 0.6 秒後播放視頻
-
-                // 跳轉到下一步
-                setTimeout(() => {
-                    step.value = 3
-                    // 重置狀態
-                    p1ButtonClicked.value = false
-                    p1TextHidden.value = false
-                }, 5600) // 5 秒視頻 + 0.6 秒延遲
-            }
+            // 跳轉到下一步
+            setTimeout(() => {
+                step.value = 3
+                // 重置狀態
+                p1ButtonClicked.value = false
+                p1TextHidden.value = false
+            }, 1000) // 1 秒後跳轉
         }
 
         // 計算最多被選中的 tag
@@ -1210,9 +1175,12 @@ export default {
 
         // 預載入視頻和圖片
         const preloadAssets = () => {
-            // P1 和 P5 的視頻
+            // P1 背景圖片
+            const p1Image = new Image()
+            p1Image.src = require('@/assets/images/step1_bg.png')
+
+            // P5 的視頻
             const fixedVideos = [
-                require('@/assets/images/step1_bg.mp4'),
                 require('@/assets/images/clacing.mp4')
             ]
 
@@ -1349,8 +1317,10 @@ export default {
             textContainer,
             p1Video,
             p5Video,
-            p1TextTopDisplay,
-            p1TextBottomDisplay,
+            p1TextTop1Display,
+            p1TextTop2Display,
+            p1TextBottom1Display,
+            p1TextBottom2Display,
             cards,
             cardsWrapper,
             currentCardIndex,
@@ -1926,36 +1896,40 @@ button.option-item {
     background-color: #000000;
     display: flex;
     flex-direction: column;
-}
-
-.p1-background-video {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: auto;
-    height: calc(var(--vh, 1vh) * 100);
-    object-fit: cover;
-    object-position: center;
-    z-index: 0;
+    justify-content: center;
 }
 
 .p1-content {
-    position: absolute;
-    /* top: 160px; */
-    top: 10%;
-    left: 0;
-    right: 0;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 44px;
+    gap: 20px;
+    padding: 40px 16px 20px;
+    flex: 0 0 auto;
     z-index: 1;
+}
+
+@keyframes fadeInContent {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInText {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .p1-text-top {
     width: 100%;
-    padding: 0 16px;
     color: #FFFFFF;
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
     font-weight: 900;
@@ -1964,31 +1938,56 @@ button.option-item {
     letter-spacing: 0.1333em;
     text-align: center;
     text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.p1-text-top-line1 {
+    opacity: 0;
+    animation: fadeInText 1.2s ease-in-out 0.3s forwards;
+}
+
+.p1-text-top-line2 {
+    opacity: 0;
+    animation: fadeInText 1.2s ease-in-out 0.3s forwards;
 }
 
 .p1-illustration {
-    width: 100%;
-    height: 188px;
-    object-fit: cover;
+    width: 100vw;
+    max-width: none;
+    height: auto;
+    object-fit: contain;
+    opacity: 0;
+    animation: fadeInText 1.2s ease-in-out 0.6s forwards;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+}
+
+@media (min-width: 500px) {
+    .p1-illustration {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        margin-left: 0;
+        margin-right: 0;
+    }
 }
 
 .p1-bottom-section {
-    position: absolute;
-    bottom: 15%;
-    left: 0;
-    right: 0;
+    position: relative;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 32px;
-    padding: 0 16px;
+    padding: 20px 16px 40px;
     z-index: 2;
+    flex: 0 0 auto;
 }
 
 .p1-text-bottom {
-    color: #FFFFFF;
+    color: #ECB757;
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
     font-weight: 900;
     font-size: 15px;
@@ -1996,11 +1995,34 @@ button.option-item {
     letter-spacing: 0.1333em;
     text-align: center;
     text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.p1-text-bottom-line1 {
+    opacity: 0;
+    animation: fadeInText 2s ease-in-out 1.3s forwards;
+}
+
+.p1-text-bottom-line2 {
+    /* 使用打字機效果，不需要淡入動畫 */
+    color: #FFFFFF;
 }
 
 .p1-text-fade-out {
-    opacity: 0;
+    opacity: 0 !important;
+    animation: none !important;
+    transition: opacity 0.3s ease;
+}
+
+.p1-text-fade-out .p1-text-top-line1,
+.p1-text-fade-out .p1-text-top-line2,
+.p1-text-fade-out .p1-text-bottom-line1,
+.p1-text-fade-out .p1-text-bottom-line2 {
+    opacity: 0 !important;
+    animation: none !important;
+    transition: opacity 0.3s ease;
 }
 
 .p1-button {
@@ -2010,8 +2032,18 @@ button.option-item {
     justify-content: center;
     padding: 2px 90px;
     cursor: pointer;
-    animation: buttonBreathing 2.5s ease-in-out infinite;
+    opacity: 0;
+    animation: fadeInButton 1s ease-in-out 3.3s forwards, buttonBreathing 2.5s ease-in-out 3.3s infinite;
     transition: opacity 0.3s ease;
+}
+
+@keyframes fadeInButton {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes buttonBreathing {
