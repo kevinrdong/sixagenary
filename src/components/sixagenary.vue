@@ -882,8 +882,8 @@ export default {
 
         // 處理移動端觸控開始
         const handleTouchStart = (event) => {
-            event.currentTarget.classList.add('option-item-touched')
-            event.currentTarget.classList.add('option-item-selected')
+           // event.currentTarget.classList.add('option-item-touched')
+           // event.currentTarget.classList.add('option-item-selected')
         }
 
         // 處理移動端觸控結束
@@ -1623,27 +1623,34 @@ button.option-item {
   -webkit-touch-callout: none;
 }
 
-/* 星星顯示效果 - 點擊/觸摸時立即出現並放大 1.5 倍 */
-.option-item:hover .star-1,
+/* 星星顯示效果 - 移動裝置：只在觸摸時顯示 */
 .option-item:active .star-1,
 .option-item-touched .star-1,
-.option-item:hover .star-2,
 .option-item:active .star-2,
 .option-item-touched .star-2,
-.option-item:hover .star-3,
 .option-item:active .star-3,
 .option-item-touched .star-3,
-.option-item:hover .star-4,
 .option-item:active .star-4,
 .option-item-touched .star-4,
-.option-item:hover .star-5,
 .option-item:active .star-5,
 .option-item-touched .star-5,
-.option-item:hover .star-6,
 .option-item:active .star-6,
 .option-item-touched .star-6 {
   opacity: 1 !important;
   transform: scale(1.5) !important;
+}
+
+/* 桌面裝置：hover 時顯示星星 */
+@media (hover: hover) and (pointer: fine) {
+  .option-item:hover .star-1,
+  .option-item:hover .star-2,
+  .option-item:hover .star-3,
+  .option-item:hover .star-4,
+  .option-item:hover .star-5,
+  .option-item:hover .star-6 {
+    opacity: 1 !important;
+    transform: scale(1.5) !important;
+  }
 }
 
 /* 強制隱藏星星 - 切換題目時使用 */
