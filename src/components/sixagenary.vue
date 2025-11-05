@@ -20,26 +20,37 @@
             </div>
             <!-- P1-1 劇情前導 -->
             <div class="p1-screen" v-else-if="step == 1" key="p1">
-                <div class="p1-content">
+                <div class="p1-content" :class="{ 'p1-text-fade-out': p1TextHidden }">
                     <!-- 上方文字说明 -->
-                    <div class="p1-text-top" :class="{ 'p1-text-fade-out': p1TextHidden }">
+                    <div class="p1-text-top">
                         <div class="p1-text-top-line1" v-html="p1TextTop1Display"></div>
                         <div class="p1-text-top-line2" v-html="p1TextTop2Display"></div>
                     </div>
 
                     <!-- 插图 -->
-                    <img :src="require('@/assets/images/step1_bg.png')" alt="插圖" class="p1-illustration" />
+                    <img :src="require('@/assets/images/step1_bg.png')" alt="插圖" class="p1-illustration" :class="{ 'p1-image-fade-out': p1TextHidden }" />
                 </div>
 
+                <!-- 转场视频 -->
+                <video
+                    ref="p1Video"
+                    class="p1-transition-video"
+                    :class="{ 'p1-video-show': p1VideoPlaying }"
+                    :src="require('@/assets/images/step1_bg.mp4')"
+                    muted
+                    playsinline
+                    @ended="onP1VideoEnded"
+                ></video>
+
                 <!-- 下方内容 -->
-                <div class="p1-bottom-section">
-                    <div class="p1-text-bottom" :class="{ 'p1-text-fade-out': p1TextHidden }">
+                <div class="p1-bottom-section" :class="{ 'p1-text-fade-out': p1TextHidden }">
+                    <div class="p1-text-bottom">
                         <div class="p1-text-bottom-line1" v-html="p1TextBottom1Display"></div>
                         <div class="p1-text-bottom-line2" v-html="p1TextBottom2Display"></div>
                     </div>
 
                     <!-- 按钮 -->
-                    <div class="p1-button" :class="{ 'p1-button-scale-up': p1ButtonClicked, 'p1-text-fade-out': p1TextHidden }" @click="startP1VideoAndTransition">
+                    <div class="p1-button" :class="{ 'p1-button-scale-up': p1ButtonClicked }" @click="startP1VideoAndTransition">
                         <img :src="require('@/assets/images/p1-button-bg.svg')" alt="按鈕背景" class="p1-button-bg" />
                         <span class="p1-button-text">進入異世界冒險</span>
                     </div>
@@ -350,6 +361,7 @@ export default {
         const result = ref(null) // 最多被選中的 tag
         const p1ButtonClicked = ref(false) // 控制按鈕點擊縮放動畫
         const p1TextHidden = ref(false) // 控制文字隱藏
+        const p1VideoPlaying = ref(false) // 控制視頻顯示
         let loadingInterval = null
         let p5Timeout = null
 
@@ -1126,18 +1138,24 @@ export default {
             // 觸發按鈕縮放動畫
             p1ButtonClicked.value = true
 
-            // 延遲隱藏文字
+            // 延遲隱藏文字和圖片，同時顯示並播放視頻
             setTimeout(() => {
                 p1TextHidden.value = true
-            }, 300) // 按鈕放大後 0.3 秒文字消失
+                p1VideoPlaying.value = true
+                if (p1Video.value) {
+                    p1Video.value.play()
+                }
+            }, 300) // 按鈕放大後 0.3 秒，文字和圖片開始淡出，視頻同時淡入並播放
+        }
 
-            // 跳轉到下一步
-            setTimeout(() => {
-                step.value = 3
-                // 重置狀態
-                p1ButtonClicked.value = false
-                p1TextHidden.value = false
-            }, 1000) // 1 秒後跳轉
+        // P1 視頻播放結束
+        const onP1VideoEnded = () => {
+            // 跳轉到 P3
+            step.value = 3
+            // 重置狀態
+            p1ButtonClicked.value = false
+            p1TextHidden.value = false
+            p1VideoPlaying.value = false
         }
 
         // 計算最多被選中的 tag
@@ -1179,8 +1197,9 @@ export default {
             const p1Image = new Image()
             p1Image.src = require('@/assets/images/step1_bg.png')
 
-            // P5 的視頻
+            // P1 和 P5 的視頻
             const fixedVideos = [
+                require('@/assets/images/step1_bg.mp4'),
                 require('@/assets/images/clacing.mp4')
             ]
 
@@ -1343,6 +1362,8 @@ export default {
             preloadVideoList,
             p1ButtonClicked,
             p1TextHidden,
+            p1VideoPlaying,
+            onP1VideoEnded,
         }
     }
 }
@@ -1908,6 +1929,7 @@ button.option-item {
     padding: 40px 16px 20px;
     flex: 0 0 auto;
     z-index: 1;
+    transition: opacity 1s ease;
 }
 
 @keyframes fadeInContent {
@@ -1958,8 +1980,6 @@ button.option-item {
     max-width: none;
     height: auto;
     object-fit: contain;
-    opacity: 0;
-    animation: fadeInText 1.2s ease-in-out 0.6s forwards;
     margin-left: calc(-50vw + 50%);
     margin-right: calc(-50vw + 50%);
 }
@@ -1974,6 +1994,40 @@ button.option-item {
     }
 }
 
+.p1-image-fade-out {
+    opacity: 0 !important;
+    transition: opacity 1s ease;
+}
+
+.p1-transition-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    width: 100vw;
+    max-width: none;
+    height: auto;
+    object-fit: contain;
+    z-index: 10;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease;
+}
+
+@media (min-width: 500px) {
+    .p1-transition-video {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+    }
+}
+
+.p1-video-show {
+    opacity: 1;
+}
+
 .p1-bottom-section {
     position: relative;
     width: 100%;
@@ -1984,6 +2038,7 @@ button.option-item {
     padding: 20px 16px 40px;
     z-index: 2;
     flex: 0 0 auto;
+    transition: opacity 1s ease;
 }
 
 .p1-text-bottom {
