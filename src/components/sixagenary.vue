@@ -54,6 +54,9 @@
                         <img :src="require('@/assets/images/p1-button-bg.svg')" alt="按鈕背景" class="p1-button-bg" />
                         <span class="p1-button-text">進入異世界冒險</span>
                     </div>
+
+                    <!-- 聲音提示 -->
+                    <div class="p1-sound-hint">（打開聲音獲得最佳體驗）</div>
                 </div>
 
                 <!-- Logo -->
@@ -328,7 +331,7 @@
                             <button class="p6-btn">
                                 <span class="p6-btn-text">點擊瞭解更多《甲子萬年特展》</span>
                             </button>
-                            <button class="p6-btn" @click="restartQuiz">
+                            <button class="p6-btn" @click="location.reload()">
                                 <span class="p6-btn-text">再玩一次</span>
                             </button>
                         </div>
@@ -1932,7 +1935,7 @@ button.option-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 32px;
+    gap: 20px;
     padding: 20px 16px 40px;
     z-index: 2;
     flex: 0 0 auto;
@@ -2058,6 +2061,16 @@ button.option-item {
     z-index: 1;
     animation: shadowBlink 3s infinite;
     transition: opacity 1.2s ease;
+}
+
+.p1-sound-hint {
+    margin-top: 8px;
+    color: #ECB757;
+    font-family: 'Swei B2 Sugar CJK TC', sans-serif;
+    font-size: 13px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeInButton 1s ease-in-out 1.6s forwards;
 }
 
 .p1-logo {
