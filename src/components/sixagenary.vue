@@ -19,6 +19,9 @@
                     <div class="p0-subtitle">點擊測你的<span style="color: rgb(158 110 29);">靈魂逃跑</span>指數</div>
                 </div>
 
+                <!-- 贊助商圖片 -->
+                <img :src="require('@/assets/images/p0-sponsor.png')" alt="贊助商" class="p0-sponsor-image" />
+
             </div>
             <!-- P1-1 劇情前導 -->
             <div class="p1-screen" v-else-if="step == 1" key="p1">
@@ -1951,7 +1954,7 @@ button.option-item {
 
 .p0-bottom-image {
     position: absolute;
-    top: 74px;
+    top: 65px;
     left: 50%;
     transform: translateX(-50%);
     width: 90%;
@@ -1975,7 +1978,7 @@ button.option-item {
     bottom: 0;
     left: 0;
     width: 100%;
-    min-height: 120px;
+    min-height: 110px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -2008,7 +2011,7 @@ button.option-item {
 .p0-subtitle-wrapper {
     position: absolute;
     left: 50%;
-    top: 255px;
+    top: 235px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -2040,6 +2043,16 @@ button.option-item {
     text-align: center;
     cursor: pointer;
     white-space: nowrap;
+}
+
+.p0-sponsor-image {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 170px;
+    height: auto;
+    z-index: 3;
 }
 
 /* 响应式调整 - 当宽度不够时，改为宽度100%，高度按比例 */
