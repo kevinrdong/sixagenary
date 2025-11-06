@@ -324,22 +324,16 @@
                 </div>
             </div>
             <div class="question-screen p6-screen" v-else-if="step == 6" key="p6">
-                <div class="p6-container"
-                     @mousedown="handleLongPressStart"
-                     @mousemove="handleLongPressMove"
-                     @mouseup="handleLongPressEnd"
-                     @mouseleave="handleLongPressEnd"
-                     @touchstart="handleLongPressStart"
-                     @touchmove="handleLongPressMove"
-                     @touchend="handleLongPressEnd"
-                     @touchcancel="handleLongPressEnd">
+                <div class="p6-container">
                     <!-- 背景圖片 -->
                     <img :src="require('@/assets/images/resultBG.png')" alt="背景" class="p6-background-image" />
 
                     <!-- 內容容器 -->
                     <div class="p6-content">
-                        <!-- 根據 result 值顯示對應的結果圖片 -->
-                        <img v-if="result" :src="require(`@/assets/images/result_${result}.png`)" alt="測驗結果" class="p6-result-image" />
+                        <!-- 根據 result 值顯示對應的結果圖片，使用 a 標籤包裹以支持原生長按保存 -->
+                        <a v-if="result" :href="require(`@/assets/images/r_download_${result}.png`)" :download="`r_download_${result}.png`" class="p6-result-link">
+                            <img :src="require(`@/assets/images/r_download_${result}.png`)" alt="測驗結果" class="p6-result-image" />
+                        </a>
 
                         <!-- 按鈕區 -->
                         <div class="p6-buttons">
@@ -408,11 +402,6 @@ export default {
         let p5Timeout = null
         let bgMusicFadeInterval = null // 背景音樂淡出計時器
         let progressAnimationTimeout = null // 進度條動畫計時器
-        let longPressTimer = null // 長按計時器
-        const longPressDuration = 800 // 長按觸發時間（毫秒）
-        let touchStartX = 0 // 觸摸開始的 X 座標
-        let touchStartY = 0 // 觸摸開始的 Y 座標
-        let isTouchMoved = false // 標記是否移動過
 
         // 計算音效
         const calculatingAudio = new Audio(calculatingSound)
@@ -1268,81 +1257,6 @@ export default {
             }, 600)
         }
 
-        // P6 長按開始處理
-        const handleLongPressStart = (event) => {
-            // 記錄觸摸開始位置
-            const touch = event.touches ? event.touches[0] : event
-            touchStartX = touch.clientX
-            touchStartY = touch.clientY
-            isTouchMoved = false
-
-            // 清除之前的計時器
-            if (longPressTimer) {
-                clearTimeout(longPressTimer)
-            }
-
-            // 設置長按計時器
-            longPressTimer = setTimeout(() => {
-                // 只有在沒有移動的情況下才觸發下載
-                if (!isTouchMoved) {
-                    downloadResultImage()
-                }
-            }, longPressDuration)
-        }
-
-        // P6 觸摸移動處理
-        const handleLongPressMove = (event) => {
-            if (!longPressTimer) return
-
-            const touch = event.touches ? event.touches[0] : event
-            const moveX = Math.abs(touch.clientX - touchStartX)
-            const moveY = Math.abs(touch.clientY - touchStartY)
-
-            // 如果移動超過 10px，視為滾動而非長按
-            if (moveX > 10 || moveY > 10) {
-                isTouchMoved = true
-                // 清除長按計時器
-                if (longPressTimer) {
-                    clearTimeout(longPressTimer)
-                    longPressTimer = null
-                }
-            }
-        }
-
-        // P6 長按結束處理
-        const handleLongPressEnd = () => {
-            // 清除長按計時器
-            if (longPressTimer) {
-                clearTimeout(longPressTimer)
-                longPressTimer = null
-            }
-            isTouchMoved = false
-        }
-
-        // 下載結果圖片
-        const downloadResultImage = () => {
-            if (!result.value) {
-                console.log('無法下載：result 值不存在')
-                return
-            }
-
-            try {
-                // 動態導入對應的下載圖片
-                const imagePath = require(`@/assets/images/r_download_${result.value}.png`)
-
-                // 創建一個臨時的 a 標籤來觸發下載
-                const link = document.createElement('a')
-                link.href = imagePath
-                link.download = `甲子萬年測驗結果_${result.value}.png`
-                document.body.appendChild(link)
-                link.click()
-                document.body.removeChild(link)
-
-                console.log(`下載圖片：r_download_${result.value}.png`)
-            } catch (error) {
-                console.error('下載圖片失敗:', error)
-            }
-        }
 
         // P1 打字機效果
         const startTypewriter = () => {
@@ -1667,10 +1581,6 @@ export default {
             handleP6Button2Click,
             p6ShareClicked,
             handleP6ShareClick,
-            handleLongPressStart,
-            handleLongPressMove,
-            handleLongPressEnd,
-            downloadResultImage,
         }
     }
 }
@@ -2824,8 +2734,14 @@ button.option-item {
     z-index: 1;
 }
 
-.p6-result-image {
+.p6-result-link {
+    display: block;
     width: 90%;
+    text-decoration: none;
+}
+
+.p6-result-image {
+    width: 100%;
     height: auto;
     object-fit: contain;
     display: block;
