@@ -2712,7 +2712,7 @@ button.option-item {
 
 .p6-content {
     position: absolute;
-    top: 30px;
+    top: 70px;
     left: 0;
     width: 100%;
     display: flex;
@@ -2821,7 +2821,7 @@ button.option-item {
 
 .p6-logo {
     position: absolute;
-    bottom: 20px;
+    bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
     width: 123px;
