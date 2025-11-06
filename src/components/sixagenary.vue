@@ -2,7 +2,7 @@
     <div class="app-container">
         <transition name="fade" mode="out-in">
             <!-- 入口 -->
-            <div class="p0-screen" v-if="step == 0" @click="step = 1" key="p0">
+            <div class="p0-screen" v-if="step == 0" @click="handleP0Click" key="p0">
 
                 <!-- 底部小图 -->
                 <img :src="require('@/assets/images/p0-bottom-image.png')" alt="裝飾圖" class="p0-bottom-image" />
@@ -375,6 +375,7 @@
 <script>
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import calculatingSound from '@/assets/audios/calculating.mp3'
+import clickSound from '@/assets/audios/click.mp3'
 
 export default {
     name: 'sixagenary',
@@ -400,6 +401,47 @@ export default {
         let p5Timeout = null
         let bgMusicFadeInterval = null // 背景音樂淡出計時器
         let progressAnimationTimeout = null // 進度條動畫計時器
+
+        // 音頻池類別：用於管理多個音頻實例以減少延遲
+        class AudioPool {
+            constructor(src, poolSize = 5) {
+                this.pool = []
+                this.currentIndex = 0
+                this.poolSize = poolSize
+
+                // 創建音頻池
+                for (let i = 0; i < poolSize; i++) {
+                    const audio = new Audio(src)
+                    audio.volume = 0.6
+                    audio.preload = 'auto'
+                    // 預加載音頻
+                    audio.load()
+                    this.pool.push(audio)
+                }
+            }
+
+            play() {
+                // 獲取當前可用的音頻實例
+                const audio = this.pool[this.currentIndex]
+
+                // 重置音頻到開始位置並播放
+                audio.currentTime = 0
+                audio.play().catch(err => {
+                    console.log('音效播放失敗:', err)
+                })
+
+                // 移動到下一個音頻實例（循環使用）
+                this.currentIndex = (this.currentIndex + 1) % this.poolSize
+            }
+        }
+
+        // 創建點擊音效池（5個實例）
+        const clickAudioPool = new AudioPool(clickSound, 5)
+
+        // 快速播放點擊音效的函數
+        const playClickSound = () => {
+            clickAudioPool.play()
+        }
 
         // 計算音效
         const calculatingAudio = new Audio(calculatingSound)
@@ -981,6 +1023,14 @@ export default {
             ],
         })
 
+        // P0 點擊處理
+        const handleP0Click = () => {
+            // 播放點擊音效
+            playClickSound()
+            // 進入 P1 頁面
+            step.value = 1
+        }
+
         // 處理移動端觸控開始
         const handleTouchStart = (event) => {
            event.currentTarget.classList.add('option-item-touched')
@@ -1006,6 +1056,9 @@ export default {
         }
 
         const selectOption = (index) => {
+            // 播放點擊音效
+            playClickSound()
+
             console.log('選擇了選項:', index + 1)
 
             // 獲取當前選項的 tag 陣列並統計
@@ -1161,6 +1214,9 @@ export default {
                 return
             }
 
+            // 播放點擊音效
+            playClickSound()
+
             // 根据点击的卡片位置决定轮转方向
             const position = getCardPosition(index)
             if (position === 'left') {
@@ -1194,6 +1250,9 @@ export default {
 
         // 确定选择
         const confirmSelection = () => {
+            // 播放點擊音效
+            playClickSound()
+
             const selectedCard = cards.value[currentCardIndex.value]
             console.log('當前索引:', currentCardIndex.value)
             console.log('確定選擇的卡片 ID:', selectedCard.id)
@@ -1230,6 +1289,9 @@ export default {
 
         // P6 按鈕 1 點擊處理（了解更多）
         const handleP6Button1Click = () => {
+            // 播放點擊音效
+            playClickSound()
+
             p6Button1Clicked.value = true
             // 0.6 秒後執行跳轉（與動畫時間一致）
             setTimeout(() => {
@@ -1239,6 +1301,9 @@ export default {
 
         // P6 按鈕 2 點擊處理（再玩一次）
         const handleP6Button2Click = () => {
+            // 播放點擊音效
+            playClickSound()
+
             p6Button2Clicked.value = true
             // 0.6 秒後重新載入頁面（與動畫時間一致）
             setTimeout(() => {
@@ -1248,6 +1313,9 @@ export default {
 
         // P6 分享按鈕點擊處理
         const handleP6ShareClick = () => {
+            // 播放點擊音效
+            playClickSound()
+
             p6ShareClicked.value = true
             // 0.6 秒後跳轉到 Google 表單（與動畫時間一致）
             setTimeout(() => {
@@ -1284,6 +1352,9 @@ export default {
 
         // P1 轉場
         const startP1VideoAndTransition = () => {
+            // 播放點擊音效
+            playClickSound()
+
             // 觸發按鈕縮放動畫
             p1ButtonClicked.value = true
 
@@ -1533,6 +1604,7 @@ export default {
             selectOption,
             handleTouchStart,
             handleTouchEnd,
+            handleP0Click,
             questionNum,
             currentQuestion,
             currentBackgroundVideo,
