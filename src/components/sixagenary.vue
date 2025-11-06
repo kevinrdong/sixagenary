@@ -2019,7 +2019,7 @@ button.option-item {
     background-color: #FFFFFF;
     border-radius: 20px;
     animation: subtleRipple 2.6s ease-in-out infinite;
-    box-shadow: 0 0 20px rgba(158, 110, 29, 0.6);
+    box-shadow: 0 0 20px #5B3000;
     transform: translateX(-50%) scale(1.2);
     z-index: 2;
 }
