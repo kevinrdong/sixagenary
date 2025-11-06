@@ -330,9 +330,12 @@
 
                     <!-- 內容容器 -->
                     <div class="p6-content">
-                        <!-- 結果圖片容器：啟用長按保存功能 -->
+                        <!-- 結果圖片容器：雙層圖片結構 -->
                         <div class="p6-image-wrapper">
-                            <img v-if="result" :src="require(`@/assets/images/r_download_${result}.png`)" alt="測驗結果" class="p6-result-image" />
+                            <!-- 底層：顯示圖片 result_*.png -->
+                            <img v-if="result" :src="require(`@/assets/images/result_${result}.png`)" alt="測驗結果" class="p6-result-image" />
+                            <!-- 頂層：下載圖片 r_download_*.png (透明覆蓋層) -->
+                            <img v-if="result" :src="require(`@/assets/images/r_download_${result}.png`)" alt="下載圖片" class="p6-download-image" />
                         </div>
 
                         <!-- 按鈕區 -->
@@ -2735,7 +2738,7 @@ button.option-item {
 }
 
 .p6-image-wrapper {
-    width: 90%;
+    width: 98%;
     position: relative;
     /* 明確啟用長按保存功能，覆蓋父元素的限制 */
     -webkit-touch-callout: default !important;
@@ -2755,11 +2758,8 @@ button.option-item {
     height: auto;
     object-fit: contain;
     display: block;
-    /* 確保可以長按保存圖片 */
-    -webkit-touch-callout: default !important;
-    -webkit-user-select: auto !important;
-    user-select: auto !important;
-    pointer-events: auto !important;
+    /* 底層圖片，禁用互動 */
+    pointer-events: none;
 }
 
 .p6-download-image {
@@ -2767,6 +2767,16 @@ button.option-item {
     height: auto;
     object-fit: contain;
     display: block;
+    /* 頂層透明覆蓋層，用於長按下載 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    /* 確保可以長按保存圖片 */
+    -webkit-touch-callout: default !important;
+    -webkit-user-select: auto !important;
+    user-select: auto !important;
+    pointer-events: auto !important;
 }
 
 .p6-buttons {
