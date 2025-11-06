@@ -403,19 +403,20 @@ export default {
         calculatingAudio.loop = true
         calculatingAudio.volume = 0.5
 
+        // 檢測是否為移動設備（使用 User Agent）
+        const isMobileDevice = () => {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera
+            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase())
+        }
+
         // 背景音樂淡出函數
         const fadeBgMusicOut = () => {
             if (!window.bgAudio) return
 
-            // 檢測是否為移動設備或音量控制是否被鎖定
-            const testVolume = window.bgAudio.volume
-            window.bgAudio.volume = 0.5
-            const isMobile = window.bgAudio.volume === testVolume // 如果無法改變音量，則為移動設備
-            window.bgAudio.volume = testVolume // 恢復原音量
-
-            if (isMobile) {
+            if (isMobileDevice()) {
                 // 移動設備：直接暫停音樂
                 window.bgAudio.pause()
+                console.log('移動設備檢測：暫停背景音樂')
                 return
             }
 
@@ -448,14 +449,9 @@ export default {
         const fadeBgMusicIn = () => {
             if (!window.bgAudio) return
 
-            // 檢測是否為移動設備或音量控制是否被鎖定
-            const testVolume = window.bgAudio.volume
-            window.bgAudio.volume = 0.5
-            const isMobile = window.bgAudio.volume === testVolume // 如果無法改變音量，則為移動設備
-            window.bgAudio.volume = testVolume // 恢復原音量
-
-            if (isMobile) {
+            if (isMobileDevice()) {
                 // 移動設備：直接恢復播放
+                console.log('移動設備檢測：恢復背景音樂')
                 window.bgAudio.play().catch(err => {
                     console.log('背景音樂恢復播放失敗:', err)
                 })
