@@ -165,7 +165,6 @@
                                     v-for="(option, index) in options['q' + type][questionNum]"
                                     :key="index"
                                     class="option-item"
-                                    :disabled="optionsDisabled"
                                     @click="selectOption(index)"
                                     @touchstart="handleTouchStart"
                                     @touchend="handleTouchEnd"
@@ -397,7 +396,6 @@ export default {
         const p6Button1Clicked = ref(false) // 控制 P6 按鈕 1 點擊動畫
         const p6Button2Clicked = ref(false) // 控制 P6 按鈕 2 點擊動畫
         const p6ShareClicked = ref(false) // 控制 P6 分享按鈕點擊動畫
-        const optionsDisabled = ref(false) // 控制選項按鈕是否禁用
         let loadingInterval = null
         let p5Timeout = null
         let bgMusicFadeInterval = null // 背景音樂淡出計時器
@@ -991,11 +989,6 @@ export default {
 
         // 處理移動端觸控結束
         const handleTouchEnd = (event) => {
-            // 如果按鈕已被禁用，直接返回
-            if (optionsDisabled.value) {
-                return
-            }
-
             // 立即讓按鈕失去焦點，避免 hover 狀態黏住
             event.currentTarget.blur()
 
@@ -1013,14 +1006,6 @@ export default {
         }
 
         const selectOption = (index) => {
-            // 如果按鈕已被禁用，直接返回，防止重複點擊
-            if (optionsDisabled.value) {
-                return
-            }
-
-            // 禁用所有按鈕
-            optionsDisabled.value = true
-
             console.log('選擇了選項:', index + 1)
 
             // 獲取當前選項的 tag 陣列並統計
@@ -1065,11 +1050,6 @@ export default {
                         btn.classList.remove('option-item-selected')
                         btn.classList.remove('hide-stars')
                     })
-
-                    // 如果還有下一題，重新啟用按鈕
-                    if (questionNum.value < question.value['q' + type.value].length) {
-                        optionsDisabled.value = false
-                    }
                 }, 1000)
             }, 800)
         }
@@ -1551,7 +1531,6 @@ export default {
             options,
             question,
             selectOption,
-            optionsDisabled,
             handleTouchStart,
             handleTouchEnd,
             questionNum,
@@ -1608,11 +1587,11 @@ export default {
 <style scoped>
 .question-screen {
     position: relative;
-    width: 100%;
-    max-width: 768px;
+    width: 100vw;
     height: calc(var(--vh, 1vh) * 100);
     min-height: calc(var(--vh, 1vh) * 100);
-    max-height: calc(var(--vh, 1vh) * 100);
+    max-width: 768px;
+    max-height: 1024px;
     overflow: hidden;
     overscroll-behavior: none;
     background: #000;
@@ -1941,16 +1920,13 @@ button.option-item {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    width: 100vw;
-    height: calc(var(--vh, 1vh) * 100);
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
     min-height: calc(var(--vh, 1vh) * 100);
-    max-height: calc(var(--vh, 1vh) * 100);
     background-color: #000;
     overflow: hidden;
     overscroll-behavior: none;
-    position: fixed;
-    top: 0;
-    left: 0;
 }
 
 /* P0 主視覺樣式 */
