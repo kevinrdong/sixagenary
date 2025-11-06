@@ -14,6 +14,8 @@ const audio = new Audio(bgMusic)
 audio.loop = true
 // Set volume (0.0 to 1.0)
 audio.volume = 0.5
+// 將背景音樂暴露到全局，以便組件控制
+window.bgAudio = audio
 
 // Create pop sound effect
 const popSound = new Audio(clickSound)

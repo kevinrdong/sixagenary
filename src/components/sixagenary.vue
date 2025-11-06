@@ -386,11 +386,68 @@ export default {
         const p1VideoPlaying = ref(false) // 控制視頻顯示
         let loadingInterval = null
         let p5Timeout = null
+        let bgMusicFadeInterval = null // 背景音樂淡出計時器
 
         // 計算音效
         const calculatingAudio = new Audio(calculatingSound)
         calculatingAudio.loop = true
         calculatingAudio.volume = 0.5
+
+        // 背景音樂淡出函數
+        const fadeBgMusicOut = () => {
+            if (!window.bgAudio) return
+
+            const startVolume = window.bgAudio.volume
+            const duration = 1000 // 1秒
+            const steps = 20 // 分20步淡出
+            const stepDuration = duration / steps
+            const volumeStep = startVolume / steps
+            let currentStep = 0
+
+            if (bgMusicFadeInterval) {
+                clearInterval(bgMusicFadeInterval)
+            }
+
+            bgMusicFadeInterval = setInterval(() => {
+                currentStep++
+                const newVolume = Math.max(0, startVolume - (volumeStep * currentStep))
+                window.bgAudio.volume = newVolume
+
+                if (currentStep >= steps || newVolume <= 0) {
+                    clearInterval(bgMusicFadeInterval)
+                    bgMusicFadeInterval = null
+                    window.bgAudio.volume = 0
+                }
+            }, stepDuration)
+        }
+
+        // 背景音樂淡入函數（恢復到0.5）
+        const fadeBgMusicIn = () => {
+            if (!window.bgAudio) return
+
+            const targetVolume = 0.5
+            const duration = 1000 // 1秒
+            const steps = 20
+            const stepDuration = duration / steps
+            const volumeStep = targetVolume / steps
+            let currentStep = 0
+
+            if (bgMusicFadeInterval) {
+                clearInterval(bgMusicFadeInterval)
+            }
+
+            bgMusicFadeInterval = setInterval(() => {
+                currentStep++
+                const newVolume = Math.min(targetVolume, volumeStep * currentStep)
+                window.bgAudio.volume = newVolume
+
+                if (currentStep >= steps || newVolume >= targetVolume) {
+                    clearInterval(bgMusicFadeInterval)
+                    bgMusicFadeInterval = null
+                    window.bgAudio.volume = targetVolume
+                }
+            }, stepDuration)
+        }
 
         // P1 文字內容
         const p1TextTop1 = '忙碌的日常幾乎壓垮了你，在學校、工作、家庭間漫無目的地累積壓力——是時候讓靈魂放鬆，把腦中暫存檔歸零。'
@@ -1294,6 +1351,9 @@ export default {
                     clearTimeout(p5Timeout)
                 }
 
+                // 將背景音樂音量淡出至0（1秒）
+                fadeBgMusicOut()
+
                 // 播放計算音效
                 calculatingAudio.currentTime = 0
                 calculatingAudio.play().catch(err => {
@@ -1337,6 +1397,8 @@ export default {
                 // 停止計算音效
                 calculatingAudio.pause()
                 calculatingAudio.currentTime = 0
+                // 恢復背景音樂音量（淡入至0.5）
+                fadeBgMusicIn()
             }
         })
 
@@ -1353,6 +1415,9 @@ export default {
             }
             if (typewriterInterval) {
                 clearInterval(typewriterInterval)
+            }
+            if (bgMusicFadeInterval) {
+                clearInterval(bgMusicFadeInterval)
             }
             // 停止計算音效
             calculatingAudio.pause()
