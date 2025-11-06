@@ -17,52 +17,62 @@ audio.volume = 0.5
 // 將背景音樂暴露到全局，以便組件控制
 window.bgAudio = audio
 
-// 音頻池類別：用於管理多個音頻實例以減少延遲
-class AudioPool {
-  constructor(src, poolSize = 5) {
-    this.pool = []
-    this.currentIndex = 0
-    this.poolSize = poolSize
+// 使用 Web Audio API 預載音效（更低延遲）
+const audioContext = new (window.AudioContext || window.webkitAudioContext)()
+let clickBuffer = null
 
-    // 創建音頻池
-    for (let i = 0; i < poolSize; i++) {
-      const audio = new Audio(src)
-      audio.volume = 0.6
-      audio.preload = 'auto'
-      // 預加載音頻
-      audio.load()
-      this.pool.push(audio)
-    }
+// 載入並解碼點擊音效
+fetch(clickSound)
+  .then(response => response.arrayBuffer())
+  .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+  .then(audioBuffer => {
+    clickBuffer = audioBuffer
+    console.log('點擊音效已載入')
+  })
+  .catch(err => {
+    console.error('載入點擊音效失敗:', err)
+  })
+
+// 播放點擊音效函數
+function playClickSound() {
+  if (!clickBuffer) {
+    console.log('音效尚未載入')
+    return
   }
 
-  play() {
-    // 獲取當前可用的音頻實例
-    const audio = this.pool[this.currentIndex]
+  try {
+    const source = audioContext.createBufferSource()
+    source.buffer = clickBuffer
 
-    // 重置音頻到開始位置並播放
-    audio.currentTime = 0
-    audio.play().catch(err => {
-      console.log('音效播放失敗:', err)
-    })
+    // 創建音量控制節點
+    const gainNode = audioContext.createGain()
+    gainNode.gain.value = 0.6 // 設置音量 (0.0 到 1.0)
 
-    // 移動到下一個音頻實例（循環使用）
-    this.currentIndex = (this.currentIndex + 1) % this.poolSize
+    // 連接：source -> gainNode -> destination
+    source.connect(gainNode)
+    gainNode.connect(audioContext.destination)
+
+    source.start(0)
+  } catch (err) {
+    console.error('播放音效失敗:', err)
   }
 }
 
-// 創建點擊音效池（5 個實例）
-const clickAudioPool = new AudioPool(clickSound, 5)
-
 // Add click event listener to play background music on first click
 document.addEventListener('click', () => {
+  // 恢復 AudioContext（某些瀏覽器需要用戶交互）
+  if (audioContext.state === 'suspended') {
+    audioContext.resume()
+  }
+
   if (sessionStorage.getItem('bgMusicSet') == null) {
     audio.play()
       .catch(err => console.log('Background music error:', err))
     sessionStorage.setItem('bgMusicSet', 'true')
   }
 
-  // 使用音頻池播放點擊音效
-  clickAudioPool.play()
+  // 使用 Web Audio API 播放點擊音效
+  playClickSound()
 })
 
 window.addEventListener('beforeunload', () => {
