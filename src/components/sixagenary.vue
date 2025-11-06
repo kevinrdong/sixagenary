@@ -2085,13 +2085,15 @@ button.option-item {
 }
 
 .p1-content {
-    position: relative;
+    position: absolute;
+    top: 76px;
+    left: 0;
+    right: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
     padding: 40px 16px 20px;
-    flex: 0 0 auto;
     z-index: 1;
     transition: opacity 1s ease;
 }
@@ -2140,7 +2142,7 @@ button.option-item {
 }
 
 .p1-illustration {
-    width: 100vw;
+    width: 83vw;
     max-width: none;
     height: auto;
     object-fit: contain;
@@ -2193,15 +2195,16 @@ button.option-item {
 }
 
 .p1-bottom-section {
-    position: relative;
+    position: absolute;
+    bottom: 35px;
+    left: 0;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
     padding: 20px 16px 40px;
     z-index: 2;
-    flex: 0 0 auto;
     transition: opacity 1s ease;
 }
 
