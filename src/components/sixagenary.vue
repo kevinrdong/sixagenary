@@ -330,8 +330,10 @@
 
                     <!-- 內容容器 -->
                     <div class="p6-content">
-                        <!-- 結果圖片：直接使用 r_download 圖片，長按即可保存 -->
-                        <img v-if="result" :src="require(`@/assets/images/r_download_${result}.png`)" alt="測驗結果" class="p6-result-image" />
+                        <!-- 結果圖片容器：啟用長按保存功能 -->
+                        <div class="p6-image-wrapper">
+                            <img v-if="result" :src="require(`@/assets/images/r_download_${result}.png`)" alt="測驗結果" class="p6-result-image" />
+                        </div>
 
                         <!-- 按鈕區 -->
                         <div class="p6-buttons">
@@ -2732,6 +2734,16 @@ button.option-item {
     z-index: 1;
 }
 
+.p6-image-wrapper {
+    width: 90%;
+    position: relative;
+    /* 明確啟用長按保存功能，覆蓋父元素的限制 */
+    -webkit-touch-callout: default !important;
+    -webkit-user-select: auto !important;
+    user-select: auto !important;
+    pointer-events: auto !important;
+}
+
 .p6-result-container {
     position: relative;
     display: block;
@@ -2743,6 +2755,11 @@ button.option-item {
     height: auto;
     object-fit: contain;
     display: block;
+    /* 確保可以長按保存圖片 */
+    -webkit-touch-callout: default !important;
+    -webkit-user-select: auto !important;
+    user-select: auto !important;
+    pointer-events: auto !important;
 }
 
 .p6-download-image {
