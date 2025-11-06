@@ -75,11 +75,34 @@ document.addEventListener('click', () => {
   playClickSound()
 })
 
+// 監聽頁面可見性變化，當瀏覽器切換到後台或關閉時暫停音樂
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    // 頁面隱藏（瀏覽器切換到後台或最小化）
+    if (!audio.paused) {
+      audio.pause()
+      // 標記音樂是被自動暫停的
+      sessionStorage.setItem('bgMusicAutoPaused', 'true')
+    }
+  } else {
+    // 頁面重新可見
+    // 如果音樂之前是自動暫停的，且用戶已經啟動過音樂，則恢復播放
+    if (sessionStorage.getItem('bgMusicAutoPaused') === 'true' &&
+        sessionStorage.getItem('bgMusicSet') === 'true') {
+      audio.play()
+        .catch(err => console.log('Resume background music error:', err))
+      sessionStorage.removeItem('bgMusicAutoPaused')
+    }
+  }
+})
+
 window.addEventListener('beforeunload', () => {
   sessionStorage.removeItem('bgMusicSet')
   sessionStorage.removeItem('soundEffectSet')
+  sessionStorage.removeItem('bgMusicAutoPaused')
 })
 window.addEventListener('unload', () => {
   sessionStorage.removeItem('bgMusicSet')
   sessionStorage.removeItem('soundEffectSet')
+  sessionStorage.removeItem('bgMusicAutoPaused')
 })
