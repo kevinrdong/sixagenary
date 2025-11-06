@@ -324,7 +324,13 @@
                 </div>
             </div>
             <div class="question-screen p6-screen" v-else-if="step == 6" key="p6">
-                <div class="p6-container">
+                <div class="p6-container"
+                     @mousedown="handleLongPressStart"
+                     @mouseup="handleLongPressEnd"
+                     @mouseleave="handleLongPressEnd"
+                     @touchstart="handleLongPressStart"
+                     @touchend="handleLongPressEnd"
+                     @touchcancel="handleLongPressEnd">
                     <!-- 背景圖片 -->
                     <img :src="require('@/assets/images/resultBG.png')" alt="背景" class="p6-background-image" />
 
@@ -400,6 +406,8 @@ export default {
         let p5Timeout = null
         let bgMusicFadeInterval = null // 背景音樂淡出計時器
         let progressAnimationTimeout = null // 進度條動畫計時器
+        let longPressTimer = null // 長按計時器
+        const longPressDuration = 800 // 長按觸發時間（毫秒）
 
         // 計算音效
         const calculatingAudio = new Audio(calculatingSound)
@@ -1255,6 +1263,60 @@ export default {
             }, 600)
         }
 
+        // P6 長按開始處理
+        const handleLongPressStart = (event) => {
+            // 阻止預設動作（如長按菜單、文字選擇等）
+            event.preventDefault()
+
+            // 清除之前的計時器
+            if (longPressTimer) {
+                clearTimeout(longPressTimer)
+            }
+
+            // 設置長按計時器
+            longPressTimer = setTimeout(() => {
+                // 長按觸發，下載圖片
+                downloadResultImage()
+            }, longPressDuration)
+        }
+
+        // P6 長按結束處理
+        const handleLongPressEnd = (event) => {
+            // 阻止預設動作
+            event.preventDefault()
+
+            // 清除長按計時器
+            if (longPressTimer) {
+                clearTimeout(longPressTimer)
+                longPressTimer = null
+            }
+        }
+
+        // 下載結果圖片
+        const downloadResultImage = () => {
+            if (!result.value) {
+                console.log('無法下載：result 值不存在')
+                return
+            }
+
+            try {
+                // 動態導入對應的下載圖片
+                const imagePath = require(`@/assets/images/r_download_${result.value}.png`)
+
+                // 創建一個臨時的 a 標籤來觸發下載
+                const link = document.createElement('a')
+                link.href = imagePath
+                link.download = `甲子萬年測驗結果_${result.value}.png`
+                document.body.appendChild(link)
+                link.click()
+                document.body.removeChild(link)
+
+                console.log(`下載圖片：r_download_${result.value}.png`)
+            } catch (error) {
+                console.error('下載圖片失敗:', error)
+            }
+        }
+
         // P1 打字機效果
         const startTypewriter = () => {
             // 清除可能存在的計時器
@@ -1578,6 +1640,9 @@ export default {
             handleP6Button2Click,
             p6ShareClicked,
             handleP6ShareClick,
+            handleLongPressStart,
+            handleLongPressEnd,
+            downloadResultImage,
         }
     }
 }
@@ -2689,6 +2754,13 @@ button.option-item {
     min-height: 100%;
     display: block;
     background: transparent;
+    /* 阻止文字選擇和預設長按行為 */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .p6-container::after {
