@@ -122,6 +122,13 @@
             <div class="question-screen" v-else-if="step == 4" key="p4">
                 <transition name="fade" mode="out-in">
                     <div :key="questionNum">
+                        <!-- 進度條 -->
+                        <div class="progress-bar-container" :class="{ 'show': showProgressBar }">
+                            <div class="progress-bar-background">
+                                <div class="progress-bar-fill" :style="{ width: progressWidth + '%' }"></div>
+                            </div>
+                        </div>
+
                         <!-- 背景視頻 -->
                         <video
                             class="background-video"
@@ -384,9 +391,12 @@ export default {
         const p1ButtonClicked = ref(false) // 控制按鈕點擊縮放動畫
         const p1TextHidden = ref(false) // 控制文字隱藏
         const p1VideoPlaying = ref(false) // 控制視頻顯示
+        const showProgressBar = ref(false) // 控制進度條顯示
+        const progressWidth = ref(20) // 進度條寬度百分比（初始為 20% = 1/5）
         let loadingInterval = null
         let p5Timeout = null
         let bgMusicFadeInterval = null // 背景音樂淡出計時器
+        let progressAnimationTimeout = null // 進度條動畫計時器
 
         // 計算音效
         const calculatingAudio = new Audio(calculatingSound)
@@ -397,6 +407,19 @@ export default {
         const fadeBgMusicOut = () => {
             if (!window.bgAudio) return
 
+            // 檢測是否為移動設備或音量控制是否被鎖定
+            const testVolume = window.bgAudio.volume
+            window.bgAudio.volume = 0.5
+            const isMobile = window.bgAudio.volume === testVolume // 如果無法改變音量，則為移動設備
+            window.bgAudio.volume = testVolume // 恢復原音量
+
+            if (isMobile) {
+                // 移動設備：直接暫停音樂
+                window.bgAudio.pause()
+                return
+            }
+
+            // 桌面設備：淡出效果
             const startVolume = window.bgAudio.volume
             const duration = 1000 // 1秒
             const steps = 20 // 分20步淡出
@@ -425,6 +448,21 @@ export default {
         const fadeBgMusicIn = () => {
             if (!window.bgAudio) return
 
+            // 檢測是否為移動設備或音量控制是否被鎖定
+            const testVolume = window.bgAudio.volume
+            window.bgAudio.volume = 0.5
+            const isMobile = window.bgAudio.volume === testVolume // 如果無法改變音量，則為移動設備
+            window.bgAudio.volume = testVolume // 恢復原音量
+
+            if (isMobile) {
+                // 移動設備：直接恢復播放
+                window.bgAudio.play().catch(err => {
+                    console.log('背景音樂恢復播放失敗:', err)
+                })
+                return
+            }
+
+            // 桌面設備：淡入效果
             const targetVolume = 0.5
             const duration = 1000 // 1秒
             const steps = 20
@@ -1019,9 +1057,9 @@ export default {
 
         // 卡片数据 - 只保留三张
         const cards = ref([
-            { id: 1, name: '溪山行旅圖', image: require('@/assets/images/p3-card-left-5adf13.png') },
-            { id: 2, name: '早春圖', image: require('@/assets/images/p3-card-center-3d024e.png') },
-            { id: 3, name: '谿山行旅圖', image: require('@/assets/images/p3-card-right-47e46e.png') }
+            { id: 1, name: '萬壑松風圖', image: require('@/assets/images/p3-card-left-5adf13.png') },
+            { id: 2, name: '谿山行旅圖', image: require('@/assets/images/p3-card-center-3d024e.png') },
+            { id: 3, name: '早春圖', image: require('@/assets/images/p3-card-right-47e46e.png') }
         ])
 
         // 拖曳相关状态
@@ -1342,6 +1380,14 @@ export default {
             } else if (newStep === 3) {
                 // 進入卡片選擇頁面時觸發光暈延遲
                 triggerGlowDelay()
+            } else if (newStep === 4) {
+                // 進入 step 4 時，設置初始進度並在淡入完成後顯示進度條
+                progressWidth.value = 20 // 重置為 1/5
+                showProgressBar.value = false
+                // 等待淡入動畫完成（1秒）後顯示進度條
+                setTimeout(() => {
+                    showProgressBar.value = true
+                }, 1000)
             } else if (newStep === 5) {
                 // 清除可能存在的舊計時器
                 if (loadingInterval) {
@@ -1402,6 +1448,30 @@ export default {
             }
         })
 
+        // 監聽 questionNum 變化，更新進度條
+        watch(questionNum, (newQuestionNum) => {
+            if (step.value === 4) {
+                // 清除可能存在的舊計時器
+                if (progressAnimationTimeout) {
+                    clearTimeout(progressAnimationTimeout)
+                }
+
+                // 隱藏進度條（會隨著題目一起淡出）
+                showProgressBar.value = false
+
+                // 等待淡出+淡入動畫完成（2秒），然後顯示進度條
+                progressAnimationTimeout = setTimeout(() => {
+                    showProgressBar.value = true
+                    // 再等待進度條浮現完成（0.3秒），然後開始長度變化
+                    setTimeout(() => {
+                        // 計算新的進度寬度：(questionNum + 1) / 5 * 100
+                        const targetWidth = ((newQuestionNum + 1) / 5) * 100
+                        progressWidth.value = targetWidth
+                    }, 300)
+                }, 2000)
+            }
+        })
+
         // 組件卸載時清除計時器和事件監聽
         onUnmounted(() => {
             if (loadingInterval) {
@@ -1418,6 +1488,9 @@ export default {
             }
             if (bgMusicFadeInterval) {
                 clearInterval(bgMusicFadeInterval)
+            }
+            if (progressAnimationTimeout) {
+                clearTimeout(progressAnimationTimeout)
             }
             // 停止計算音效
             calculatingAudio.pause()
@@ -1471,6 +1544,8 @@ export default {
             p1TextHidden,
             p1VideoPlaying,
             onP1VideoEnded,
+            showProgressBar,
+            progressWidth,
         }
     }
 }
@@ -2696,6 +2771,47 @@ button.option-item {
     width: 123px;
     height: 18.01px;
     z-index: 20;
+}
+
+/* 進度條容器 */
+.progress-bar-container {
+    position: absolute;
+    top: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 768px;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.progress-bar-container.show {
+    opacity: 1;
+}
+
+/* 進度條底色 */
+.progress-bar-background {
+    position: relative;
+    width: 100%;
+    height: 7px;
+    border-radius: 20px;
+    opacity: 0.8;
+    background: #FFF;
+    box-shadow: 0 0 16px 0 #FFF;
+    overflow: hidden;
+}
+
+/* 進度條填充 */
+.progress-bar-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    border-radius: 20px;
+    background: #FFF;
+    box-shadow: 0 0 16px 0 #F7C908;
+    transition: width 1s ease;
 }
 
 
