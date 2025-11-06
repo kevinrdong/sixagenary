@@ -330,13 +330,8 @@
 
                     <!-- 內容容器 -->
                     <div class="p6-content">
-                        <!-- 結果圖片容器：使用雙層圖片實現顯示與下載分離 -->
-                        <div v-if="result" class="p6-result-container">
-                            <!-- 底層：顯示用圖片 -->
-                            <img :src="require(`@/assets/images/result_${result}.png`)" alt="測驗結果" class="p6-result-image" />
-                            <!-- 頂層：透明的下載用圖片，長按時會下載此圖 -->
-                            <img :src="require(`@/assets/images/r_download_${result}.png`)" alt="下載圖片" class="p6-download-image" style="opacity: 0; position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: auto;" />
-                        </div>
+                        <!-- 結果圖片：直接使用 r_download 圖片，長按即可保存 -->
+                        <img v-if="result" :src="require(`@/assets/images/r_download_${result}.png`)" alt="測驗結果" class="p6-result-image" />
 
                         <!-- 按鈕區 -->
                         <div class="p6-buttons">
