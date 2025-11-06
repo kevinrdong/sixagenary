@@ -4,17 +4,19 @@
             <!-- 入口 -->
             <div class="p0-screen" v-if="step == 0" @click="step = 1" key="p0">
 
-                <!-- 底部小图 -->
-                <img :src="require('@/assets/images/p0-bottom-image.png')" alt="裝飾圖" class="p0-bottom-image" />
-
                 <!-- 文本容器 -->
                 <div class="p0-text-container" ref="textContainer">
                     <div class="p0-title-container">
                         <div class="p0-title">人生太難，不如躲進異世界中！</div>
-                        <div class="p0-subtitle-wrapper">
-                            <div class="p0-subtitle">點擊測你的<span style="color: rgb(158 110 29);">靈魂逃跑</span>指數</div>
-                        </div>
                     </div>
+                </div>
+
+                <!-- 底部小图 -->
+                <img :src="require('@/assets/images/p0-bottom-image.png')" alt="裝飾圖" class="p0-bottom-image" />
+
+                <!-- 副標題 -->
+                <div class="p0-subtitle-wrapper">
+                    <div class="p0-subtitle">點擊測你的<span style="color: rgb(158 110 29);">靈魂逃跑</span>指數</div>
                 </div>
 
             </div>
@@ -346,12 +348,12 @@
                             <button class="p6-btn" :class="{ 'p6-btn-scale-up': p6Button2Clicked }" @click="handleP6Button2Click">
                                 <span class="p6-btn-text">再玩一次</span>
                             </button>
-                        </div>
 
-                        <!-- 分享提示區 -->
-                        <div class="p6-share-section">
-                            <div class="p6-share-link" :class="{ 'p6-share-link-scale-up': p6ShareClicked }" @click="handleP6ShareClick">
-                                <img :src="require('@/assets/images/P6-sharetxt.png')" alt="分享提示" class="p6-share-image" />
+                            <!-- 分享提示區 -->
+                            <div class="p6-share-section">
+                                <div class="p6-share-link" :class="{ 'p6-share-link-scale-up': p6ShareClicked }" @click="handleP6ShareClick">
+                                    <span class="p6-share-text">分享你的心得，拿南故宮限量好禮！</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2004,6 +2006,9 @@ button.option-item {
 }
 
 .p0-subtitle-wrapper {
+    position: absolute;
+    left: 50%;
+    top: 255px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -2011,15 +2016,16 @@ button.option-item {
     background-color: #FFFFFF;
     border-radius: 20px;
     animation: subtleRipple 2.6s ease-in-out infinite;
+    z-index: 2;
 }
 
 @keyframes subtleRipple {
     0%, 100% {
-        transform: scale(1);
+        transform: translateX(-50%) scale(1);
         opacity: 1;
     }
     50% {
-        transform: scale(1.03);
+        transform: translateX(-50%) scale(1.03);
         opacity: 0.95;
     }
 }
@@ -2033,6 +2039,7 @@ button.option-item {
     letter-spacing: 0.23077em;
     text-align: center;
     cursor: pointer;
+    white-space: nowrap;
 }
 
 /* 响应式调整 - 当宽度不够时，改为宽度100%，高度按比例 */
@@ -2704,18 +2711,6 @@ button.option-item {
     -webkit-tap-highlight-color: transparent;
 }
 
-.p6-container::after {
-    content: '';
-    position: absolute;
-    top: 3px;
-    left: 3px;
-    right: 3px;
-    bottom: 3px;
-    border: 2px solid #888888;
-    pointer-events: none;
-    z-index: 10;
-}
-
 .p6-background-image {
     display: block;
     width: 100%;
@@ -2784,14 +2779,15 @@ button.option-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
     padding: 10px 30px 25px;
+    margin-top: 10px;
     box-sizing: border-box;
 }
 
 .p6-btn {
     position: relative;
-    width: 100%;
+    width: 328px;
     height: 28px;
     background-color: transparent;
     background-image: url('~@/assets/images/step6btnbg.png');
@@ -2837,14 +2833,21 @@ button.option-item {
     flex-direction: column;
     align-items: center;
     padding: 0 30px;
-    margin-top: 10px;
     box-sizing: border-box;
 }
 
 .p6-share-link {
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: transform 0.2s ease, opacity 0.2s ease;
+    background-image: url('~@/assets/images/P6-sharetxt.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 20px 30px;
+    min-height: 60px;
 }
 
 .p6-share-link:hover {
@@ -2853,9 +2856,21 @@ button.option-item {
 }
 
 /* P6 分享按鈕點擊特效 */
-.p6-share-link-scale-up .p6-share-image {
+.p6-share-link-scale-up .p6-share-text {
     transform: scale(1.3);
     opacity: 0;
+    transition: all 0.6s ease;
+}
+
+.p6-share-text {
+    color: #624E45;
+    font-family: 'Swei B2 Sugar CJK TC', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    line-height: 24px;
+    letter-spacing: 2px;
+    text-align: center;
+    vertical-align: middle;
     transition: all 0.6s ease;
 }
 
