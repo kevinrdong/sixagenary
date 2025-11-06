@@ -326,9 +326,11 @@
             <div class="question-screen p6-screen" v-else-if="step == 6" key="p6">
                 <div class="p6-container"
                      @mousedown="handleLongPressStart"
+                     @mousemove="handleLongPressMove"
                      @mouseup="handleLongPressEnd"
                      @mouseleave="handleLongPressEnd"
                      @touchstart="handleLongPressStart"
+                     @touchmove="handleLongPressMove"
                      @touchend="handleLongPressEnd"
                      @touchcancel="handleLongPressEnd">
                     <!-- 背景圖片 -->
@@ -408,6 +410,9 @@ export default {
         let progressAnimationTimeout = null // 進度條動畫計時器
         let longPressTimer = null // 長按計時器
         const longPressDuration = 800 // 長按觸發時間（毫秒）
+        let touchStartX = 0 // 觸摸開始的 X 座標
+        let touchStartY = 0 // 觸摸開始的 Y 座標
+        let isTouchMoved = false // 標記是否移動過
 
         // 計算音效
         const calculatingAudio = new Audio(calculatingSound)
@@ -1265,8 +1270,11 @@ export default {
 
         // P6 長按開始處理
         const handleLongPressStart = (event) => {
-            // 阻止預設動作（如長按菜單、文字選擇等）
-            event.preventDefault()
+            // 記錄觸摸開始位置
+            const touch = event.touches ? event.touches[0] : event
+            touchStartX = touch.clientX
+            touchStartY = touch.clientY
+            isTouchMoved = false
 
             // 清除之前的計時器
             if (longPressTimer) {
@@ -1275,21 +1283,40 @@ export default {
 
             // 設置長按計時器
             longPressTimer = setTimeout(() => {
-                // 長按觸發，下載圖片
-                downloadResultImage()
+                // 只有在沒有移動的情況下才觸發下載
+                if (!isTouchMoved) {
+                    downloadResultImage()
+                }
             }, longPressDuration)
         }
 
-        // P6 長按結束處理
-        const handleLongPressEnd = (event) => {
-            // 阻止預設動作
-            event.preventDefault()
+        // P6 觸摸移動處理
+        const handleLongPressMove = (event) => {
+            if (!longPressTimer) return
 
+            const touch = event.touches ? event.touches[0] : event
+            const moveX = Math.abs(touch.clientX - touchStartX)
+            const moveY = Math.abs(touch.clientY - touchStartY)
+
+            // 如果移動超過 10px，視為滾動而非長按
+            if (moveX > 10 || moveY > 10) {
+                isTouchMoved = true
+                // 清除長按計時器
+                if (longPressTimer) {
+                    clearTimeout(longPressTimer)
+                    longPressTimer = null
+                }
+            }
+        }
+
+        // P6 長按結束處理
+        const handleLongPressEnd = () => {
             // 清除長按計時器
             if (longPressTimer) {
                 clearTimeout(longPressTimer)
                 longPressTimer = null
             }
+            isTouchMoved = false
         }
 
         // 下載結果圖片
@@ -1641,6 +1668,7 @@ export default {
             p6ShareClicked,
             handleP6ShareClick,
             handleLongPressStart,
+            handleLongPressMove,
             handleLongPressEnd,
             downloadResultImage,
         }
