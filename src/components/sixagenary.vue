@@ -367,6 +367,8 @@
 
 <script>
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
+import calculatingSound from '@/assets/audios/calculating.mp3'
+
 export default {
     name: 'sixagenary',
     setup() {
@@ -384,6 +386,11 @@ export default {
         const p1VideoPlaying = ref(false) // 控制視頻顯示
         let loadingInterval = null
         let p5Timeout = null
+
+        // 計算音效
+        const calculatingAudio = new Audio(calculatingSound)
+        calculatingAudio.loop = true
+        calculatingAudio.volume = 0.5
 
         // P1 文字內容
         const p1TextTop1 = '忙碌的日常幾乎壓垮了你，在學校、工作、家庭間漫無目的地累積壓力——是時候讓靈魂放鬆，把腦中暫存檔歸零。'
@@ -1287,6 +1294,12 @@ export default {
                     clearTimeout(p5Timeout)
                 }
 
+                // 播放計算音效
+                calculatingAudio.currentTime = 0
+                calculatingAudio.play().catch(err => {
+                    console.log('計算音效播放失敗:', err)
+                })
+
                 // 確保 P5 視頻播放（移動裝置可能需要手動觸發）
                 nextTick(() => {
                     if (p5Video.value) {
@@ -1312,7 +1325,7 @@ export default {
                     step.value = 6
                 }, 7000)
             } else {
-                // 離開 step 5 時清除計時器
+                // 離開 step 5 時清除計時器和停止計算音效
                 if (loadingInterval) {
                     clearInterval(loadingInterval)
                     loadingInterval = null
@@ -1321,6 +1334,9 @@ export default {
                     clearTimeout(p5Timeout)
                     p5Timeout = null
                 }
+                // 停止計算音效
+                calculatingAudio.pause()
+                calculatingAudio.currentTime = 0
             }
         })
 
@@ -1338,6 +1354,9 @@ export default {
             if (typewriterInterval) {
                 clearInterval(typewriterInterval)
             }
+            // 停止計算音效
+            calculatingAudio.pause()
+            calculatingAudio.currentTime = 0
             // 移除 resize 事件監聽
             window.removeEventListener('resize', updateScreenSize)
         })
