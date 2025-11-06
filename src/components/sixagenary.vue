@@ -2866,7 +2866,7 @@ button.option-item {
 .progress-bar-background {
     position: relative;
     width: 100%;
-    height: 7px;
+    height: 3.37px;
     border-radius: 20px;
     background: rgba(255, 255, 255, 0.4);
     box-shadow: 0 0 16px 0 rgba(255, 255, 255, 0.4);
