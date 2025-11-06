@@ -2736,7 +2736,7 @@ button.option-item {
 
 .p6-content {
     position: absolute;
-    top: 70px;
+    top: 55px;
     left: 0;
     width: 100%;
     display: flex;
@@ -2888,6 +2888,7 @@ button.option-item {
     text-align: center;
     vertical-align: middle;
     transition: all 0.6s ease;
+    white-space: nowrap;
 }
 
 .p6-share-image {
@@ -2900,7 +2901,7 @@ button.option-item {
 
 .p6-logo {
     position: absolute;
-    bottom: 50px;
+    bottom: 28px;
     left: 50%;
     transform: translateX(-50%);
     width: 123px;
