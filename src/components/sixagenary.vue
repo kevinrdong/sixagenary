@@ -335,19 +335,19 @@
 
                         <!-- 按鈕區 -->
                         <div class="p6-buttons">
-                            <button class="p6-btn" @click="reloadPage">
+                            <button class="p6-btn" :class="{ 'p6-btn-scale-up': p6Button1Clicked }" @click="handleP6Button1Click">
                                 <span class="p6-btn-text">點擊瞭解更多《甲子萬年特展》</span>
                             </button>
-                            <button class="p6-btn" @click="reloadPage">
+                            <button class="p6-btn" :class="{ 'p6-btn-scale-up': p6Button2Clicked }" @click="handleP6Button2Click">
                                 <span class="p6-btn-text">再玩一次</span>
                             </button>
                         </div>
 
                         <!-- 分享提示區 -->
                         <div class="p6-share-section">
-                            <div class="p6-share-line"></div>
-                            <div class="p6-share-text">分享你的心得，拿南故宮限量好禮！</div>
-                            <div class="p6-share-line"></div>
+                            <div class="p6-share-link" :class="{ 'p6-share-link-scale-up': p6ShareClicked }" @click="handleP6ShareClick">
+                                <img :src="require('@/assets/images/P6-sharetxt.png')" alt="分享提示" class="p6-share-image" />
+                            </div>
                         </div>
                     </div>
 
@@ -393,6 +393,9 @@ export default {
         const p1VideoPlaying = ref(false) // 控制視頻顯示
         const showProgressBar = ref(false) // 控制進度條顯示
         const progressWidth = ref(20) // 進度條寬度百分比（初始為 20% = 1/5）
+        const p6Button1Clicked = ref(false) // 控制 P6 按鈕 1 點擊動畫
+        const p6Button2Clicked = ref(false) // 控制 P6 按鈕 2 點擊動畫
+        const p6ShareClicked = ref(false) // 控制 P6 分享按鈕點擊動畫
         let loadingInterval = null
         let p5Timeout = null
         let bgMusicFadeInterval = null // 背景音樂淡出計時器
@@ -1225,6 +1228,33 @@ export default {
             window.location.reload()
         }
 
+        // P6 按鈕 1 點擊處理（了解更多）
+        const handleP6Button1Click = () => {
+            p6Button1Clicked.value = true
+            // 0.6 秒後執行跳轉（與動畫時間一致）
+            setTimeout(() => {
+                window.location.href = 'https://theme.npm.edu.tw/EnduringLegacyS203'
+            }, 600)
+        }
+
+        // P6 按鈕 2 點擊處理（再玩一次）
+        const handleP6Button2Click = () => {
+            p6Button2Clicked.value = true
+            // 0.6 秒後重新載入頁面（與動畫時間一致）
+            setTimeout(() => {
+                reloadPage()
+            }, 600)
+        }
+
+        // P6 分享按鈕點擊處理
+        const handleP6ShareClick = () => {
+            p6ShareClicked.value = true
+            // 0.6 秒後跳轉到 Google 表單（與動畫時間一致）
+            setTimeout(() => {
+                window.location.href = 'https://docs.google.com/forms/d/e/1FAIpQLSfaXUqpzyKDN8q45J0nvqcF-4kf2m2WzUeldWHIa03m6LDKrg/viewform'
+            }, 600)
+        }
+
         // P1 打字機效果
         const startTypewriter = () => {
             // 清除可能存在的計時器
@@ -1542,6 +1572,12 @@ export default {
             onP1VideoEnded,
             showProgressBar,
             progressWidth,
+            p6Button1Clicked,
+            p6Button2Clicked,
+            handleP6Button1Click,
+            handleP6Button2Click,
+            p6ShareClicked,
+            handleP6ShareClick,
         }
     }
 }
@@ -2267,9 +2303,15 @@ button.option-item {
 .p1-sound-hint {
     margin-top: 8px;
     color: #ECB757;
+    text-align: center;
+    font-feature-settings: 'liga' off, 'clig' off;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
     font-size: 13px;
-    text-align: center;
+    font-style: normal;
+    font-weight: 900;
+    line-height: 28px;
+    letter-spacing: 2px;
     opacity: 0;
     animation: fadeInButton 1s ease-in-out 1.6s forwards;
 }
@@ -2670,7 +2712,7 @@ button.option-item {
 
 .p6-content {
     position: absolute;
-    top: 0;
+    top: 30px;
     left: 0;
     width: 100%;
     display: flex;
@@ -2683,7 +2725,7 @@ button.option-item {
 }
 
 .p6-result-image {
-    width: 80%;
+    width: 90%;
     height: auto;
     object-fit: contain;
     display: block;
@@ -2702,7 +2744,7 @@ button.option-item {
 .p6-btn {
     position: relative;
     width: 100%;
-    height: 30px;
+    height: 28px;
     background-color: transparent;
     background-image: url('~@/assets/images/step6btnbg.png');
     background-size: 100% 100%;
@@ -2731,6 +2773,14 @@ button.option-item {
     color: white;
     text-align: center;
     z-index: 1;
+    transition: all 0.6s ease;
+}
+
+/* P6 按鈕點擊特效 */
+.p6-btn-scale-up .p6-btn-text {
+    transform: scale(1.3);
+    opacity: 0;
+    transition: all 0.6s ease;
 }
 
 .p6-share-section {
@@ -2738,32 +2788,42 @@ button.option-item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;
     padding: 0 30px;
-    margin-top: -20px;
+    margin-top: 10px;
     box-sizing: border-box;
 }
 
-.p6-share-line {
-    width: 100%;
-    height: 2px;
-    background-color: #888888;
+.p6-share-link {
+    display: inline-block;
+    cursor: pointer;
+    transition: transform 0.2s ease, opacity 0.2s ease;
 }
 
-.p6-share-text {
-    font-family: 'Swei B2 Sugar CJK TC', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: white;
-    text-align: center;
-    white-space: nowrap;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+.p6-share-link:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+
+/* P6 分享按鈕點擊特效 */
+.p6-share-link-scale-up .p6-share-image {
+    transform: scale(1.3);
+    opacity: 0;
+    transition: all 0.6s ease;
+}
+
+.p6-share-image {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    transition: all 0.6s ease;
 }
 
 .p6-logo {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     width: 123px;
     height: 18.01px;
     z-index: 20;
@@ -2775,7 +2835,7 @@ button.option-item {
     top: 30px;
     left: 50%;
     transform: translateX(-50%);
-    width: 80%;
+    width: 238px;
     max-width: 768px;
     z-index: 100;
     opacity: 0;
@@ -2792,9 +2852,8 @@ button.option-item {
     width: 100%;
     height: 7px;
     border-radius: 20px;
-    opacity: 0.8;
-    background: #FFF;
-    box-shadow: 0 0 16px 0 #FFF;
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 16px 0 rgba(255, 255, 255, 0.4);
     overflow: hidden;
 }
 
@@ -2805,6 +2864,7 @@ button.option-item {
     left: 0;
     height: 100%;
     border-radius: 20px;
+    opacity: 0.8;
     background: #FFF;
     box-shadow: 0 0 16px 0 #F7C908;
     transition: width 1s ease;
