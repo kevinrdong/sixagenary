@@ -2019,16 +2019,18 @@ button.option-item {
     background-color: #FFFFFF;
     border-radius: 20px;
     animation: subtleRipple 2.6s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(158, 110, 29, 0.6);
+    transform: translateX(-50%) scale(1.2);
     z-index: 2;
 }
 
 @keyframes subtleRipple {
     0%, 100% {
-        transform: translateX(-50%) scale(1);
+        transform: translateX(-50%) scale(1.2);
         opacity: 1;
     }
     50% {
-        transform: translateX(-50%) scale(1.03);
+        transform: translateX(-50%) scale(1.236);
         opacity: 0.95;
     }
 }
