@@ -332,7 +332,7 @@
                     <div class="p6-content">
                         <!-- 根據 result 值顯示對應的結果圖片，使用 a 標籤包裹以支持原生長按保存 -->
                         <a v-if="result" :href="require(`@/assets/images/r_download_${result}.png`)" :download="`r_download_${result}.png`" class="p6-result-link">
-                            <img :src="require(`@/assets/images/r_download_${result}.png`)" alt="測驗結果" class="p6-result-image" />
+                            <img :src="require(`@/assets/images/result_${result}.png`)" alt="測驗結果" class="p6-result-image" />
                         </a>
 
                         <!-- 按鈕區 -->
@@ -2736,7 +2736,7 @@ button.option-item {
 
 .p6-result-link {
     display: block;
-    width: 90%;
+    width: 98%;
     text-decoration: none;
 }
 
