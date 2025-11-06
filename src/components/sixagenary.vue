@@ -1643,7 +1643,7 @@ export default {
 
 .logo {
     position: absolute;
-    bottom: 35px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     width: 123px;
@@ -2196,7 +2196,7 @@ button.option-item {
 
 .p1-bottom-section {
     position: absolute;
-    bottom: 35px;
+    bottom: 25px;
     left: 0;
     width: 100%;
     display: flex;
@@ -2347,7 +2347,7 @@ button.option-item {
 
 .p1-logo {
     position: absolute;
-    bottom: 30px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 123px;
@@ -2523,7 +2523,7 @@ button.option-item {
 
 .p3-logo {
     position: absolute;
-    bottom: 41px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 123px;
