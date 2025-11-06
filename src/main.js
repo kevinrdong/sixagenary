@@ -17,9 +17,41 @@ audio.volume = 0.5
 // 將背景音樂暴露到全局，以便組件控制
 window.bgAudio = audio
 
-// Create pop sound effect
-const popSound = new Audio(clickSound)
-popSound.volume = 0.5
+// 音頻池類別：用於管理多個音頻實例以減少延遲
+class AudioPool {
+  constructor(src, poolSize = 5) {
+    this.pool = []
+    this.currentIndex = 0
+    this.poolSize = poolSize
+
+    // 創建音頻池
+    for (let i = 0; i < poolSize; i++) {
+      const audio = new Audio(src)
+      audio.volume = 0.6
+      audio.preload = 'auto'
+      // 預加載音頻
+      audio.load()
+      this.pool.push(audio)
+    }
+  }
+
+  play() {
+    // 獲取當前可用的音頻實例
+    const audio = this.pool[this.currentIndex]
+
+    // 重置音頻到開始位置並播放
+    audio.currentTime = 0
+    audio.play().catch(err => {
+      console.log('音效播放失敗:', err)
+    })
+
+    // 移動到下一個音頻實例（循環使用）
+    this.currentIndex = (this.currentIndex + 1) % this.poolSize
+  }
+}
+
+// 創建點擊音效池（5 個實例）
+const clickAudioPool = new AudioPool(clickSound, 5)
 
 // Add click event listener to play background music on first click
 document.addEventListener('click', () => {
@@ -29,10 +61,8 @@ document.addEventListener('click', () => {
     sessionStorage.setItem('bgMusicSet', 'true')
   }
 
-  // Play click sound on every click
-  const sound = popSound.cloneNode()
-  sound.play()
-    .catch(err => console.log('Pop sound error:', err))
+  // 使用音頻池播放點擊音效
+  clickAudioPool.play()
 })
 
 window.addEventListener('beforeunload', () => {
