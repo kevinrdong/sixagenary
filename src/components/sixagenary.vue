@@ -469,8 +469,8 @@ export default {
                 new Audio(signatureSound)      // Q5
             ],
             3: [ // 早春圖
-                new Audio(streamSound),        // Q1 (reuse from 萬壑松風圖 Q2)
-                new Audio(forestEnvSound),     // Q2
+                new Audio(forestEnvSound),     // Q1 
+                new Audio(streamSound),        // Q2 (reuse from 萬壑松風圖 Q2)
                 new Audio(poleBoatSound),      // Q3
                 new Audio(woodCreakSound),     // Q4
                 new Audio(footstepsSound)      // Q5
