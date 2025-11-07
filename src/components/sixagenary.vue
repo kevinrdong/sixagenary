@@ -5,7 +5,7 @@
             <div class="desktop-content">
                 <div class="desktop-text">
                     <p>您的裝置目前不支援此遊戲。</p>
-                    <p>請使用支援 iOS 11 或 Android 8.0（Oreo）以上版本的手機或平板，掃描 QRcode 進入遊戲。</p>
+                    <p>請使用支援 iOS 11 或 Android 8.0（Oreo）以上版本的手機或平板</p>
                 </div>
                 <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="desktop-logo" />
             </div>
@@ -2565,6 +2565,32 @@ button.option-item {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+}
+
+.p1-button:hover .p1-button-bg {
+    opacity: 0;
+}
+
+.p1-button::before {
+    content: '';
+    position: absolute;
+    width: 283px;
+    height: 26.24px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url('~@/assets/images/p1-button-bg-hover.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.p1-button:hover::before {
+    opacity: 1;
 }
 
 .p1-button-text {
@@ -2766,6 +2792,31 @@ button.option-item {
     height: 100%;
     left: 0;
     top: 0;
+    transition: opacity 0.3s ease;
+}
+
+.p3-button:hover .p3-button-bg {
+    opacity: 0;
+}
+
+.p3-button::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-image: url('~@/assets/images/p1-button-bg-hover.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.p3-button:hover::before {
+    opacity: 1;
 }
 
 .p3-button-text {
