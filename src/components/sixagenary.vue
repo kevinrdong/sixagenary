@@ -1,6 +1,17 @@
 <template>
     <div class="app-container">
-        <transition name="fade" mode="out-in">
+        <!-- 桌面裝置不支援提示頁面 -->
+        <div v-if="isDesktop" class="desktop-unsupported">
+            <div class="desktop-content">
+                <div class="desktop-text">
+                    <p>您的裝置目前不支援此遊戲。</p>
+                    <p>請使用支援 iOS 11 或 Android 8.0（Oreo）以上版本的手機或平板，掃描 QRcode 進入遊戲。</p>
+                </div>
+                <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="desktop-logo" />
+            </div>
+        </div>
+
+        <transition v-else name="fade" mode="out-in">
             <!-- 入口 -->
             <div class="p0-screen" v-if="step == 0" @click="step = 1" key="p0">
 
@@ -402,6 +413,16 @@ import footstepsSound from '@/assets/audios/05_腳步聲_更新.mp3'
 export default {
     name: 'sixagenary',
     setup() {
+        // 檢測是否為桌面裝置
+        const isDesktop = ref(false)
+        const checkDevice = () => {
+            const userAgent = navigator.userAgent.toLowerCase()
+            const isMobile = /mobile|android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent)
+            const isTablet = /tablet|ipad/i.test(userAgent)
+            // 如果不是移動設備或平板，則為桌面
+            isDesktop.value = !isMobile && !isTablet
+        }
+
         const type = ref(1)
         const step = ref(0)
         const questionNum = ref(0)
@@ -1532,6 +1553,9 @@ export default {
         }
 
         onMounted(() => {
+            // 檢測設備類型
+            checkDevice()
+
             nextTick(() => {
                 if (textContainer.value) {
                     const height = textContainer.value.offsetHeight
@@ -1756,6 +1780,7 @@ export default {
         })
 
         return {
+            isDesktop,
             type,
             step,
             options,
@@ -3189,6 +3214,47 @@ button.option-item {
         0 0 32px 2px rgba(247, 201, 8, 0.3),
         0 0 40px 3px rgba(247, 201, 8, 0.2);
     transition: width 1s ease;
+}
+
+/* 桌面裝置不支援頁面 */
+.desktop-unsupported {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.desktop-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.desktop-text {
+    color: #fff;
+    font-family: 'Swei B2 Sugar CJK TC', sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 60px;
+}
+
+.desktop-text p {
+    margin: 10px 0;
+}
+
+.desktop-logo {
+    width: auto;
+    max-width: 200px;
+    height: auto;
 }
 
 
