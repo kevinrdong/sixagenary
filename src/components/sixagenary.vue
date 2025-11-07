@@ -2258,7 +2258,7 @@ button.option-item {
 .p0-subtitle-wrapper {
     position: absolute;
     left: 50%;
-    top: 235px;
+    top: 240px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
