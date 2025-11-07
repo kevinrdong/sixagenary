@@ -118,7 +118,7 @@
                 </div>
 
                 <!-- Logo -->
-                <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p3-logo" />
+                <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="p3-logo" />
             </div>
             <div id="question-container" class="question-screen" v-else-if="step == 4" key="p4">
                 <transition name="fade" mode="out-in">
@@ -291,7 +291,7 @@
                         </div>
                     </div>
                 </transition>
-                <!-- <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p3-logo" /> -->
+                <!-- <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="p3-logo" /> -->
             </div>
             <div class="question-screen" v-else-if="step == 5" key="p5">
                 <!-- 背景視頻 -->
@@ -321,7 +321,7 @@
                     </div>
 
                     <!-- Logo -->
-                    <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p5-logo" />
+                    <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="p5-logo" />
                 </div>
             </div>
             <div class="question-screen p6-screen" v-else-if="step == 6" key="p6">
@@ -359,7 +359,7 @@
                     </div>
 
                     <!-- Logo -->
-                    <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p6-logo" />
+                    <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="p6-logo" />
                 </div>
             </div>
         </transition>
