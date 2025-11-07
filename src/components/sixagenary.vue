@@ -642,8 +642,7 @@ export default {
         }
 
         // P1 文字內容
-        const p1TextTop1 = '忙碌的日常幾乎壓垮了你'
-        const p1TextTop1 = '在學校、工作、家庭間漫無目的地累積壓力——是時候讓靈魂放鬆，把腦中暫存檔歸零。'
+        const p1TextTop1 = '忙碌的日常幾乎壓垮了你，在學校、工作、家庭間漫無目的地累積壓力——是時候讓靈魂放鬆，把腦中暫存檔歸零。';
         const p1TextTop2 = '累了不是你的錯，但你可以選擇逃跑！'
         const p1TextBottom1 = '人生太難，不如躲進異世界中'
         const p1TextBottom2 = '▼ 點擊下方按鈕，讓靈魂暫時逃離日常 ▼'
@@ -2267,7 +2266,7 @@ button.option-item {
     background-color: #FFFFFF;
     border-radius: 20px;
     animation: subtleRipple 2.6s ease-in-out infinite;
-    box-shadow: 0 0 8px #5B3000;
+    box-shadow: 0 0 8px 0 rgba(91, 48, 0, 0.6);
     transform: translateX(-50%) scale(1.2);
     z-index: 2;
 }
