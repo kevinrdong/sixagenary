@@ -1420,14 +1420,12 @@ export default {
             // 觸發按鈕縮放動畫
             p1ButtonClicked.value = true
 
-            // 延遲隱藏文字和圖片，同時顯示並播放視頻
+            // 延遲播放視頻（文字和按鈕保持顯示）
             setTimeout(() => {
-                p1TextHidden.value = true
-                p1VideoPlaying.value = true
                 if (p1Video.value) {
                     p1Video.value.play()
                 }
-            }, 600) // 按鈕文字特效完成後（0.6秒），文字和圖片開始淡出，視頻同時淡入並播放
+            }, 600) // 按鈕縮放動畫完成後（0.6秒），開始播放視頻
         }
 
         // P1 視頻播放結束
