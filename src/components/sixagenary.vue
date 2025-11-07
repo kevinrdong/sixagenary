@@ -443,21 +443,35 @@ export default {
 
         // 停止所有音效
         const stopAllAudio = () => {
+            console.log('停止所有音效')
+
             // 停止背景音樂
             if (window.bgAudio) {
                 window.bgAudio.pause()
             }
+
             // 停止計算音效
             if (calculatingAudio) {
                 calculatingAudio.pause()
                 calculatingAudio.currentTime = 0
             }
-            // 停止問題音效
+
+            // 停止當前問題音效
             if (currentQuestionAudio) {
                 currentQuestionAudio.pause()
                 currentQuestionAudio.currentTime = 0
                 currentQuestionAudio = null
             }
+
+            // 停止所有問題音效（確保沒有遺漏）
+            Object.values(questionAudios).forEach(audios => {
+                audios.forEach(audio => {
+                    if (audio) {
+                        audio.pause()
+                        audio.currentTime = 0
+                    }
+                })
+            })
         }
 
         // 處理頁面可見性變化
@@ -1454,11 +1468,17 @@ export default {
             // 添加 resize 事件監聽
             window.addEventListener('resize', updateScreenSize)
 
-            // 添加頁面可見性變化監聽
+            // 添加頁面可見性變化監聽（桌面和移動裝置）
             document.addEventListener('visibilitychange', handleVisibilityChange)
+
+            // 添加失去焦點監聽（桌面）
+            window.addEventListener('blur', stopAllAudio)
 
             // 添加頁面卸載監聽（用戶離開頁面時）
             window.addEventListener('beforeunload', stopAllAudio)
+
+            // 添加 pagehide 事件（iOS Safari 支援）
+            window.addEventListener('pagehide', stopAllAudio)
 
             // 初始化光暈延遲
             triggerGlowDelay()
@@ -1634,8 +1654,12 @@ export default {
             window.removeEventListener('resize', updateScreenSize)
             // 移除頁面可見性變化監聽
             document.removeEventListener('visibilitychange', handleVisibilityChange)
+            // 移除失去焦點監聽
+            window.removeEventListener('blur', stopAllAudio)
             // 移除頁面卸載監聽
             window.removeEventListener('beforeunload', stopAllAudio)
+            // 移除 pagehide 事件
+            window.removeEventListener('pagehide', stopAllAudio)
         })
 
         return {
