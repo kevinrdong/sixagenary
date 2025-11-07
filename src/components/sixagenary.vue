@@ -441,6 +441,33 @@ export default {
             })
         })
 
+        // 停止所有音效
+        const stopAllAudio = () => {
+            // 停止背景音樂
+            if (window.bgAudio) {
+                window.bgAudio.pause()
+            }
+            // 停止計算音效
+            if (calculatingAudio) {
+                calculatingAudio.pause()
+                calculatingAudio.currentTime = 0
+            }
+            // 停止問題音效
+            if (currentQuestionAudio) {
+                currentQuestionAudio.pause()
+                currentQuestionAudio.currentTime = 0
+                currentQuestionAudio = null
+            }
+        }
+
+        // 處理頁面可見性變化
+        const handleVisibilityChange = () => {
+            if (document.hidden) {
+                // 頁面被隱藏時停止所有音效
+                stopAllAudio()
+            }
+        }
+
         // 檢測是否為移動設備（使用 User Agent）
         const isMobileDevice = () => {
             const userAgent = navigator.userAgent || navigator.vendor || window.opera
@@ -1427,6 +1454,12 @@ export default {
             // 添加 resize 事件監聽
             window.addEventListener('resize', updateScreenSize)
 
+            // 添加頁面可見性變化監聽
+            document.addEventListener('visibilitychange', handleVisibilityChange)
+
+            // 添加頁面卸載監聽（用戶離開頁面時）
+            window.addEventListener('beforeunload', stopAllAudio)
+
             // 初始化光暈延遲
             triggerGlowDelay()
 
@@ -1599,6 +1632,10 @@ export default {
             }
             // 移除 resize 事件監聽
             window.removeEventListener('resize', updateScreenSize)
+            // 移除頁面可見性變化監聽
+            document.removeEventListener('visibilitychange', handleVisibilityChange)
+            // 移除頁面卸載監聽
+            window.removeEventListener('beforeunload', stopAllAudio)
         })
 
         return {
