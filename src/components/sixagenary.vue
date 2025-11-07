@@ -2262,7 +2262,7 @@ button.option-item {
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 4px 12px;
+    padding: 4px 25px;
     background-color: #FFFFFF;
     border-radius: 20px;
     animation: subtleRipple 2.6s ease-in-out infinite;
