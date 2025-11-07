@@ -5,7 +5,7 @@
             <div class="desktop-content">
                 <div class="desktop-text">
                     <p>您的裝置目前不支援此遊戲。</p>
-                    <p>請使用支援 iOS 11 或 Android 8.0（Oreo）以上版本的手機或平板</p>
+                    <p>請使用支援 iOS 11 或 Android 8.0（Oreo）以上版本的手機或平板。</p>
                 </div>
                 <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="desktop-logo" />
             </div>
