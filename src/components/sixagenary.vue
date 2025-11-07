@@ -1354,9 +1354,14 @@ export default {
             console.log('確定選擇的卡片 ID:', selectedCard.id)
             console.log('確定選擇的卡片名稱:', selectedCard.name)
 
-            type.value = currentCardIndex.value + 1;
-            // 这里可以继续处理选择后的逻辑，比如跳转到下一步
-            step.value = 4
+            // 顯示光暈
+            showGlow.value = true
+
+            // 延遲 600ms 後跳轉到下一步，讓用戶看到光暈效果
+            setTimeout(() => {
+                type.value = currentCardIndex.value + 1;
+                step.value = 4
+            }, 600)
         }
 
         // 重新选择
@@ -1581,9 +1586,6 @@ export default {
             // 添加 pagehide 事件（iOS Safari 支援）
             window.addEventListener('pagehide', stopAllAudio)
 
-            // 初始化光暈延遲
-            triggerGlowDelay()
-
             // 預載入所有視頻和圖片
             preloadAssets()
         })
@@ -1600,8 +1602,8 @@ export default {
                     startTypewriter()
                 }, 1000)
             } else if (newStep === 3) {
-                // 進入卡片選擇頁面時觸發光暈延遲
-                triggerGlowDelay()
+                // 進入卡片選擇頁面時不顯示光暈
+                showGlow.value = false
             } else if (newStep === 4) {
                 // 進入 step 4 時，設置初始進度並在淡入完成後顯示進度條
                 showProgressBar.value = false
