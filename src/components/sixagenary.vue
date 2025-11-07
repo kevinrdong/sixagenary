@@ -52,7 +52,7 @@
 
                     <!-- 按钮 -->
                     <div class="p1-button" :class="{ 'p1-button-scale-up': p1ButtonClicked }" @click="startP1VideoAndTransition">
-                        <img :src="require('@/assets/images/p1-button-bg.svg')" alt="按鈕背景" class="p1-button-bg" />
+                        <img :src="require('@/assets/images/p1-button-bg.png')" alt="按鈕背景" class="p1-button-bg" />
                         <span class="p1-button-text">進入異世界冒險</span>
                     </div>
 
@@ -61,7 +61,7 @@
                 </div>
 
                 <!-- Logo -->
-                <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p1-logo" />
+                <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="p1-logo" />
             </div>
 
             <div class="question-screen" v-else-if="step == 3" key="p3">
@@ -105,13 +105,13 @@
                     <div class="p3-button-group">
                         <!-- 确定按钮 -->
                         <div class="p3-button" @click="confirmSelection">
-                            <img :src="require('@/assets/images/p1-button-bg.svg')" alt="按鈕背景" class="p3-button-bg" />
+                            <img :src="require('@/assets/images/p1-button-bg.png')" alt="按鈕背景" class="p3-button-bg" />
                             <span class="p3-button-text">確定</span>
                         </div>
 
                         <!-- 重新选择按钮 -->
                         <!-- <div class="p3-button" @click="resetSelection">
-                            <img :src="require('@/assets/images/p1-button-bg.svg')" alt="按鈕背景" class="p3-button-bg" />
+                            <img :src="require('@/assets/images/p1-button-bg.png')" alt="按鈕背景" class="p3-button-bg" />
                             <span class="p3-button-text">重新選擇</span>
                         </div> -->
                     </div>
@@ -144,7 +144,7 @@
                         <!-- 內容區 -->
                         <div class="content">
                             <!-- Logo -->
-                            <img src="../assets/images/logo.png" alt="Logo" class="logo" />
+                            <img src="../assets/images/white_logo.png" alt="Logo" class="logo" />
 
                             <!-- 展覽資訊文字 -->
                             <div class="exhibition-text">
@@ -352,7 +352,7 @@
                             <!-- 分享提示區 -->
                             <div class="p6-share-section">
                                 <div class="p6-share-link" :class="{ 'p6-share-link-scale-up': p6ShareClicked }" @click="handleP6ShareClick">
-                                    <span class="p6-share-text">分享你的心得，拿南故宮限量好禮！</span>
+                                    <span class="p6-share-text" style="font-size: 15px;">分享你的心得，拿南故宮限量好禮！</span>
                                 </div>
                             </div>
                         </div>
@@ -2545,7 +2545,7 @@ button.option-item {
     color: #FFFFFF;
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
     font-weight: 900;
-    font-size: 13px;
+    font-size: 15px;
     line-height: 1.8462em;
     letter-spacing: 0.1538em;
     text-align: center;
@@ -2557,12 +2557,12 @@ button.option-item {
 
 .p1-sound-hint {
     margin-top: 8px;
-    color: #ECB757;
+    color: gray;
     text-align: center;
     font-feature-settings: 'liga' off, 'clig' off;
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     font-style: normal;
     font-weight: 900;
     line-height: 28px;
@@ -2746,7 +2746,7 @@ button.option-item {
     color: #FFFFFF;
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
     font-weight: 900;
-    font-size: 13px;
+    font-size: 15px;
     line-height: 1.8462em;
     letter-spacing: 0.1538em;
     text-align: center;
@@ -3062,7 +3062,7 @@ button.option-item {
 
 .p6-btn-text {
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 700;
     color: white;
     text-align: center;
