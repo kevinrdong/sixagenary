@@ -3084,9 +3084,8 @@ button.option-item {
     color: #624E45;
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
     font-weight: 900;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 24px;
-    letter-spacing: 2px;
     text-align: center;
     vertical-align: middle;
     transition: all 0.6s ease;
