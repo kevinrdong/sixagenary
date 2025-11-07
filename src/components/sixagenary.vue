@@ -2365,10 +2365,8 @@ button.option-item {
     max-width: none;
     height: auto;
     object-fit: contain;
-    z-index: 10;
-    opacity: 0;
+    z-index: 0;
     pointer-events: none;
-    transition: opacity 1s ease;
 }
 
 @media (min-width: 500px) {
