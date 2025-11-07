@@ -2299,7 +2299,7 @@ button.option-item {
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    width: 170px;
+    width: 220px;
     height: auto;
     z-index: 3;
 }
