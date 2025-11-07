@@ -407,7 +407,7 @@ import signatureSound from '@/assets/audios/05_找到簽名.mp3'
 // 早春圖音效
 import forestEnvSound from '@/assets/audios/02_林間環境音.mp3'
 import poleBoatSound from '@/assets/audios/03_撐竿划水.mp3'
-import woodCreakSound from '@/assets/audios/04_木板嘎吱聲+水聲+小狗叫聲_更新.mp3'
+import woodCreakSound from '@/assets/audios/04_木板嘎吱聲_水聲_小狗叫聲.mp3'
 import footstepsSound from '@/assets/audios/05_腳步聲_更新.mp3'
 
 export default {
