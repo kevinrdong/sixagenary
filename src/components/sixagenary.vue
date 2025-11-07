@@ -124,7 +124,7 @@
                 <!-- Logo -->
                 <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p3-logo" />
             </div>
-            <div class="question-screen" v-else-if="step == 4" key="p4">
+            <div id="question-container" class="question-screen" v-else-if="step == 4" key="p4">
                 <transition name="fade" mode="out-in">
                     <div :key="questionNum">
                         <!-- 進度條 -->
@@ -1425,6 +1425,9 @@ export default {
                 setTimeout(() => {
                     showProgressBar.value = true
                 }, 1000)
+
+                // 停止背景音樂
+                fadeBgMusicOut()
             } else if (newStep === 5) {
                 // 清除可能存在的舊計時器
                 if (loadingInterval) {
