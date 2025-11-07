@@ -341,6 +341,7 @@
 
                         <!-- 按鈕區 -->
                         <div class="p6-buttons">
+                            <span class="p6-share-text" style="position: absolute; top: -34px;">▲ 長按圖片下載你的靈魂逃跑指南 ▲</span>
                             <button class="p6-btn" :class="{ 'p6-btn-scale-up': p6Button1Clicked }" @click="handleP6Button1Click">
                                 <span class="p6-btn-text">點擊瞭解更多《甲子萬年特展》</span>
                             </button>
@@ -3031,6 +3032,7 @@ button.option-item {
     padding: 10px 30px 25px;
     margin-top: 10px;
     box-sizing: border-box;
+    position: relative;
 }
 
 .p6-btn {
