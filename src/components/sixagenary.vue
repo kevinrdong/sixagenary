@@ -2644,15 +2644,21 @@ button.option-item {
     margin-left: 0;
     margin-top: calc(-212px * 0.85); /* 半個卡片高度 * scale */
     border-radius: 20px;
+    overflow: hidden;
 }
 
 .p3-card-selected {
     border: 2px solid rgba(255, 255, 255, 0.6);
     box-shadow:
-        0px 0px 10px 2.5px rgba(255, 255, 255, 0.3),
-        0px 0px 20px 5px rgba(255, 255, 255, 0.2),
-        0px 0px 30px 7.5px rgba(255, 255, 255, 0.1),
-        0px 8px 16px 0px rgba(0, 0, 0, 0.4);
+        0px 0px 20px 5px rgba(255, 255, 255, 0.5),
+        0px 0px 40px 10px rgba(255, 255, 255, 0.4),
+        0px 0px 60px 15px rgba(255, 255, 255, 0.3),
+        0px 0px 80px 20px rgba(255, 255, 255, 0.2),
+        0px 16px 32px 0px rgba(0, 0, 0, 0.6);
+}
+
+.p3-card-selected img {
+    transform: scale(1.1);
 }
 
 .p3-card img {
@@ -2663,6 +2669,7 @@ button.option-item {
     border-radius: 20px;
     overflow: hidden;
     display: block;
+    transform: scale(1.1);
 }
 
 .p3-gradient-overlay {
