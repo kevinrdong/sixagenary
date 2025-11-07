@@ -36,8 +36,7 @@
                 <!-- 转场视频 -->
                 <video
                     ref="p1Video"
-                    class="p1-transition-video"
-                    :class="{ 'p1-video-show': p1VideoPlaying }"
+                    class="p1-transition-video p1-video-show"
                     :src="require('@/assets/images/step1_bg.mp4')"
                     muted
                     playsinline
