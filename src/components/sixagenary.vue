@@ -116,7 +116,7 @@
                     <div class="p3-button-group">
                         <!-- 确定按钮 -->
                         <div class="p3-button" @click="confirmSelection">
-                            <img :src="require('@/assets/images/p1-button-bg.png')" alt="按鈕背景" class="p3-button-bg" />
+                            <img :src="require('@/assets/images/p3-button-bg.png')" alt="按鈕背景" class="p3-button-bg" />
                             <span class="p3-button-text">確定</span>
                         </div>
 
