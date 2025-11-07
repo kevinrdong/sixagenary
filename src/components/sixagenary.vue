@@ -18,7 +18,7 @@
                 <!-- 文本容器 -->
                 <div class="p0-text-container" ref="textContainer">
                     <div class="p0-title-container">
-                        <div class="p0-title">人生太難，不如躲進異世界中！</div>
+                        <div class="p0-title">人生太難，不如躲進異世界中 !</div>
                     </div>
                 </div>
 
