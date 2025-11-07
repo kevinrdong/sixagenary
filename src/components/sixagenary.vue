@@ -31,9 +31,6 @@
                         <div class="p1-text-top-line1" v-html="p1TextTop1Display"></div>
                         <div class="p1-text-top-line2" v-html="p1TextTop2Display"></div>
                     </div>
-
-                    <!-- 插图 -->
-                    <img :src="require('@/assets/images/step1_bg.png')" alt="插圖" class="p1-illustration" :class="{ 'p1-image-fade-out': p1TextHidden }" />
                 </div>
 
                 <!-- 转场视频 -->
