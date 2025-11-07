@@ -3134,7 +3134,7 @@ button.option-item {
     text-align: center;
     z-index: 1;
     transition: all 0.6s ease;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     text-shadow: 0 0 4px #624E45;
 }
 
@@ -3192,7 +3192,7 @@ button.option-item {
     vertical-align: middle;
     transition: all 0.6s ease;
     white-space: nowrap;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 
 .p6-share-image {
