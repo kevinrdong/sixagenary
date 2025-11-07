@@ -396,6 +396,11 @@ import waterfallFarSound from '@/assets/audios/01_瀑布聲（遠）.mp3'
 import waterfallNearSound from '@/assets/audios/02_瀑布聲（近）.mp3'
 import donkeySound from '@/assets/audios/03_驢隊.mp3'
 import signatureSound from '@/assets/audios/05_找到簽名.mp3'
+// 早春圖音效
+import forestEnvSound from '@/assets/audios/02_林間環境音.mp3'
+import poleBoatSound from '@/assets/audios/03_撐竿划水.mp3'
+import woodCreakSound from '@/assets/audios/04_木板嘎吱聲+水聲+小狗叫聲_更新.mp3'
+import footstepsSound from '@/assets/audios/05_腳步聲_更新.mp3'
 
 export default {
     name: 'sixagenary',
@@ -443,6 +448,13 @@ export default {
                 new Audio(donkeySound),        // Q3
                 new Audio(donkeySound),        // Q4 (same as Q3)
                 new Audio(signatureSound)      // Q5
+            ],
+            3: [ // 早春圖
+                new Audio(streamSound),        // Q1 (reuse from 萬壑松風圖 Q2)
+                new Audio(forestEnvSound),     // Q2
+                new Audio(poleBoatSound),      // Q3
+                new Audio(woodCreakSound),     // Q4
+                new Audio(footstepsSound)      // Q5
             ]
         }
 
