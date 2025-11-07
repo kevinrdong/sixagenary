@@ -1907,37 +1907,38 @@ export default {
 } */
 .option-item {
     position: relative;
-    background: #ffffff;
+    padding: 12px 35px;
     width: 310px;
     height: 40px;
     font-size: 13px;
     font-weight: 500;
-    padding: 8px 74px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s ease;
+    background-color: rgba(255, 255, 255, 0.75);
     color: #524735;
-    border: 1.5px solid #524735;
+    border: none;
     border-radius: 50px;
-    box-shadow: 0 0 0 #fec1958c;
-    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+    transition: all 1s ease-out;
     cursor: pointer;
-    margin: 5px auto;
-    padding: 10px 30px;
-    display: inline-block;
     overflow: visible;
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
     -webkit-tap-highlight-color: transparent;
     outline: none;
+    font-size: 13px;
+    font-weight: 500;
+    margin: 5px auto;
+    display: inline-block;
 }
 
 /* 桌面裝置 hover 效果 */
 @media (hover: hover) and (pointer: fine) {
   .option-item:hover {
-    background-color: #524735 !important;
-    color: #ffffff !important;
-    box-shadow: 0 0 25px #fec1958c !important;
+    background: transparent;
+    background-color: #524735;
+    color: #ffffff;
+    box-shadow: 0 0 25px #fec1958c;
   }
 
   /* 防止星星繼承 hover 狀態的背景色 */
@@ -2041,8 +2042,8 @@ button.option-item {
 .option-item-touched .star-5,
 .option-item:active .star-6,
 .option-item-touched .star-6 {
-  opacity: 1 !important;
-  transform: scale(1.5) !important;
+  opacity: 1;
+  transform: scale(0.7);
 }
 
 /* 桌面裝置：hover 時顯示星星 */
@@ -2053,8 +2054,8 @@ button.option-item {
   .option-item:hover .star-4,
   .option-item:hover .star-5,
   .option-item:hover .star-6 {
-    opacity: 1 !important;
-    transform: scale(1.5) !important;
+    opacity: 1;
+    transform: scale(0.7);
   }
 }
 
@@ -2078,12 +2079,13 @@ button.option-item {
 .star-1, .star-2, .star-3, .star-4, .star-5, .star-6 {
   position: absolute;
   height: auto;
-  z-index: 10;
-  filter: drop-shadow(0 0 10px #fffdef);
+  z-index: 2;
+  filter: drop-shadow(0 0 3px #fffdef);
   pointer-events: none;
   opacity: 0;
   transform: scale(0);
   background: transparent !important;
+  transition: opacity 0.3s ease-out 0.3s, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s;
 }
 
 .star-1 svg, .star-2 svg, .star-3 svg, .star-4 svg, .star-5 svg, .star-6 svg {
@@ -2091,12 +2093,12 @@ button.option-item {
   display: block;
 }
 
-.star-1 { top: 13%; left: -4%; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-2 { top: -21%; left: 9%; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-3 { top: 87%; left: 12%; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-4 { top:82%; left: 90%; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-5 { top: 43%; left: 100%; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-6 { top: 3%; left: 85%; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.star-1 { top: 23%; left: -2%; width: 8px; }
+.star-2 { top: -15%; left: 17%; width: 8px; }
+.star-3 { top: 85%; left: 32%; width: 5px; }
+.star-4 { top: 60%; left: 80%; width: 5px; }
+.star-5 { top: 45%; left: 100%; width: 8px; }
+.star-6 { top: 5%; left: 72%; width: 5px; }
 
 
 .option-text {
