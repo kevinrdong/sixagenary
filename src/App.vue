@@ -32,10 +32,12 @@ body {
   background-color: #000;
   overflow: hidden;
   overscroll-behavior: none;
+  touch-action: manipulation;
 }
 
 * {
   font-family: 'Swei B2 Sugar CJK TC', Avenir, Helvetica, Arial, sans-serif;
+  touch-action: manipulation;
 }
 
 #app {
