@@ -385,6 +385,11 @@
 <script>
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import calculatingSound from '@/assets/audios/calculating.mp3'
+import forestSound from '@/assets/audios/01_樹林環境音.mp3'
+import streamSound from '@/assets/audios/02_溪流水聲轟鳴.mp3'
+import mistSound from '@/assets/audios/03_雲霧繚繞.mp3'
+import mistOpenSound from '@/assets/audios/04-1_雲霧散開.mp3'
+import guzhengSound from '@/assets/audios/05_找到文字（古箏）.mp3'
 
 export default {
     name: 'sixagenary',
@@ -410,11 +415,31 @@ export default {
         let p5Timeout = null
         let bgMusicFadeInterval = null // 背景音樂淡出計時器
         let progressAnimationTimeout = null // 進度條動畫計時器
+        let currentQuestionAudio = null // 當前問題音效
 
         // 計算音效
         const calculatingAudio = new Audio(calculatingSound)
         calculatingAudio.loop = true
         calculatingAudio.volume = 0.5
+
+        // 萬壑松風圖問題音效
+        const questionAudios = {
+            1: [ // 萬壑松風圖
+                new Audio(forestSound),      // Q1
+                new Audio(streamSound),      // Q2
+                new Audio(mistSound),        // Q3
+                new Audio(mistOpenSound),    // Q4
+                new Audio(guzhengSound)      // Q5
+            ]
+        }
+
+        // 設定所有問題音效的音量和循環
+        Object.values(questionAudios).forEach(audios => {
+            audios.forEach(audio => {
+                audio.loop = true
+                audio.volume = 0.5
+            })
+        })
 
         // 檢測是否為移動設備（使用 User Agent）
         const isMobileDevice = () => {
@@ -1428,7 +1453,23 @@ export default {
 
                 // 停止背景音樂
                 fadeBgMusicOut()
+
+                // 如果是萬壑松風圖（type = 1），播放第一個問題的音效
+                if (type.value === 1 && questionAudios[1] && questionAudios[1][0]) {
+                    currentQuestionAudio = questionAudios[1][0]
+                    currentQuestionAudio.currentTime = 0
+                    currentQuestionAudio.play().catch(err => {
+                        console.log('問題音效播放失敗:', err)
+                    })
+                }
             } else if (newStep === 5) {
+                // 停止問題音效
+                if (currentQuestionAudio) {
+                    currentQuestionAudio.pause()
+                    currentQuestionAudio.currentTime = 0
+                    currentQuestionAudio = null
+                }
+
                 // 清除可能存在的舊計時器
                 if (loadingInterval) {
                     clearInterval(loadingInterval)
@@ -1491,6 +1532,22 @@ export default {
         // 監聽 questionNum 變化，更新進度條
         watch(questionNum, (newQuestionNum) => {
             if (step.value === 4) {
+                // 停止之前的問題音效
+                if (currentQuestionAudio) {
+                    currentQuestionAudio.pause()
+                    currentQuestionAudio.currentTime = 0
+                    currentQuestionAudio = null
+                }
+
+                // 如果是萬壑松風圖（type = 1），播放對應的問題音效
+                if (type.value === 1 && questionAudios[1] && questionAudios[1][newQuestionNum]) {
+                    currentQuestionAudio = questionAudios[1][newQuestionNum]
+                    currentQuestionAudio.currentTime = 0
+                    currentQuestionAudio.play().catch(err => {
+                        console.log('問題音效播放失敗:', err)
+                    })
+                }
+
                 // 清除可能存在的舊計時器
                 if (progressAnimationTimeout) {
                     clearTimeout(progressAnimationTimeout)
@@ -1535,6 +1592,11 @@ export default {
             // 停止計算音效
             calculatingAudio.pause()
             calculatingAudio.currentTime = 0
+            // 停止問題音效
+            if (currentQuestionAudio) {
+                currentQuestionAudio.pause()
+                currentQuestionAudio.currentTime = 0
+            }
             // 移除 resize 事件監聽
             window.removeEventListener('resize', updateScreenSize)
         })
