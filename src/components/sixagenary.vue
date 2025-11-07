@@ -363,7 +363,7 @@
                             <!-- 分享提示區 -->
                             <div class="p6-share-section">
                                 <div class="p6-share-link" :class="{ 'p6-share-link-scale-up': p6ShareClicked }" @click="handleP6ShareClick">
-                                    <span class="p6-share-text" style="font-size: 15px;">分享你的心得，拿南故宮限量好禮！</span>
+                                    <span class="p6-share-text" style="font-size: 15px;">分享心得拿故宮南院限量好禮！</span>
                                 </div>
                             </div>
                         </div>
@@ -909,7 +909,7 @@ export default {
                 [
                     {
                         image: require('../assets/images/option-1.svg'),
-                        text: '樹枝當劍，大喊：「何方妖怪，全部退下」',
+                        text: '拿樹枝當劍，大喊「何方妖怪！」',
                         tag: [2, 5],
                     },
                     {
@@ -2734,10 +2734,6 @@ button.option-item {
         0px 16px 32px 0px rgba(0, 0, 0, 0.6);
 }
 
-.p3-card-selected img {
-    transform: scale(1.1);
-}
-
 .p3-card img {
     width: 100%;
     height: 100%;
@@ -2746,7 +2742,6 @@ button.option-item {
     border-radius: 20px;
     overflow: hidden;
     display: block;
-    transform: scale(1.1);
 }
 
 .p3-gradient-overlay {
@@ -3144,6 +3139,8 @@ button.option-item {
     text-align: center;
     z-index: 1;
     transition: all 0.6s ease;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px #624E45;
 }
 
 /* P6 按鈕點擊特效 */
@@ -3200,6 +3197,7 @@ button.option-item {
     vertical-align: middle;
     transition: all 0.6s ease;
     white-space: nowrap;
+    letter-spacing: 1px;
 }
 
 .p6-share-image {
