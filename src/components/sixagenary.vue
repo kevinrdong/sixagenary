@@ -3048,7 +3048,7 @@ button.option-item {
 }
 
 .p6-image-wrapper {
-    width: 98%;
+    width: 100%;
     position: relative;
     /* 明確啟用長按保存功能，覆蓋父元素的限制 */
     -webkit-touch-callout: default !important;
