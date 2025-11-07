@@ -2005,7 +2005,7 @@ export default {
 .option-item-touched {
   background-color: #524735 !important;
   color: #ffffff !important;
-  box-shadow: 0 0 25px #fec1958c !important;
+  box-shadow: 0 0 25px #fec1958c, inset 0 0 20px rgba(255, 255, 255, 0.3) !important;
 }
 
 /* 防止星星繼承 touched 狀態的背景色 */
@@ -2022,7 +2022,7 @@ export default {
 .option-item-selected {
   background-color: #524735 !important;
   color: #ffffff !important;
-  box-shadow: 0 0 25px #fec1958c !important;
+  box-shadow: 0 0 25px #fec1958c, inset 0 0 20px rgba(255, 255, 255, 0.3) !important;
 }
 
 /* 防止星星繼承 selected 狀態的背景色 */
