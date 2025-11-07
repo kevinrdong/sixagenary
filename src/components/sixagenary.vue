@@ -2752,7 +2752,7 @@ button.option-item {
 
 .p3-button-group {
     position: relative;
-    width: 302px;
+    width: 150px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -2761,7 +2761,7 @@ button.option-item {
 
 .p3-button {
     position: relative;
-    width: 302px;
+    width: 150px;
     height: 28px;
     display: flex;
     align-items: center;
