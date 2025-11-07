@@ -443,35 +443,59 @@ export default {
 
         // 停止所有音效
         const stopAllAudio = () => {
-            console.log('停止所有音效')
+            console.log('停止所有音效 - 當前時間:', new Date().toLocaleTimeString())
 
             // 停止背景音樂
             if (window.bgAudio) {
-                window.bgAudio.pause()
+                try {
+                    window.bgAudio.pause()
+                    console.log('背景音樂已停止')
+                } catch (e) {
+                    console.error('停止背景音樂失敗:', e)
+                }
             }
 
             // 停止計算音效
             if (calculatingAudio) {
-                calculatingAudio.pause()
-                calculatingAudio.currentTime = 0
+                try {
+                    calculatingAudio.loop = false
+                    calculatingAudio.pause()
+                    calculatingAudio.currentTime = 0
+                    console.log('計算音效已停止')
+                } catch (e) {
+                    console.error('停止計算音效失敗:', e)
+                }
             }
 
             // 停止當前問題音效
             if (currentQuestionAudio) {
-                currentQuestionAudio.pause()
-                currentQuestionAudio.currentTime = 0
-                currentQuestionAudio = null
+                try {
+                    currentQuestionAudio.loop = false
+                    currentQuestionAudio.pause()
+                    currentQuestionAudio.currentTime = 0
+                    console.log('當前問題音效已停止')
+                } catch (e) {
+                    console.error('停止當前問題音效失敗:', e)
+                }
             }
 
             // 停止所有問題音效（確保沒有遺漏）
-            Object.values(questionAudios).forEach(audios => {
-                audios.forEach(audio => {
-                    if (audio) {
-                        audio.pause()
-                        audio.currentTime = 0
-                    }
+            try {
+                Object.values(questionAudios).forEach(audios => {
+                    audios.forEach((audio, index) => {
+                        if (audio) {
+                            audio.loop = false
+                            audio.pause()
+                            audio.currentTime = 0
+                            console.log(`問題音效 ${index + 1} 已停止`)
+                        }
+                    })
                 })
-            })
+            } catch (e) {
+                console.error('停止問題音效失敗:', e)
+            }
+
+            console.log('所有音效停止完成')
         }
 
         // 處理頁面可見性變化
@@ -1510,6 +1534,7 @@ export default {
                 // 如果是萬壑松風圖（type = 1），播放第一個問題的音效
                 if (type.value === 1 && questionAudios[1] && questionAudios[1][0]) {
                     currentQuestionAudio = questionAudios[1][0]
+                    currentQuestionAudio.loop = true
                     currentQuestionAudio.currentTime = 0
                     currentQuestionAudio.play().catch(err => {
                         console.log('問題音效播放失敗:', err)
@@ -1518,6 +1543,7 @@ export default {
             } else if (newStep === 5) {
                 // 停止問題音效
                 if (currentQuestionAudio) {
+                    currentQuestionAudio.loop = false
                     currentQuestionAudio.pause()
                     currentQuestionAudio.currentTime = 0
                     currentQuestionAudio = null
@@ -1535,6 +1561,7 @@ export default {
                 fadeBgMusicOut()
 
                 // 播放計算音效
+                calculatingAudio.loop = true
                 calculatingAudio.currentTime = 0
                 calculatingAudio.play().catch(err => {
                     console.log('計算音效播放失敗:', err)
@@ -1587,6 +1614,7 @@ export default {
             if (step.value === 4) {
                 // 停止之前的問題音效
                 if (currentQuestionAudio) {
+                    currentQuestionAudio.loop = false
                     currentQuestionAudio.pause()
                     currentQuestionAudio.currentTime = 0
                     currentQuestionAudio = null
@@ -1595,6 +1623,7 @@ export default {
                 // 如果是萬壑松風圖（type = 1），播放對應的問題音效
                 if (type.value === 1 && questionAudios[1] && questionAudios[1][newQuestionNum]) {
                     currentQuestionAudio = questionAudios[1][newQuestionNum]
+                    currentQuestionAudio.loop = true
                     currentQuestionAudio.currentTime = 0
                     currentQuestionAudio.play().catch(err => {
                         console.log('問題音效播放失敗:', err)
@@ -1643,10 +1672,12 @@ export default {
                 clearTimeout(progressAnimationTimeout)
             }
             // 停止計算音效
+            calculatingAudio.loop = false
             calculatingAudio.pause()
             calculatingAudio.currentTime = 0
             // 停止問題音效
             if (currentQuestionAudio) {
+                currentQuestionAudio.loop = false
                 currentQuestionAudio.pause()
                 currentQuestionAudio.currentTime = 0
             }
