@@ -415,7 +415,7 @@ export default {
         const p1VideoPlaying = ref(false) // 控制視頻顯示
         const p1ContentVisible = ref(false) // 控制 P1 內容初始顯示（延遲 1 秒）
         const showProgressBar = ref(false) // 控制進度條顯示
-        const progressWidth = ref(20) // 進度條寬度百分比（初始為 20% = 1/5）
+        const progressWidth = ref(0) // 進度條寬度百分比（初始為 0%）
         const p6Button1Clicked = ref(false) // 控制 P6 按鈕 1 點擊動畫
         const p6Button2Clicked = ref(false) // 控制 P6 按鈕 2 點擊動畫
         const p6ShareClicked = ref(false) // 控制 P6 分享按鈕點擊動畫
@@ -1404,6 +1404,12 @@ export default {
 
             // 延遲 1.5 秒後開始打字機效果，緊接在 p1-text-top 淡入完成後 (0.3s + 1.2s = 1.5s)
             setTimeout(() => {
+                // 播放打字音效
+                if (window.typingAudio) {
+                    window.typingAudio.currentTime = 0
+                    window.typingAudio.play().catch(err => console.log('Typing sound error:', err))
+                }
+
                 typewriterInterval = setInterval(() => {
                     if (index < length) {
                         p1TextBottom2Display.value += p1TextBottom2[index]
@@ -1411,6 +1417,11 @@ export default {
                     } else {
                         clearInterval(typewriterInterval)
                         typewriterInterval = null
+
+                        // 暫停打字音效
+                        if (window.typingAudio) {
+                            window.typingAudio.pause()
+                        }
                     }
                 }, 50) // 每 50 毫秒顯示一個字
             }, 1500)
@@ -1420,6 +1431,15 @@ export default {
         const startP1VideoAndTransition = () => {
             // 觸發按鈕縮放動畫
             p1ButtonClicked.value = true
+
+            // 清除打字機計時器和音效
+            if (typewriterInterval) {
+                clearInterval(typewriterInterval)
+                typewriterInterval = null
+            }
+            if (window.typingAudio) {
+                window.typingAudio.pause()
+            }
 
             // 延遲播放視頻並淡出文字和按鈕
             setTimeout(() => {
@@ -1559,12 +1579,15 @@ export default {
                 triggerGlowDelay()
             } else if (newStep === 4) {
                 // 進入 step 4 時，設置初始進度並在淡入完成後顯示進度條
-                progressWidth.value = 20 // 重置為 1/5
                 showProgressBar.value = false
                 // 等待淡入動畫完成（1秒）後顯示進度條
                 setTimeout(() => {
                     showProgressBar.value = true
                 }, 1000)
+
+                setTimeout(() => {
+                    progressWidth.value = 20 // 重置為 1/5
+                }, 1500)
 
                 // 停止背景音樂
                 fadeBgMusicOut()
@@ -3141,10 +3164,12 @@ button.option-item {
     position: relative;
     width: 100%;
     height: 3.37px;
-    border-radius: 20px;
+    border-radius: 50px;
     background: rgba(255, 255, 255, 0.4);
-    box-shadow: 0 0 16px 0 rgba(255, 255, 255, 0.4);
-    overflow: hidden;
+    box-shadow:
+        0 0 16px 0 rgba(255, 255, 255, 0.6),
+        0 0 24px 0 rgba(255, 255, 255, 0.4),
+        0 0 32px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* 進度條填充 */
@@ -3153,10 +3178,14 @@ button.option-item {
     top: 0;
     left: 0;
     height: 100%;
-    border-radius: 20px;
-    opacity: 0.8;
+    border-radius: 50px;
     background: #FFF;
-    box-shadow: 0 0 16px 0 #F7C908;
+    box-shadow:
+        0 0 8px 0px rgba(247, 201, 8, 0.6),
+        0 0 16px 1px rgba(247, 201, 8, 0.5),
+        0 0 24px 2px rgba(247, 201, 8, 0.4),
+        0 0 32px 2px rgba(247, 201, 8, 0.3),
+        0 0 40px 3px rgba(247, 201, 8, 0.2);
     transition: width 1s ease;
 }
 
