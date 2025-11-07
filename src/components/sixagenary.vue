@@ -385,11 +385,17 @@
 <script>
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import calculatingSound from '@/assets/audios/calculating.mp3'
+// 萬壑松風圖音效
 import forestSound from '@/assets/audios/01_樹林環境音.mp3'
 import streamSound from '@/assets/audios/02_溪流水聲轟鳴.mp3'
 import mistSound from '@/assets/audios/03_雲霧繚繞.mp3'
 import mistOpenSound from '@/assets/audios/04-1_雲霧散開.mp3'
 import guzhengSound from '@/assets/audios/05_找到文字（古箏）.mp3'
+// 谿山行旅圖音效
+import waterfallFarSound from '@/assets/audios/01_瀑布聲（遠）.mp3'
+import waterfallNearSound from '@/assets/audios/02_瀑布聲（近）.mp3'
+import donkeySound from '@/assets/audios/03_驢隊.mp3'
+import signatureSound from '@/assets/audios/05_找到簽名.mp3'
 
 export default {
     name: 'sixagenary',
@@ -422,7 +428,7 @@ export default {
         calculatingAudio.loop = true
         calculatingAudio.volume = 0.5
 
-        // 萬壑松風圖問題音效
+        // 問題音效
         const questionAudios = {
             1: [ // 萬壑松風圖
                 new Audio(forestSound),      // Q1
@@ -430,6 +436,13 @@ export default {
                 new Audio(mistSound),        // Q3
                 new Audio(mistOpenSound),    // Q4
                 new Audio(guzhengSound)      // Q5
+            ],
+            2: [ // 谿山行旅圖
+                new Audio(waterfallFarSound),  // Q1
+                new Audio(waterfallNearSound), // Q2
+                new Audio(donkeySound),        // Q3
+                new Audio(donkeySound),        // Q4 (same as Q3)
+                new Audio(signatureSound)      // Q5
             ]
         }
 
@@ -503,6 +516,17 @@ export default {
             if (document.hidden) {
                 // 頁面被隱藏時停止所有音效
                 stopAllAudio()
+            } else {
+                // 頁面恢復可見時，如果在 step 4 則恢復問題音效
+                if (step.value === 4 && questionAudios[type.value] && questionAudios[type.value][questionNum.value]) {
+                    console.log('恢復播放問題音效 - step:', step.value, 'type:', type.value, 'question:', questionNum.value)
+                    currentQuestionAudio = questionAudios[type.value][questionNum.value]
+                    currentQuestionAudio.loop = true
+                    currentQuestionAudio.currentTime = 0
+                    currentQuestionAudio.play().catch(err => {
+                        console.log('恢復問題音效播放失敗:', err)
+                    })
+                }
             }
         }
 
@@ -1531,9 +1555,9 @@ export default {
                 // 停止背景音樂
                 fadeBgMusicOut()
 
-                // 如果是萬壑松風圖（type = 1），播放第一個問題的音效
-                if (type.value === 1 && questionAudios[1] && questionAudios[1][0]) {
-                    currentQuestionAudio = questionAudios[1][0]
+                // 播放第一個問題的音效（如果該類型有音效）
+                if (questionAudios[type.value] && questionAudios[type.value][0]) {
+                    currentQuestionAudio = questionAudios[type.value][0]
                     currentQuestionAudio.loop = true
                     currentQuestionAudio.currentTime = 0
                     currentQuestionAudio.play().catch(err => {
@@ -1620,9 +1644,9 @@ export default {
                     currentQuestionAudio = null
                 }
 
-                // 如果是萬壑松風圖（type = 1），播放對應的問題音效
-                if (type.value === 1 && questionAudios[1] && questionAudios[1][newQuestionNum]) {
-                    currentQuestionAudio = questionAudios[1][newQuestionNum]
+                // 播放對應的問題音效（如果該類型有音效）
+                if (questionAudios[type.value] && questionAudios[type.value][newQuestionNum]) {
+                    currentQuestionAudio = questionAudios[type.value][newQuestionNum]
                     currentQuestionAudio.loop = true
                     currentQuestionAudio.currentTime = 0
                     currentQuestionAudio.play().catch(err => {
