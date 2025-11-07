@@ -1235,15 +1235,15 @@ export default {
         }
 
         // 觸發光暈延遲顯示
-        const triggerGlowDelay = () => {
-            showGlow.value = false
-            if (glowTimeout) {
-                clearTimeout(glowTimeout)
-            }
-            glowTimeout = setTimeout(() => {
-                showGlow.value = true
-            }, 600)
-        }
+        // const triggerGlowDelay = () => {
+        //     showGlow.value = false
+        //     if (glowTimeout) {
+        //         clearTimeout(glowTimeout)
+        //     }
+        //     glowTimeout = setTimeout(() => {
+        //         showGlow.value = true
+        //     }, 600)
+        // }
 
         // 计算卡片样式
         const getCardStyle = (index) => {
@@ -1332,7 +1332,6 @@ export default {
                 newIndex = cards.value.length - 1
             }
             currentCardIndex.value = newIndex
-            triggerGlowDelay()
             console.log('上一張 - 索引:', newIndex, '卡片:', cards.value[newIndex].name)
         }
 
@@ -1343,7 +1342,6 @@ export default {
                 newIndex = 0
             }
             currentCardIndex.value = newIndex
-            triggerGlowDelay()
             console.log('下一張 - 索引:', newIndex, '卡片:', cards.value[newIndex].name)
         }
 
