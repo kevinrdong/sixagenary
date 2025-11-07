@@ -25,7 +25,7 @@
             </div>
             <!-- P1-1 劇情前導 -->
             <div class="p1-screen" v-else-if="step == 1" key="p1">
-                <div class="p1-content" :class="{ 'p1-text-fade-out': p1TextHidden }">
+                <div class="p1-content" :class="{ 'p1-text-fade-out': p1TextHidden, 'p1-content-hidden': !p1ContentVisible }">
                     <!-- 上方文字说明 -->
                     <div class="p1-text-top">
                         <div class="p1-text-top-line1" v-html="p1TextTop1Display"></div>
@@ -44,7 +44,7 @@
                 ></video>
 
                 <!-- 下方内容 -->
-                <div class="p1-bottom-section" :class="{ 'p1-text-fade-out': p1TextHidden }">
+                <div class="p1-bottom-section" :class="{ 'p1-text-fade-out': p1TextHidden, 'p1-content-hidden': !p1ContentVisible }">
                     <div class="p1-text-bottom">
                         <!-- <div class="p1-text-bottom-line1" v-html="p1TextBottom1Display"></div> -->
                         <div class="p1-text-bottom-line2" v-html="p1TextBottom2Display"></div>
@@ -413,6 +413,7 @@ export default {
         const p1ButtonClicked = ref(false) // 控制按鈕點擊縮放動畫
         const p1TextHidden = ref(false) // 控制文字隱藏
         const p1VideoPlaying = ref(false) // 控制視頻顯示
+        const p1ContentVisible = ref(false) // 控制 P1 內容初始顯示（延遲 1 秒）
         const showProgressBar = ref(false) // 控制進度條顯示
         const progressWidth = ref(20) // 進度條寬度百分比（初始為 20% = 1/5）
         const p6Button1Clicked = ref(false) // 控制 P6 按鈕 1 點擊動畫
@@ -1545,8 +1546,14 @@ export default {
         // 監聽 step 變化
         watch(step, (newStep) => {
             if (newStep === 1) {
-                // 進入 P1 頁面時啟動打字機效果
-                startTypewriter()
+                // 進入 P1 頁面時先隱藏內容
+                p1ContentVisible.value = false
+                // 延遲 1 秒後顯示內容，確保視頻載入完成
+                setTimeout(() => {
+                    p1ContentVisible.value = true
+                    // 啟動打字機效果
+                    startTypewriter()
+                }, 1000)
             } else if (newStep === 3) {
                 // 進入卡片選擇頁面時觸發光暈延遲
                 triggerGlowDelay()
@@ -1768,6 +1775,7 @@ export default {
             p1ButtonClicked,
             p1TextHidden,
             p1VideoPlaying,
+            p1ContentVisible,
             onP1VideoEnded,
             showProgressBar,
             progressWidth,
@@ -2418,6 +2426,10 @@ button.option-item {
 .p1-text-bottom-line2 {
     /* 使用打字機效果，不需要淡入動畫 */
     color: #FFFFFF;
+}
+
+.p1-content-hidden {
+    opacity: 0 !important;
 }
 
 .p1-text-fade-out {
