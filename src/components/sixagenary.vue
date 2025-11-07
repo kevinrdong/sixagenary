@@ -2726,12 +2726,7 @@ button.option-item {
 
 .p3-card-selected {
     border: 2px solid rgba(255, 255, 255, 0.6);
-    box-shadow:
-        0px 0px 20px 5px rgba(255, 255, 255, 0.3),
-        0px 0px 40px 10px rgba(255, 255, 255, 0.25),
-        0px 0px 60px 15px rgba(255, 255, 255, 0.2),
-        0px 0px 80px 20px rgba(255, 255, 255, 0.1),
-        0px 16px 32px 0px rgba(0, 0, 0, 0.6);
+    box-shadow: 0px 0px 10px 2.5px rgba(255, 255, 255, 0.3), 0px 0px 20px 5px rgba(255, 255, 255, 0.2), 0px 0px 30px 7.5px rgba(255, 255, 255, 0.1), 0px 8px 16px 0px rgba(0, 0, 0, 0.4);
 }
 
 .p3-card img {
