@@ -1011,7 +1011,7 @@ export default {
                 [
                     {
                         image: require('../assets/images/option-1.svg'),
-                        text: '等等！1072年？是哪個朝代？',
+                        text: '等等！1072年？是哪個朝代...',
                         tag: [4],
                     },
                     {
@@ -3135,7 +3135,7 @@ button.option-item {
     z-index: 1;
     transition: all 0.6s ease;
     letter-spacing: 1px;
-    text-shadow: 0 0px 5px #624E45;
+    text-shadow: 0 2px 4px #624E45;
 }
 
 /* P6 按鈕點擊特效 */
