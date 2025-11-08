@@ -3289,7 +3289,7 @@ button.option-item {
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
     font-size: 15px;
     line-height: 1.8;
-    margin-bottom: 60px;
+    margin-bottom: 10px;
 }
 
 .desktop-text p {
@@ -3300,6 +3300,7 @@ button.option-item {
     width: auto;
     max-width: 100px;
     height: auto;
+    margin: 30px 0px;
 }
 
 
