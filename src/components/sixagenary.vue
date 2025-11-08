@@ -1956,7 +1956,7 @@ export default {
 } */
 .option-item {
     position: relative;
-    padding: 12px 35px;
+    padding: 12px 20px;
     width: 310px;
     height: 40px;
     font-size: 13px;
