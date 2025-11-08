@@ -2231,7 +2231,7 @@ button.option-item {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 50px;
+    padding: 24px 50px;
     /* background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 63%); */
     background: rgb(199 190 44);
     z-index: 3;
