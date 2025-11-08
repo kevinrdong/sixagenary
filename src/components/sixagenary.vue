@@ -2196,7 +2196,7 @@ button.option-item {
     overflow: hidden;
     background-image: url('~@/assets/images/step0_main.png');
     background-size: cover;
-    background-position: center;
+    background-position: center -90px;
     background-repeat: no-repeat;
 }
 
