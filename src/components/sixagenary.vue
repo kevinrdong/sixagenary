@@ -2226,12 +2226,12 @@ button.option-item {
     bottom: 0;
     left: 0;
     width: 100%;
-    min-height: 110px;
+    min-height: 95px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 24px 50px;
+    padding: 15px 50px;
     /* background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 63%); */
     background: rgb(199 190 44);
     z-index: 3;
@@ -2297,7 +2297,7 @@ button.option-item {
 
 .p0-sponsor-image {
     position: absolute;
-    bottom: 30px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
     width: 220px;
