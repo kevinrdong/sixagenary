@@ -2657,7 +2657,7 @@ button.option-item {
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
     font-size: 15px;
     line-height: 1.5em;
-    top: 4%;
+    top: 8%;
     position: absolute;
     z-index: 1;
 }
@@ -2676,7 +2676,7 @@ button.option-item {
     align-items: center;
     justify-content: space-around;
     gap: 40px;
-    padding: 100px 0 80px;
+    padding: 100px 0 60px;
     box-sizing: border-box;
     background: #000;
 }
