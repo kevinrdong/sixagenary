@@ -711,7 +711,17 @@ export default {
             const videoSource = isWideScreen.value
                 ? options.value.backgroundVideosTablet
                 : options.value.backgroundVideos
-            return videoSource['q' + type.value][questionNum.value]
+            const videoUrl = videoSource['q' + type.value][questionNum.value]
+
+            console.log('currentBackgroundVideo 變更:', {
+                screenType: isWideScreen.value ? 'tablet' : 'mobile',
+                type: type.value,
+                questionNum: questionNum.value,
+                videoUrl: videoUrl?.substring(0, 80),
+                isInPreloadList: preloadVideoList.value.includes(videoUrl)
+            })
+
+            return videoUrl
         })
 
         // const currentOptions = computed(() => {
@@ -1564,7 +1574,13 @@ export default {
                 img.src = imgSrc
             })
 
-            console.log('預載入', preloadVideoList.value.length, '個視頻和', cardImages.length, '張圖片')
+            console.log('預載入資源:', {
+                screenType: isWideScreen.value ? 'tablet' : 'mobile',
+                windowWidth: window.innerWidth,
+                videoCount: preloadVideoList.value.length,
+                imageCount: cardImages.length,
+                videoSample: preloadVideoList.value.slice(2, 5).map(v => v.substring(v.lastIndexOf('/') + 1))
+            })
         }
 
         onMounted(() => {
