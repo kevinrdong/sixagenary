@@ -2226,7 +2226,7 @@ button.option-item {
     bottom: 0;
     left: 0;
     width: 100%;
-    min-height: 85px;
+    min-height: 110px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
