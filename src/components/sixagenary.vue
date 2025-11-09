@@ -3097,11 +3097,11 @@ button.option-item {
 /* 平板裝置 - P6 背景圖片與容器高度限制 */
 @media (min-width: 768px) {
     .p6-background-image {
-        max-height: 2000px;
+        max-height: 1300px;
     }
 
     .p6-container {
-        max-height: 1975px;
+        max-height: 1300px;
     }
 }
 
@@ -3144,6 +3144,14 @@ button.option-item {
     pointer-events: none;
 }
 
+/* 平板裝置 - P6 結果圖片寬度調整 */
+@media (min-height: 1023px) {
+    .p6-result-image {
+        width: 56% !important;
+        margin: 0 auto;
+    }
+}
+
 .p6-download-image {
     width: 100%;
     height: auto;
@@ -3161,6 +3169,13 @@ button.option-item {
     pointer-events: auto !important;
 }
 
+/* 平板裝置 - P6 下載圖片高度限制 */
+@media (min-height: 1023px) {
+    .p6-download-image {
+        max-height: 1200px !important;
+    }
+}
+
 .p6-buttons {
     width: 100%;
     display: flex;
@@ -3171,6 +3186,13 @@ button.option-item {
     margin-top: 10px;
     box-sizing: border-box;
     position: relative;
+}
+
+/* 平板裝置 - P6 按鈕區域往下移 */
+@media (min-height: 1023px) {
+    .p6-buttons {
+        margin-top: 45px !important;
+    }
 }
 
 .p6-btn {
