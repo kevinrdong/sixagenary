@@ -4,6 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import bgMusic from './assets/audios/bg.mp3'
 import clickSound from './assets/audios/click.mp3'
+import typingSound from './assets/audios/02_打字聲.mp3'
 
 
 createApp(App).mount('#app')
@@ -16,6 +17,13 @@ audio.loop = true
 audio.volume = 0.5
 // 將背景音樂暴露到全局，以便組件控制
 window.bgAudio = audio
+
+// 創建打字音效對象
+const typingAudio = new Audio(typingSound)
+typingAudio.loop = false
+typingAudio.volume = 0.7
+// 將打字音效暴露到全局
+window.typingAudio = typingAudio
 
 // 使用 Web Audio API 預載音效（更低延遲）
 const audioContext = new (window.AudioContext || window.webkitAudioContext)()

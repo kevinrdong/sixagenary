@@ -1,13 +1,25 @@
 <template>
     <div class="app-container">
-        <transition name="fade" mode="out-in">
+        <!-- 桌面裝置不支援提示頁面 -->
+        <div v-if="isDesktop" class="desktop-unsupported">
+            <div class="desktop-content">
+                <div class="desktop-text">
+                    <p>您的裝置目前不支援此遊戲。</p>
+                    <p>請使用支援 iOS 11 或 Android 8.0（Oreo）以上版本的手機或平板，掃描 QRcode 進入遊戲。</p>
+                </div>
+                <img :src="require('@/assets/images/desktop-qrcode.png')" alt="qrcode" class="desktop-qrcode" />
+                <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="desktop-logo" />
+            </div>
+        </div>
+
+        <transition v-else name="fade" mode="out-in">
             <!-- 入口 -->
             <div class="p0-screen" v-if="step == 0" @click="step = 1" key="p0">
 
                 <!-- 文本容器 -->
                 <div class="p0-text-container" ref="textContainer">
                     <div class="p0-title-container">
-                        <div class="p0-title">人生太難，不如躲進異世界中！</div>
+                        <div class="p0-title">人生太難，不如躲進異世界中 !</div>
                     </div>
                 </div>
 
@@ -52,7 +64,7 @@
 
                     <!-- 按钮 -->
                     <div class="p1-button" :class="{ 'p1-button-scale-up': p1ButtonClicked }" @click="startP1VideoAndTransition">
-                        <img :src="require('@/assets/images/p1-button-bg.svg')" alt="按鈕背景" class="p1-button-bg" />
+                        <img :src="require('@/assets/images/p1-button-bg.png')" alt="按鈕背景" class="p1-button-bg" />
                         <span class="p1-button-text">進入異世界冒險</span>
                     </div>
 
@@ -61,7 +73,7 @@
                 </div>
 
                 <!-- Logo -->
-                <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p1-logo" />
+                <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="p1-logo" />
             </div>
 
             <div class="question-screen" v-else-if="step == 3" key="p3">
@@ -105,20 +117,20 @@
                     <div class="p3-button-group">
                         <!-- 确定按钮 -->
                         <div class="p3-button" @click="confirmSelection">
-                            <img :src="require('@/assets/images/p1-button-bg.svg')" alt="按鈕背景" class="p3-button-bg" />
+                            <img :src="require('@/assets/images/p3-button-bg.png')" alt="按鈕背景" class="p3-button-bg" />
                             <span class="p3-button-text">確定</span>
                         </div>
 
                         <!-- 重新选择按钮 -->
                         <!-- <div class="p3-button" @click="resetSelection">
-                            <img :src="require('@/assets/images/p1-button-bg.svg')" alt="按鈕背景" class="p3-button-bg" />
+                            <img :src="require('@/assets/images/p1-button-bg.png')" alt="按鈕背景" class="p3-button-bg" />
                             <span class="p3-button-text">重新選擇</span>
                         </div> -->
                     </div>
                 </div>
 
                 <!-- Logo -->
-                <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p3-logo" />
+                <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="p3-logo" />
             </div>
             <div id="question-container" class="question-screen" v-else-if="step == 4" key="p4">
                 <transition name="fade" mode="out-in">
@@ -144,7 +156,7 @@
                         <!-- 內容區 -->
                         <div class="content">
                             <!-- Logo -->
-                            <img src="../assets/images/logo.png" alt="Logo" class="logo" />
+                            <img src="../assets/images/white_logo.png" alt="Logo" class="logo" />
 
                             <!-- 展覽資訊文字 -->
                             <div class="exhibition-text">
@@ -291,7 +303,7 @@
                         </div>
                     </div>
                 </transition>
-                <!-- <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p3-logo" /> -->
+                <!-- <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="p3-logo" /> -->
             </div>
             <div class="question-screen" v-else-if="step == 5" key="p5">
                 <!-- 背景視頻 -->
@@ -321,7 +333,7 @@
                     </div>
 
                     <!-- Logo -->
-                    <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p5-logo" />
+                    <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="p5-logo" />
                 </div>
             </div>
             <div class="question-screen p6-screen" v-else-if="step == 6" key="p6">
@@ -341,6 +353,7 @@
 
                         <!-- 按鈕區 -->
                         <div class="p6-buttons">
+                            <span class="p6-share-text" style="position: absolute; top: -34px;">▲ 長按圖片下載你的靈魂逃跑指南 ▲</span>
                             <button class="p6-btn" :class="{ 'p6-btn-scale-up': p6Button1Clicked }" @click="handleP6Button1Click">
                                 <span class="p6-btn-text">點擊瞭解更多《甲子萬年特展》</span>
                             </button>
@@ -351,14 +364,14 @@
                             <!-- 分享提示區 -->
                             <div class="p6-share-section">
                                 <div class="p6-share-link" :class="{ 'p6-share-link-scale-up': p6ShareClicked }" @click="handleP6ShareClick">
-                                    <span class="p6-share-text">分享你的心得，拿南故宮限量好禮！</span>
+                                    <span class="p6-share-text" style="font-size: 15px;">分享心得拿故宮南院限量好禮！</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Logo -->
-                    <img :src="require('@/assets/images/logo-southern-museum.svg')" alt="Logo" class="p6-logo" />
+                    <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="p6-logo" />
                 </div>
             </div>
         </transition>
@@ -395,12 +408,22 @@ import signatureSound from '@/assets/audios/05_找到簽名.mp3'
 // 早春圖音效
 import forestEnvSound from '@/assets/audios/02_林間環境音.mp3'
 import poleBoatSound from '@/assets/audios/03_撐竿划水.mp3'
-import woodCreakSound from '@/assets/audios/04_木板嘎吱聲+水聲+小狗叫聲_更新.mp3'
+import woodCreakSound from '@/assets/audios/04_木板嘎吱聲_水聲_小狗叫聲.mp3'
 import footstepsSound from '@/assets/audios/05_腳步聲_更新.mp3'
 
 export default {
     name: 'sixagenary',
     setup() {
+        // 檢測是否為桌面裝置
+        const isDesktop = ref(false)
+        const checkDevice = () => {
+            const userAgent = navigator.userAgent.toLowerCase()
+            const isMobile = /mobile|android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent)
+            const isTablet = /tablet|ipad/i.test(userAgent)
+            // 如果不是移動設備或平板，則為桌面
+            isDesktop.value = !isMobile && !isTablet
+        }
+
         const type = ref(1)
         const step = ref(0)
         const questionNum = ref(0)
@@ -415,7 +438,7 @@ export default {
         const p1VideoPlaying = ref(false) // 控制視頻顯示
         const p1ContentVisible = ref(false) // 控制 P1 內容初始顯示（延遲 1 秒）
         const showProgressBar = ref(false) // 控制進度條顯示
-        const progressWidth = ref(20) // 進度條寬度百分比（初始為 20% = 1/5）
+        const progressWidth = ref(0) // 進度條寬度百分比（初始為 0%）
         const p6Button1Clicked = ref(false) // 控制 P6 按鈕 1 點擊動畫
         const p6Button2Clicked = ref(false) // 控制 P6 按鈕 2 點擊動畫
         const p6ShareClicked = ref(false) // 控制 P6 分享按鈕點擊動畫
@@ -447,8 +470,8 @@ export default {
                 new Audio(signatureSound)      // Q5
             ],
             3: [ // 早春圖
-                new Audio(streamSound),        // Q1 (reuse from 萬壑松風圖 Q2)
-                new Audio(forestEnvSound),     // Q2
+                new Audio(forestEnvSound),     // Q1 
+                new Audio(streamSound),        // Q2 (reuse from 萬壑松風圖 Q2)
                 new Audio(poleBoatSound),      // Q3
                 new Audio(woodCreakSound),     // Q4
                 new Audio(footstepsSound)      // Q5
@@ -620,8 +643,8 @@ export default {
         }
 
         // P1 文字內容
-        const p1TextTop1 = '忙碌的日常幾乎壓垮了你，在學校、工作、家庭間漫無目的地累積壓力——是時候讓靈魂放鬆，把腦中暫存檔歸零。'
-        const p1TextTop2 = '累了不是你的錯，但你可以選擇暫時逃跑！'
+        const p1TextTop1 = '忙碌的日常幾乎壓垮了你，在學校、工作、家庭間漫無目的地累積壓力——是時候讓靈魂放鬆，把腦中暫存檔歸零。';
+        const p1TextTop2 = '累了不是你的錯，但你可以選擇逃跑！'
         const p1TextBottom1 = '人生太難，不如躲進異世界中'
         const p1TextBottom2 = '▼ 點擊下方按鈕，讓靈魂暫時逃離日常 ▼'
         const p1TextTop1Display = ref(p1TextTop1)
@@ -644,11 +667,11 @@ export default {
         }
         const question = ref({
             q1: [
-                {t1:'一覺醒來，你發現自己身在畫中', t2:'踏入幽谷，聽見松林「沙沙」響起<br>你腦中浮現什麼想法？'},
-                {t1:'沒有發現什麼特別的事情', t2:'再往前走，你聽見山谷水聲轟鳴<br>此時你決定...？'},
-                {t1:'站在原地、環顧四周', t2:'忽然山谷之間雲霧繚繞<br>你會想...'},
+                {t1:'穿越時空，發現自己身在畫中', t2:'踏進幽谷，聽見松林「沙沙」響起，你腦中浮現什麼想法？'},
+                {t1:'沒有發現什麼特別的事情', t2:'再往前走，你聽見山谷水聲轟鳴，此時你決定...？'},
+                {t1:'站在原地、環顧四周', t2:'忽然山谷之間雲霧繚繞，你會想：'},
                 {t1:'雲霧散開後，你走近觀看山石<br>發現紋理像斧頭劈開的痕跡，彷彿具有多層次空間！', t2:'哪句話首先跳進你的腦中？'},
-                {t1:'邊思考邊走著...你在山峰某處，隱約看見有文字<br>', t2:'你會選擇做什麼事？'},
+                {t1:'邊思考邊走著...你在山峰某處隱約看見有文字', t2:'你會選擇做什麼事？'},
             ],
             q2: [
                 {t1:'剛走進畫中，抬頭仰望', t2:'面對眼前聳立的巨山與飛瀑<br>你的第一反應是？'},
@@ -887,7 +910,7 @@ export default {
                 [
                     {
                         image: require('../assets/images/option-1.svg'),
-                        text: '樹枝當劍，大喊：「何方妖怪，全部退下」',
+                        text: '拿樹枝當劍，大喊「何方妖怪！」',
                         tag: [2, 5],
                     },
                     {
@@ -989,7 +1012,7 @@ export default {
                 [
                     {
                         image: require('../assets/images/option-1.svg'),
-                        text: '等等！1072年？是哪個朝代？',
+                        text: '等等！1072年？是哪個朝代...',
                         tag: [4],
                     },
                     {
@@ -1404,6 +1427,12 @@ export default {
 
             // 延遲 1.5 秒後開始打字機效果，緊接在 p1-text-top 淡入完成後 (0.3s + 1.2s = 1.5s)
             setTimeout(() => {
+                // 播放打字音效
+                if (window.typingAudio) {
+                    window.typingAudio.currentTime = 0
+                    window.typingAudio.play().catch(err => console.log('Typing sound error:', err))
+                }
+
                 typewriterInterval = setInterval(() => {
                     if (index < length) {
                         p1TextBottom2Display.value += p1TextBottom2[index]
@@ -1411,6 +1440,11 @@ export default {
                     } else {
                         clearInterval(typewriterInterval)
                         typewriterInterval = null
+
+                        // 暫停打字音效
+                        if (window.typingAudio) {
+                            window.typingAudio.pause()
+                        }
                     }
                 }, 50) // 每 50 毫秒顯示一個字
             }, 1500)
@@ -1420,6 +1454,15 @@ export default {
         const startP1VideoAndTransition = () => {
             // 觸發按鈕縮放動畫
             p1ButtonClicked.value = true
+
+            // 清除打字機計時器和音效
+            if (typewriterInterval) {
+                clearInterval(typewriterInterval)
+                typewriterInterval = null
+            }
+            if (window.typingAudio) {
+                window.typingAudio.pause()
+            }
 
             // 延遲播放視頻並淡出文字和按鈕
             setTimeout(() => {
@@ -1511,6 +1554,9 @@ export default {
         }
 
         onMounted(() => {
+            // 檢測設備類型
+            checkDevice()
+
             nextTick(() => {
                 if (textContainer.value) {
                     const height = textContainer.value.offsetHeight
@@ -1559,12 +1605,15 @@ export default {
                 triggerGlowDelay()
             } else if (newStep === 4) {
                 // 進入 step 4 時，設置初始進度並在淡入完成後顯示進度條
-                progressWidth.value = 20 // 重置為 1/5
                 showProgressBar.value = false
                 // 等待淡入動畫完成（1秒）後顯示進度條
                 setTimeout(() => {
                     showProgressBar.value = true
                 }, 1000)
+
+                setTimeout(() => {
+                    progressWidth.value = 20 // 重置為 1/5
+                }, 1500)
 
                 // 停止背景音樂
                 fadeBgMusicOut()
@@ -1732,6 +1781,7 @@ export default {
         })
 
         return {
+            isDesktop,
             type,
             step,
             options,
@@ -1907,37 +1957,38 @@ export default {
 } */
 .option-item {
     position: relative;
-    background: #ffffff;
+    padding: 12px 20px;
     width: 310px;
     height: 40px;
     font-size: 13px;
     font-weight: 500;
-    padding: 8px 74px;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.2s ease;
+    background-color: rgba(255, 255, 255, 0.75);
     color: #524735;
-    border: 1.5px solid #524735;
+    border: none;
     border-radius: 50px;
-    box-shadow: 0 0 0 #fec1958c;
-    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8);
+    transition: all 1s ease-out;
     cursor: pointer;
-    margin: 5px auto;
-    padding: 10px 30px;
-    display: inline-block;
     overflow: visible;
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
     -webkit-tap-highlight-color: transparent;
     outline: none;
+    font-size: 13px;
+    font-weight: 500;
+    margin: 5px auto;
+    display: inline-block;
 }
 
 /* 桌面裝置 hover 效果 */
 @media (hover: hover) and (pointer: fine) {
   .option-item:hover {
-    background-color: #524735 !important;
-    color: #ffffff !important;
-    box-shadow: 0 0 25px #fec1958c !important;
+    background: transparent;
+    background-color: #524735;
+    color: #ffffff;
+    box-shadow: 0 0 25px #fec1958c;
   }
 
   /* 防止星星繼承 hover 狀態的背景色 */
@@ -1955,7 +2006,7 @@ export default {
 .option-item-touched {
   background-color: #524735 !important;
   color: #ffffff !important;
-  box-shadow: 0 0 25px #fec1958c !important;
+  box-shadow: 0 0 25px #fec1958c, inset 0 0 20px rgba(255, 255, 255, 0.3) !important;
 }
 
 /* 防止星星繼承 touched 狀態的背景色 */
@@ -1972,7 +2023,7 @@ export default {
 .option-item-selected {
   background-color: #524735 !important;
   color: #ffffff !important;
-  box-shadow: 0 0 25px #fec1958c !important;
+  box-shadow: 0 0 25px #fec1958c, inset 0 0 20px rgba(255, 255, 255, 0.3) !important;
 }
 
 /* 防止星星繼承 selected 狀態的背景色 */
@@ -2041,8 +2092,8 @@ button.option-item {
 .option-item-touched .star-5,
 .option-item:active .star-6,
 .option-item-touched .star-6 {
-  opacity: 1 !important;
-  transform: scale(1.5) !important;
+  opacity: 1;
+  transform: scale(0.7);
 }
 
 /* 桌面裝置：hover 時顯示星星 */
@@ -2053,8 +2104,8 @@ button.option-item {
   .option-item:hover .star-4,
   .option-item:hover .star-5,
   .option-item:hover .star-6 {
-    opacity: 1 !important;
-    transform: scale(1.5) !important;
+    opacity: 1;
+    transform: scale(0.7);
   }
 }
 
@@ -2078,12 +2129,13 @@ button.option-item {
 .star-1, .star-2, .star-3, .star-4, .star-5, .star-6 {
   position: absolute;
   height: auto;
-  z-index: 10;
-  filter: drop-shadow(0 0 10px #fffdef);
+  z-index: 2;
+  filter: drop-shadow(0 0 3px #fffdef);
   pointer-events: none;
   opacity: 0;
   transform: scale(0);
   background: transparent !important;
+  transition: opacity 0.3s ease-out 0.3s, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) 0.3s;
 }
 
 .star-1 svg, .star-2 svg, .star-3 svg, .star-4 svg, .star-5 svg, .star-6 svg {
@@ -2091,12 +2143,12 @@ button.option-item {
   display: block;
 }
 
-.star-1 { top: 13%; left: -4%; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-2 { top: -21%; left: 9%; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-3 { top: 87%; left: 12%; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-4 { top:82%; left: 90%; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-5 { top: 43%; left: 100%; width: 8px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-.star-6 { top: 3%; left: 85%; width: 5px; transition: opacity 0.6s ease-out, transform 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+.star-1 { top: 23%; left: -2%; width: 8px; }
+.star-2 { top: -15%; left: 17%; width: 8px; }
+.star-3 { top: 85%; left: 32%; width: 5px; }
+.star-4 { top: 60%; left: 80%; width: 5px; }
+.star-5 { top: 45%; left: 100%; width: 8px; }
+.star-6 { top: 5%; left: 72%; width: 5px; }
 
 
 .option-text {
@@ -2144,7 +2196,7 @@ button.option-item {
     overflow: hidden;
     background-image: url('~@/assets/images/step0_main.png');
     background-size: cover;
-    background-position: center;
+    background-position: center -90px;
     background-repeat: no-repeat;
 }
 
@@ -2179,7 +2231,7 @@ button.option-item {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 50px;
+    padding: 8px 50px;
     /* background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 63%); */
     background: rgb(199 190 44);
     z-index: 3;
@@ -2207,15 +2259,15 @@ button.option-item {
 .p0-subtitle-wrapper {
     position: absolute;
     left: 50%;
-    top: 235px;
+    top: 240px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 4px 12px;
+    padding: 4px 25px;
     background-color: #FFFFFF;
     border-radius: 20px;
     animation: subtleRipple 2.6s ease-in-out infinite;
-    box-shadow: 0 0 8px #5B3000;
+    box-shadow: 0 0 8px 0 rgba(91, 48, 0, 0.6);
     transform: translateX(-50%) scale(1.2);
     z-index: 2;
 }
@@ -2245,10 +2297,10 @@ button.option-item {
 
 .p0-sponsor-image {
     position: absolute;
-    bottom: 30px;
+    bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 170px;
+    width: 220px;
     height: auto;
     z-index: 3;
 }
@@ -2512,6 +2564,32 @@ button.option-item {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+}
+
+.p1-button:hover .p1-button-bg {
+    opacity: 0;
+}
+
+.p1-button::before {
+    content: '';
+    position: absolute;
+    width: 283px;
+    height: 26.24px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url('~@/assets/images/p1-button-bg-hover.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.p1-button:hover::before {
+    opacity: 1;
 }
 
 .p1-button-text {
@@ -2519,7 +2597,7 @@ button.option-item {
     color: #FFFFFF;
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
     font-weight: 900;
-    font-size: 13px;
+    font-size: 15px;
     line-height: 1.8462em;
     letter-spacing: 0.1538em;
     text-align: center;
@@ -2531,12 +2609,12 @@ button.option-item {
 
 .p1-sound-hint {
     margin-top: 8px;
-    color: #ECB757;
+    color: gray;
     text-align: center;
     font-feature-settings: 'liga' off, 'clig' off;
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.25);
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
-    font-size: 13px;
+    font-size: 12px;
     font-style: normal;
     font-weight: 900;
     line-height: 28px;
@@ -2579,7 +2657,7 @@ button.option-item {
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
     font-size: 15px;
     line-height: 1.5em;
-    top: 2%;
+    top: 8%;
     position: absolute;
     z-index: 1;
 }
@@ -2598,7 +2676,7 @@ button.option-item {
     align-items: center;
     justify-content: space-around;
     gap: 40px;
-    padding: 100px 0 80px;
+    padding: 100px 0 60px;
     box-sizing: border-box;
     background: #000;
 }
@@ -2644,15 +2722,12 @@ button.option-item {
     margin-left: 0;
     margin-top: calc(-212px * 0.85); /* 半個卡片高度 * scale */
     border-radius: 20px;
+    overflow: hidden;
 }
 
 .p3-card-selected {
     border: 2px solid rgba(255, 255, 255, 0.6);
-    box-shadow:
-        0px 0px 10px 2.5px rgba(255, 255, 255, 0.3),
-        0px 0px 20px 5px rgba(255, 255, 255, 0.2),
-        0px 0px 30px 7.5px rgba(255, 255, 255, 0.1),
-        0px 8px 16px 0px rgba(0, 0, 0, 0.4);
+    box-shadow: 0px 0px 10px 2.5px rgba(255, 255, 255, 0.3), 0px 0px 20px 5px rgba(255, 255, 255, 0.2), 0px 0px 30px 7.5px rgba(255, 255, 255, 0.1), 0px 8px 16px 0px rgba(0, 0, 0, 0.4);
 }
 
 .p3-card img {
@@ -2678,7 +2753,7 @@ button.option-item {
 
 .p3-button-group {
     position: relative;
-    width: 302px;
+    width: 150px;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -2687,7 +2762,7 @@ button.option-item {
 
 .p3-button {
     position: relative;
-    width: 302px;
+    width: 150px;
     height: 28px;
     display: flex;
     align-items: center;
@@ -2706,6 +2781,31 @@ button.option-item {
     height: 100%;
     left: 0;
     top: 0;
+    transition: opacity 0.3s ease;
+}
+
+.p3-button:hover .p3-button-bg {
+    opacity: 0;
+}
+
+.p3-button::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-image: url('~@/assets/images/p1-button-bg-hover.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+.p3-button:hover::before {
+    opacity: 1;
 }
 
 .p3-button-text {
@@ -2713,7 +2813,7 @@ button.option-item {
     color: #FFFFFF;
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
     font-weight: 900;
-    font-size: 13px;
+    font-size: 15px;
     line-height: 1.8462em;
     letter-spacing: 0.1538em;
     text-align: center;
@@ -2949,7 +3049,7 @@ button.option-item {
 }
 
 .p6-image-wrapper {
-    width: 98%;
+    width: 100%;
     position: relative;
     /* 明確啟用長按保存功能，覆蓋父元素的限制 */
     -webkit-touch-callout: default !important;
@@ -2999,6 +3099,7 @@ button.option-item {
     padding: 10px 30px 25px;
     margin-top: 10px;
     box-sizing: border-box;
+    position: relative;
 }
 
 .p6-btn {
@@ -3028,12 +3129,14 @@ button.option-item {
 
 .p6-btn-text {
     font-family: 'Swei B2 Sugar CJK TC', sans-serif;
-    font-size: 12px;
+    font-size: 15px;
     font-weight: 700;
     color: white;
     text-align: center;
     z-index: 1;
     transition: all 0.6s ease;
+    letter-spacing: 2px;
+    text-shadow: 0 0 4px #624E45;
 }
 
 /* P6 按鈕點擊特效 */
@@ -3090,6 +3193,7 @@ button.option-item {
     vertical-align: middle;
     transition: all 0.6s ease;
     white-space: nowrap;
+    letter-spacing: 2px;
 }
 
 .p6-share-image {
@@ -3132,10 +3236,12 @@ button.option-item {
     position: relative;
     width: 100%;
     height: 3.37px;
-    border-radius: 20px;
+    border-radius: 50px;
     background: rgba(255, 255, 255, 0.4);
-    box-shadow: 0 0 16px 0 rgba(255, 255, 255, 0.4);
-    overflow: hidden;
+    box-shadow:
+        0 0 16px 0 rgba(255, 255, 255, 0.6),
+        0 0 24px 0 rgba(255, 255, 255, 0.4),
+        0 0 32px 0 rgba(255, 255, 255, 0.2);
 }
 
 /* 進度條填充 */
@@ -3144,11 +3250,64 @@ button.option-item {
     top: 0;
     left: 0;
     height: 100%;
-    border-radius: 20px;
-    opacity: 0.8;
+    border-radius: 50px;
     background: #FFF;
-    box-shadow: 0 0 16px 0 #F7C908;
+    box-shadow:
+        0 0 8px 0px rgba(247, 201, 8, 0.6),
+        0 0 16px 1px rgba(247, 201, 8, 0.5),
+        0 0 24px 2px rgba(247, 201, 8, 0.4),
+        0 0 32px 2px rgba(247, 201, 8, 0.3),
+        0 0 40px 3px rgba(247, 201, 8, 0.2);
     transition: width 1s ease;
+}
+
+/* 桌面裝置不支援頁面 */
+.desktop-unsupported {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.desktop-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.desktop-text {
+    color: #fff;
+    font-family: 'Swei B2 Sugar CJK TC', sans-serif;
+    font-size: 15px;
+    line-height: 1.8;
+    margin-bottom: 10px;
+}
+
+.desktop-text p {
+    margin: 10px 0;
+}
+
+.desktop-qrcode {
+    width: auto;
+    max-width: 100px;
+    height: auto;
+    margin: 30px 0px;
+}
+
+
+.desktop-logo {
+    width: auto;
+    max-width: 200px;
+    height: auto;
 }
 
 
