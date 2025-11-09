@@ -2106,6 +2106,10 @@ button.option-item {
   .option-item {
     width: 600px;
   }
+
+  .p3-main-content {
+    gap: 0;
+  }
 }
 
 /* 強制隱藏星星 - 切換題目時使用 */
@@ -3069,11 +3073,11 @@ button.option-item {
 /* 平板裝置 - P6 背景圖片與容器高度限制 */
 @media (min-height: 1025px) {
     .p6-background-image {
-        max-height: 1800px;
+        max-height: 2000px;
     }
 
     .p6-container {
-        max-height: 1800px;
+        max-height: 1975px;
     }
 }
 
@@ -3116,14 +3120,6 @@ button.option-item {
     pointer-events: none;
 }
 
-/* 平板裝置 - P6 結果圖片寬度調整 */
-@media (min-height: 1025px) {
-    .p6-result-image {
-        width: 80% !important;
-        margin: 0 auto;
-    }
-}
-
 .p6-download-image {
     width: 100%;
     height: auto;
@@ -3151,13 +3147,6 @@ button.option-item {
     margin-top: 10px;
     box-sizing: border-box;
     position: relative;
-}
-
-/* 平板裝置 - P6 按鈕區域往下移 */
-@media (min-height: 1025px) {
-    .p6-buttons {
-        margin-top: 50px !important;
-    }
 }
 
 .p6-btn {
