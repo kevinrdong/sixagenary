@@ -784,126 +784,101 @@ export default {
             q1: [ //萬壑松風圖    1浪漫 2冒險 3理智 4領導 5助人
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '這是最棒的大自然冥想 BGM',
                         tag: [1, 5],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '感到害怕，這幅畫不是沒有人嗎？',
                         tag: [3],
                     },
                     {
-                        image: require('../assets/images/option-4.svg'),
                         text: '連松林都在歡迎我，看我華麗登場！',
                         tag: [2, 4],
                     },
                     // {
-                    //     image: require('../assets/images/option-3.svg'),
                     //     text: '該不會是風之精靈在召喚我...'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '連松林都在歡迎我，看我華麗登場！'
                     // }
                 ],
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '拿樹枝假裝指揮樂團，沉浸於交響樂中',
                         tag: [1, 5],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '把水聲當白噪音，就地躺下補眠',
                         tag: [2],
                     },
                     {
-                        image: require('../assets/images/option-3.svg'),
                         text: '找出水聲方向，跟著水流找路',
                         tag: [3, 4],
                     },
                     // {
-                    //     image: require('../assets/images/option-4.svg'),
                     //     text: '找出水聲位置，跟著水流應該能找到出路'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '隨手撿起樹枝，在地上制定過河 SOP'
                     // }
                 ],
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '就此消失在霧裡，化身雲中居士',
                         tag: [1],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '目前空氣含水量80%，降雨機率會上升',
                         tag: [3, 5],
                     },
                     {
-                        image: require('../assets/images/option-3.svg'),
                         text: '撥開雲霧，想看清楚松林的青綠色',
                         tag: [2, 4],
                     },
                     // {
-                    //     image: require('../assets/images/option-4.svg'),
                     //     text: '腦中OS：空氣濕度80%，降雨機率上升'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '這雲霧......該不會是隱藏怪物要出現了？'
                     // }
                 ],
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '這不就是傳說中的斧劈皴筆法！',
                         tag: [1],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '要不要敲兩下看看，可能有寶箱？',
                         tag: [2, 4],
                     },
                     {
-                        image: require('../assets/images/option-3.svg'),
                         text: '這痕跡…像大師的練功印記。',
                         tag: [3, 5],
                     },
                     // {
-                    //     image: require('../assets/images/option-4.svg'),
                     //     text: '拿起樹枝做個記號，讓後面的人不會錯過'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '環顧四周，思考裂縫是如何融入整體地形'
                     // }
                 ],
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '唸出山峰上的文字，覺得可以芝麻開門',
                         tag: [1],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '伸長手觸摸，確認是否有異次元空間',
                         tag: [2, 4],
                     },
                     {
-                        image: require('../assets/images/option-3.svg'),
                         text: '仔細端詳，思考文字是不是畫家的簽名',
                         tag: [3, 5],
                     },
                     // {
-                    //     image: require('../assets/images/option-4.svg'),
                     //     text: '拿起隨身的登山杖，留下標記'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '在地圖上標記出簽名的位置，視為重要地標'
                     // }
                 ],
@@ -911,126 +886,101 @@ export default {
             q2: [//谿山行旅圖
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '被眼前高聳的山峰感動到說不出話',
                         tag: [1],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '立刻尋找山石表面的雨點皴在哪',
                         tag: [2, 3],
                     },
                     {
-                        image: require('../assets/images/option-3.svg'),
                         text: '山頂該不會是終極 BOSS 的大本營？',
                         tag: [2, 4],
                     },
                     // {
-                    //     image: require('../assets/images/option-4.svg'),
                     //     text: '好壯闊！要是有人能一起欣賞就更棒了！'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '我得確認這是哪個時代，再決定下一步'
                     // }
                 ],
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '拿樹枝當劍，大喊「何方妖怪！」',
                         tag: [2, 5],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '雙手拍臉，清新的霧氣適合肌膚補水',
                         tag: [1],
                     },
                     {
-                        image: require('../assets/images/option-3.svg'),
                         text: '開啟練武模式，到瀑布下盤腿修行',
                         tag: [4],
                     },
                     // {
-                    //     image: require('../assets/images/option-4.svg'),
                     //     text: '說：「松樹在這裡應該代表這裡海拔的高度」'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '這畫面很不錯，先拍下來收進景點清單'
                     // }
                 ],
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '打算混進驢隊搭便車',
                         tag: [2, 5],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '思考要如何讓驢子成為我的夥伴',
                         tag: [3, 4, 5],
                     },
                     {
-                        image: require('../assets/images/option-3.svg'),
                         text: '心想：他們看得到來自未來的我嗎？',
                         tag: [3, 5],
                     },
                     // {
-                    //     image: require('../assets/images/option-4.svg'),
                     //     text: '嘗試跟漁夫溝通，跟他們交換一些漁貨'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '這種捕魚方式應該與水文環境有關，值得記錄'
                     // }
                 ],
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '輕拍驢子：「辛苦了」默默產生社畜共鳴',
                         tag: [1, 5],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '驢是不會說話的，你不要騙我',
                         tag: [4],
                     },
                     {
-                        image: require('../assets/images/option-3.svg'),
                         text: '我就靜靜看著牠...',
                         tag: [3],
                     },
                     // {
-                    //     image: require('../assets/images/option-4.svg'),
                     //     text: '是指修仙之旅離我還有一段很遠的路嗎？'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '實在看不懂，期待之後有人能看懂'
                     // }
                 ],
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '這該不會是畫作的時空傳送點？',
                         tag: [3, 4],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '驚呼「一千年前的簽名彩蛋 get！」',
                         tag: [1],
                     },
                     {
-                        image: require('../assets/images/option-3.svg'),
                         text: '走近看，好奇簽名是簽在地上嗎？',
                         tag: [2, 3],
                     },
                     // {
-                    //     image: require('../assets/images/option-4.svg'),
                     //     text: '主動詢問僧人，是否需要幫忙或補給'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '邀請僧人與我同行，跟他多聊聊佛法的演進'
                     // }
                 ],
@@ -1038,126 +988,101 @@ export default {
             q3: [//早春圖
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '等等！1072年？是哪個朝代...',
                         tag: [4],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '難道畫作本身也會說話？',
                         tag: [3],
                     },
                     {
-                        image: require('../assets/images/option-3.svg'),
                         text: '太好了，這是我最愛的穿越劇！',
                         tag: [1],
                     },
                     // {
-                    //     image: require('../assets/images/option-4.svg'),
                     //     text: '想在這建立營地，必須先找出制高點才安全'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '該不會是終極 BOSS 的大本營？上去看看！'
                     // }
                 ],
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '拍照記錄早春時節生意盎然這一刻。',
                         tag: [1, 5],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '突然悟道：「難道我是被選中的修仙者？」',
                         tag: [1],
                     },
                     {
-                        image: require('../assets/images/option-3.svg'),
                         text: '找找看長得像螃蟹爪的樹木在哪裡...',
                         tag: [3],
                     },
                     // {
-                    //     image: require('../assets/images/option-4.svg'),
                     //     text: '忍不住讚嘆：瀑布就像一首山水詩的化身！'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '開心貌：這裡水源充足，適合當補給站！'
                     // }
                 ],
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '上前幫忙拉漁網，想讓他們早點收工。',
                         tag: [4, 5],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '拿竹竿大喊：「我要成為釣魚王！」',
                         tag: [2, 4],
                     },
                     {
-                        image: require('../assets/images/option-3.svg'),
                         text: '邊觀察記錄：「這捕魚法應與水流有關。」',
                         tag: [3, 5],
                     },
                     // {
-                    //     image: require('../assets/images/option-4.svg'),
                     //     text: '觀察隊伍行進方向，推測附近城鎮位置'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '主動示好，告訴他們另一條路線更快！'
                     // }
                 ],
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '跟上去要看看可愛的狗勾～',
                         tag: [1, 2],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '從遠處默默觀看，好奇他們會去哪',
                         tag: [4],
                     },
                     {
-                        image: require('../assets/images/option-3.svg'),
                         text: '看向扁擔裡的食盒：您好，我吃一點！',
                         tag: [5],
                     },
                     // {
-                    //     image: require('../assets/images/option-4.svg'),
                     //     text: '什麼樣的胡蘿蔔，才會有什麼樣的驢'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '行囊裡是不是藏了范寬本人！？'
                     // }
                 ],
                 [
                     {
-                        image: require('../assets/images/option-1.svg'),
                         text: '僧人都能走的山路，應該算是安全吧。',
                         tag: [4],
                     },
                     {
-                        image: require('../assets/images/option-2.svg'),
                         text: '街訪直擊：包袱裡面到底都放些什麼？',
                         tag: [2],
                     },
                     {
-                        image: require('../assets/images/option-3.svg'),
                         text: '思考這幅畫裡難道有廟宇可以參拜嗎？',
                         tag: [3],
                     },
                     // {
-                    //     image: require('../assets/images/option-4.svg'),
                     //     text: '我決定將此地列為目標，展開下一步行動'
                     // },
                     // {
-                    //     image: require('../assets/images/option-5.svg'),
                     //     text: '趕緊標註在地圖上，讓後來的登山客好找'
                     // }
                 ],
@@ -1545,10 +1470,6 @@ export default {
 
         // 預載入視頻和圖片
         const preloadAssets = () => {
-            // P1 背景圖片
-            const p1Image = new Image()
-            p1Image.src = require('@/assets/images/step1_bg.png')
-
             // P1 和 P5 的視頻
             const fixedVideos = [
                 require('@/assets/images/step1_bg.mp4'),
