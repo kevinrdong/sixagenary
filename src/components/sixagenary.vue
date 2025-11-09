@@ -2112,7 +2112,7 @@ button.option-item {
 }
 
 /* 平板裝置 - 選項容器與按鈕寬度調整 */
-@media (min-height: 1023px) {
+@media (min-width: 764px) {
   .options {
     width: 650px;
     top: 70%;
@@ -2341,7 +2341,7 @@ button.option-item {
 }
 
 /* 平板裝置 - P0 背景圖片與布局調整 */
-@media (min-height: 1023px) {
+@media (min-width: 764px) {
     .p0-screen {
         background-image: url('~@/assets/images/step0_main_t.png') !important;
         width: 100vh !important;
@@ -2690,7 +2690,7 @@ button.option-item {
 }
 
 /* 平板裝置 - P1 內容區域位置調整 */
-@media (min-height: 1023px) {
+@media (min-width: 764px) {
     .p1-content {
         top: 250px !important;
     }
@@ -3086,7 +3086,7 @@ button.option-item {
 }
 
 /* 平板裝置 - P6 背景圖片與容器高度限制 */
-@media (min-height: 1023px) {
+@media (min-width: 764px) {
     .p6-background-image {
         max-height: 2000px;
     }
@@ -3259,7 +3259,7 @@ button.option-item {
 }
 
 /* 平板裝置 - P6 按鈕與文字樣式調整 */
-@media (min-height: 1023px) {
+@media (min-width: 764px) {
     .p6-btn {
         width: 350px !important;
         height: 28px !important;
