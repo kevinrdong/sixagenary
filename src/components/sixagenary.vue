@@ -3141,7 +3141,7 @@ button.option-item {
     position: absolute;
     top: 0;
     left: 0;
-    opacity: 0.9;
+    opacity: 0;
     /* 確保可以長按保存圖片 */
     -webkit-touch-callout: default !important;
     -webkit-user-select: auto !important;
