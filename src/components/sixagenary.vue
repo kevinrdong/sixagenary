@@ -19,7 +19,7 @@
                 <!-- 文本容器 -->
                 <div class="p0-text-container" ref="textContainer">
                     <div class="p0-title-container">
-                        <div class="p0-title">人生太難，不如躲進異世界中 !</div>
+                        <div class="p0-title" data-stroke="人生太難，不如躲進異世界中 !">人生太難，不如躲進異世界中 !</div>
                     </div>
                 </div>
 
@@ -2240,6 +2240,8 @@ button.option-item {
     gap: 12px;
     padding: 12px 0;
     width: 100%;
+    top: 15px;
+    position: relative;
 }
 
 .p0-title {
@@ -2250,6 +2252,15 @@ button.option-item {
     line-height: 1em;
     letter-spacing: 0.23077em;
     text-align: center;
+}
+
+.p0-title::before {
+  content: attr(data-stroke);
+  position: absolute;
+  color: #9B931D;
+  -webkit-text-stroke: 5px #9B931D;
+  text-stroke: 5px #9B931D;
+  z-index: -1;
 }
 
 .p0-subtitle-wrapper {
@@ -2293,7 +2304,7 @@ button.option-item {
 
 .p0-sponsor-image {
     position: absolute;
-    bottom: 20px;
+    bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
     width: 220px;
