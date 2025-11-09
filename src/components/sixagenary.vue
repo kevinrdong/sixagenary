@@ -380,10 +380,12 @@
             <video
                 v-for="(videoSrc, index) in preloadVideoList"
                 :key="`preload-${index}`"
+                :ref="el => { if (el) preloadVideoElements.push(el) }"
                 :src="videoSrc"
                 preload="auto"
                 muted
                 playsinline
+                @loadeddata="() => console.log('視頻預載入完成:', videoSrc.substring(videoSrc.lastIndexOf('/') + 1))"
             ></video>
         </div>
     </div>
@@ -672,6 +674,7 @@ export default {
 
         // 預載入視頻列表
         const preloadVideoList = ref([])
+        const preloadVideoElements = []
 
         const updateScreenSize = () => {
             isWideScreen.value = window.innerWidth >= 768
@@ -1580,6 +1583,21 @@ export default {
                 videoCount: preloadVideoList.value.length,
                 imageCount: cardImages.length,
                 videoSample: preloadVideoList.value.slice(2, 5).map(v => v.substring(v.lastIndexOf('/') + 1))
+            })
+
+            // 強制載入視頻元素
+            nextTick(() => {
+                preloadVideoElements.length = 0 // 清空舊的引用
+                setTimeout(() => {
+                    if (preloadVideoElements.length > 0) {
+                        console.log(`開始強制載入 ${preloadVideoElements.length} 個視頻...`)
+                        preloadVideoElements.forEach((video, index) => {
+                            if (video && video.load) {
+                                video.load()
+                            }
+                        })
+                    }
+                }, 100)
             })
         }
 
