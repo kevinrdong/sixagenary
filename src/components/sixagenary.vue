@@ -145,11 +145,14 @@
                         <!-- 背景視頻 -->
                         <video
                             class="background-video"
+                            :class="{ 'video-loaded': videoLoaded }"
+                            :key="`video-${type}-${questionNum}`"
                             :src="currentBackgroundVideo"
                             autoplay
                             loop
                             muted
                             playsinline
+                            @loadeddata="onVideoLoaded"
                         ></video>
 
                         <!-- 內容區 -->
@@ -458,6 +461,7 @@ export default {
         const p1ButtonClicked = ref(false) // 控制按鈕點擊縮放動畫
         const p1TextHidden = ref(false) // 控制文字隱藏
         const p1VideoPlaying = ref(false) // 控制視頻顯示
+        const videoLoaded = ref(true) // 控制背景視頻載入狀態
         const p1ContentVisible = ref(false) // 控制 P1 內容初始顯示（延遲 1 秒）
         const showProgressBar = ref(false) // 控制進度條顯示
         const progressWidth = ref(0) // 進度條寬度百分比（初始為 0%）
@@ -1435,6 +1439,16 @@ export default {
             p1VideoPlaying.value = false
         }
 
+        // 背景視頻載入完成
+        const onVideoLoaded = () => {
+            videoLoaded.value = true
+        }
+
+        // 監聽背景視頻變更，設置載入狀態為 false
+        watch(currentBackgroundVideo, () => {
+            videoLoaded.value = false
+        })
+
         // 計算最多被選中的 tag
         const calculateMostFrequentTag = () => {
             let maxCount = 0
@@ -1796,6 +1810,8 @@ export default {
             p1VideoPlaying,
             p1ContentVisible,
             onP1VideoEnded,
+            onVideoLoaded,
+            videoLoaded,
             showProgressBar,
             progressWidth,
             p6Button1Clicked,
@@ -1832,6 +1848,12 @@ export default {
     object-fit: cover;
     object-position: center;
     z-index: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.background-video.video-loaded {
+    opacity: 1;
 }
 
 .content {
