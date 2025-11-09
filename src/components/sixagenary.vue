@@ -1,7 +1,7 @@
 <template>
     <div class="app-container">
         <!-- 桌面裝置不支援提示頁面 -->
-        <div v-if="isDesktop" class="desktop-unsupported">
+        <div v-if="!isMobileOrTabletDevice" class="desktop-unsupported">
             <div class="desktop-content">
                 <div class="desktop-text">
                     <p>您的裝置目前不支援此遊戲。</p>
@@ -392,6 +392,7 @@
 
 <script>
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
+import MobileDetect from 'mobile-detect'
 import calculatingSound from '@/assets/audios/calculating.mp3'
 // 萬壑松風圖音效
 import forestSound from '@/assets/audios/01_樹林環境音.mp3'
@@ -413,14 +414,34 @@ import footstepsSound from '@/assets/audios/05_腳步聲_更新.mp3'
 export default {
     name: 'sixagenary',
     setup() {
-        // 檢測是否為桌面裝置
-        const isDesktop = ref(false)
-        const checkDevice = () => {
+        // 檢測是否為移動裝置或平板
+        const isMobileOrTabletDevice = ref(true)
+        const checkIsMobileOrTabletDevice = () => {
+            // 方法 1: 使用 mobile-detect 庫
+            const md = new MobileDetect(window.navigator.userAgent)
+            const isMobileDetectResult = !!(md.mobile() || md.tablet() || md.phone())
+
+            // 方法 2: 檢查觸控能力
+            const hasTouchScreen = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
+
+            // 方法 3: 檢查螢幕尺寸（小於 1024px 視為移動裝置）
+            const hasSmallScreen = window.innerWidth < 1024
+
+            // 方法 4: User agent 正則檢查（備用）
             const userAgent = navigator.userAgent.toLowerCase()
-            const isMobile = /mobile|android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent)
-            const isTablet = /tablet|ipad/i.test(userAgent)
-            // 如果不是移動設備或平板，則為桌面
-            isDesktop.value = !isMobile && !isTablet
+            const isMobileUA = /mobile|android|iphone|ipad|ipod|blackberry|iemobile|opera mini|tablet/i.test(userAgent)
+
+            // 組合判斷：如果任一方法檢測為移動裝置，則視為移動裝置
+            isMobileOrTabletDevice.value = isMobileDetectResult || (hasTouchScreen && hasSmallScreen) || isMobileUA
+
+            console.log('Device detection:', {
+                mobileDetect: isMobileDetectResult,
+                hasTouchScreen,
+                hasSmallScreen,
+                isMobileUA,
+                final: isMobileOrTabletDevice.value,
+                userAgent: navigator.userAgent
+            })
         }
 
         const type = ref(1)
@@ -561,17 +582,11 @@ export default {
             }
         }
 
-        // 檢測是否為移動設備（使用 User Agent）
-        const isMobileDevice = () => {
-            const userAgent = navigator.userAgent || navigator.vendor || window.opera
-            return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase())
-        }
-
         // 背景音樂淡出函數
         const fadeBgMusicOut = () => {
             if (!window.bgAudio) return
 
-            if (isMobileDevice()) {
+            if (isMobileOrTabletDevice.value) {
                 // 移動設備：直接暫停音樂
                 window.bgAudio.pause()
                 console.log('移動設備檢測：暫停背景音樂')
@@ -607,7 +622,7 @@ export default {
         const fadeBgMusicIn = () => {
             if (!window.bgAudio) return
 
-            if (isMobileDevice()) {
+            if (isMobileOrTabletDevice.value) {
                 // 移動設備：直接恢復播放
                 console.log('移動設備檢測：恢復背景音樂')
                 window.bgAudio.play().catch(err => {
@@ -1554,7 +1569,7 @@ export default {
 
         onMounted(() => {
             // 檢測設備類型
-            checkDevice()
+            checkIsMobileOrTabletDevice()
 
             nextTick(() => {
                 if (textContainer.value) {
@@ -1780,7 +1795,7 @@ export default {
         })
 
         return {
-            isDesktop,
+            isMobileOrTabletDevice,
             type,
             step,
             options,
