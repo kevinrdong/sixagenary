@@ -151,7 +151,6 @@
                             muted
                             playsinline
                         ></video>
-                        <div class="gradient-overlay"></div>
 
                         <!-- 內容區 -->
                         <div class="content">
@@ -1847,7 +1846,6 @@ export default {
     width: 100vw;
     height: calc(var(--vh, 1vh) * 100);
     min-height: calc(var(--vh, 1vh) * 100);
-    max-width: 768px;
     max-height: 1024px;
     overflow: hidden;
     overscroll-behavior: none;
@@ -1863,17 +1861,6 @@ export default {
     height: calc(var(--vh, 1vh) * 100);
     object-fit: cover;
     object-position: center;
-    z-index: 0;
-}
-
-.gradient-overlay {
-    position: absolute;
-    left: -36px;
-    top: 616px;
-    width: 836px;
-    height: 408px;
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 63%);
-    pointer-events: none;
     z-index: 0;
 }
 
@@ -2109,6 +2096,18 @@ button.option-item {
   }
 }
 
+/* 平板裝置 - 選項容器與按鈕寬度調整 */
+@media (min-height: 1150px) {
+  .options {
+    width: 650px;
+    top: 70%;
+  }
+
+  .option-item {
+    width: 600px;
+  }
+}
+
 /* 強制隱藏星星 - 切換題目時使用 */
 .hide-stars .star-1,
 .hide-stars .star-2,
@@ -2319,6 +2318,28 @@ button.option-item {
     .p0-screen {
         max-width: 402px;
         width: 46vh;
+    }
+}
+
+/* 平板裝置 - P0 背景圖片與布局調整 */
+@media (min-height: 1150px) {
+    .p0-screen {
+        background-image: url('~@/assets/images/step0_main_t.png') !important;
+        width: 100vh !important;
+    }
+
+    .p0-subtitle-wrapper {
+        top: 325px !important;
+    }
+
+    .p0-bottom-image {
+        top: 115px !important;
+        max-width: 415px !important;
+    }
+
+    .p0-subtitle {
+        font-size: 15px !important;
+        letter-spacing: 2px !important;
     }
 }
 
@@ -2646,6 +2667,17 @@ button.option-item {
     .p1-screen {
         max-width: 402px;
         width: 46vh;
+    }
+}
+
+/* 平板裝置 - P1 內容區域位置調整 */
+@media (min-height: 1150px) {
+    .p1-content {
+        top: 250px !important;
+    }
+
+    .p1-bottom-section {
+        bottom: 190px !important;
     }
 }
 
@@ -3034,6 +3066,17 @@ button.option-item {
     vertical-align: bottom;
 }
 
+/* 平板裝置 - P6 背景圖片與容器高度限制 */
+@media (min-height: 1150px) {
+    .p6-background-image {
+        max-height: 1800px;
+    }
+
+    .p6-container {
+        max-height: 1800px;
+    }
+}
+
 .p6-content {
     position: absolute;
     top: 55px;
@@ -3073,6 +3116,14 @@ button.option-item {
     pointer-events: none;
 }
 
+/* 平板裝置 - P6 結果圖片寬度調整 */
+@media (min-height: 1150px) {
+    .p6-result-image {
+        width: 80% !important;
+        margin: 0 auto;
+    }
+}
+
 .p6-download-image {
     width: 100%;
     height: auto;
@@ -3100,6 +3151,13 @@ button.option-item {
     margin-top: 10px;
     box-sizing: border-box;
     position: relative;
+}
+
+/* 平板裝置 - P6 按鈕區域往下移 */
+@media (min-height: 1150px) {
+    .p6-buttons {
+        margin-top: 50px !important;
+    }
 }
 
 .p6-btn {
@@ -3194,6 +3252,22 @@ button.option-item {
     transition: all 0.6s ease;
     white-space: nowrap;
     letter-spacing: 2px;
+}
+
+/* 平板裝置 - P6 按鈕與文字樣式調整 */
+@media (min-height: 1150px) {
+    .p6-btn {
+        width: 350px !important;
+        height: 28px !important;
+    }
+
+    .p6-btn-text {
+        font-size: 16px !important;
+    }
+
+    .p6-share-text {
+        font-size: 16px !important;
+    }
 }
 
 .p6-share-image {
