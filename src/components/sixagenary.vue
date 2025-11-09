@@ -1879,6 +1879,15 @@ export default {
     z-index: 0;
 }
 
+/* 平板裝置 - 背景視頻全寬顯示 */
+@media (min-width: 768px) {
+    .background-video {
+        width: 100%;
+        height: auto;
+        min-height: calc(var(--vh, 1vh) * 100);
+    }
+}
+
 .content {
     position: relative;
     width: 100%;
