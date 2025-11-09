@@ -383,7 +383,7 @@
             <video
                 v-for="(videoSrc, index) in preloadVideoList"
                 :key="`preload-${index}`"
-                :ref="el => { if (el) preloadVideoElements.push(el) }"
+                :ref="el => { if (el) preloadVideoElements.value.push(el) }"
                 :src="videoSrc"
                 preload="auto"
                 muted
@@ -678,7 +678,7 @@ export default {
 
         // 預載入視頻列表
         const preloadVideoList = ref([])
-        const preloadVideoElements = []
+        const preloadVideoElements = ref([])
 
         const updateScreenSize = () => {
             isWideScreen.value = window.innerWidth >= 768
@@ -1522,11 +1522,11 @@ export default {
 
             // 強制載入視頻元素
             nextTick(() => {
-                preloadVideoElements.length = 0 // 清空舊的引用
+                preloadVideoElements.value.length = 0 // 清空舊的引用
                 setTimeout(() => {
-                    if (preloadVideoElements.length > 0) {
-                        console.log(`開始強制載入 ${preloadVideoElements.length} 個視頻...`)
-                        preloadVideoElements.forEach((video) => {
+                    if (preloadVideoElements.value.length > 0) {
+                        console.log(`開始強制載入 ${preloadVideoElements.value.length} 個視頻...`)
+                        preloadVideoElements.value.forEach((video) => {
                             if (video && video.load) {
                                 video.load()
                             }
@@ -1820,6 +1820,7 @@ export default {
             handleP6Button2Click,
             p6ShareClicked,
             handleP6ShareClick,
+            preloadVideoElements
         }
     }
 }
