@@ -3088,11 +3088,11 @@ button.option-item {
 /* 平板裝置 - P6 背景圖片與容器高度限制 */
 @media (min-width: 768px) {
     .p6-background-image {
-        max-height: 1300px;
+        max-height: 1265px;
     }
 
     .p6-container {
-        max-height: 1300px;
+        max-height: 1265px;
     }
 }
 
@@ -3138,7 +3138,7 @@ button.option-item {
 /* 平板裝置 - P6 結果圖片寬度調整 */
 @media (min-height: 1023px) {
     .p6-result-image {
-        width: 56% !important;
+        width: 53% !important;
         margin: 0 auto;
     }
 }
