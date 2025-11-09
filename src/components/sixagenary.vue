@@ -1591,7 +1591,7 @@ export default {
                 setTimeout(() => {
                     if (preloadVideoElements.length > 0) {
                         console.log(`開始強制載入 ${preloadVideoElements.length} 個視頻...`)
-                        preloadVideoElements.forEach((video, index) => {
+                        preloadVideoElements.forEach((video) => {
                             if (video && video.load) {
                                 video.load()
                             }
