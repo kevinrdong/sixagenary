@@ -121,12 +121,6 @@
                             <span class="p3-button-text">確定</span>
                         </div>
 
-                        <!-- 按钮 -->
-                       <div class="p1-button" :class="{ 'p1-button-scale-up': p1ButtonClicked }" @click="startP1VideoAndTransition">
-                        <img :src="require('@/assets/images/p1-button-bg.png')" alt="按鈕背景" class="p1-button-bg" />
-                        <span class="p1-button-text">進入異世界冒險</span>
-                    </div>
-
                         <!-- 重新选择按钮 -->
                         <!-- <div class="p3-button" @click="resetSelection">
                             <img :src="require('@/assets/images/p1-button-bg.png')" alt="按鈕背景" class="p3-button-bg" />
