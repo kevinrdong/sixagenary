@@ -116,10 +116,16 @@
                     <!-- 按钮组 -->
                     <div class="p3-button-group">
                         <!-- 确定按钮 -->
-                        <div class="p3-button" @click="confirmSelection">
+                        <div class="p3-button" :class="{ 'p3-button-scale-up': p3ButtonClicked }"  @click="confirmSelection">
                             <img :src="require('@/assets/images/p3-button-bg.png')" alt="按鈕背景" class="p3-button-bg" />
                             <span class="p3-button-text">確定</span>
                         </div>
+
+                        <!-- 按钮 -->
+                       <div class="p1-button" :class="{ 'p1-button-scale-up': p1ButtonClicked }" @click="startP1VideoAndTransition">
+                        <img :src="require('@/assets/images/p1-button-bg.png')" alt="按鈕背景" class="p1-button-bg" />
+                        <span class="p1-button-text">進入異世界冒險</span>
+                    </div>
 
                         <!-- 重新选择按钮 -->
                         <!-- <div class="p3-button" @click="resetSelection">
@@ -459,6 +465,7 @@ export default {
         const tagCounts = ref({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }) // 統計各個 tag 的次數
         const result = ref(null) // 最多被選中的 tag
         const p1ButtonClicked = ref(false) // 控制按鈕點擊縮放動畫
+        const p3ButtonClicked = ref(false) // 控制按鈕點擊縮放動畫
         const p1TextHidden = ref(false) // 控制文字隱藏
         const p1VideoPlaying = ref(false) // 控制視頻顯示
         const videoLoaded = ref(true) // 控制背景視頻載入狀態
@@ -1406,10 +1413,11 @@ export default {
             }, 1500)
         }
 
-        // P1 轉場
+        // P1, P3 轉場
         const startP1VideoAndTransition = () => {
             // 觸發按鈕縮放動畫
             p1ButtonClicked.value = true
+            p3ButtonClicked.value = true
 
             // 清除打字機計時器和音效
             if (typewriterInterval) {
