@@ -2367,7 +2367,7 @@ button.option-item {
 
 .p1-content {
     position: absolute;
-    top: 18%;
+    top: 150px;
     left: 0;
     right: 0;
     display: flex;
@@ -2475,7 +2475,7 @@ button.option-item {
 
 .p1-bottom-section {
     position: absolute;
-    bottom: 15%;
+    bottom: 100px;
     left: 0;
     width: 100%;
     display: flex;
