@@ -3055,7 +3055,7 @@ button.option-item {
 
 .p6-content {
     position: absolute;
-    top: 55px;
+    top: 12px;
     left: 0;
     width: 100%;
     display: flex;
