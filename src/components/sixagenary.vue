@@ -2348,14 +2348,6 @@ button.option-item {
     }
 }
 
-/* 限制最大宽度 */
-@media (min-width: 900px) {
-    .p0-screen {
-        max-width: 402px;
-        width: 46vh;
-    }
-}
-
 /* 平板裝置 - P0 背景圖片與布局調整 */
 @media (min-width: 768px ) and (max-width: 1024px) {
     .p0-screen {
