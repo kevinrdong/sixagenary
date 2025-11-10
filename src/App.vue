@@ -1,7 +1,9 @@
 <template>
   <div id="app">
+   <div class="site">
     <sixagenary />
-  </div>
+   </div>
+   </div>
 </template>
 
 <script>
@@ -30,22 +32,18 @@ body {
   width: 100%;
   height: 100%;
   background-color: #000;
-  overflow: hidden;
   overscroll-behavior: none;
   touch-action: manipulation;
+  overflow: auto; /* 若要固定畫面改成 hidden */
 }
 
 /* 主容器固定/最小尺寸 */
   .site {
-    min-height: 900px;
-    margin: 0 auto;       /* 置中（當視窗大時） */
-    box-sizing: border-box;
-    background: #f7f7f7;
-  }
-
-/* html/body 的 overflow: auto 會讓瀏覽器在必要時顯示捲軸 */
-  html, body {
-    overflow: auto;
+  min-width: 900px;     /* 限定最小寬度 */
+  min-height: 900px;     /* 限定最小高度 */
+  margin: 0 auto;        /* 視窗大時置中 */
+  box-sizing: border-box;
+  background: #f7f7f7;
   }
 
 * {
@@ -57,16 +55,11 @@ body {
   font-family: 'Swei B2 Sugar CJK TC', Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  width: 100%;
-  height: 100%;
-  min-height: 100vh;
-  min-height: calc(var(--vh, 1vh) * 100);
   display: flex;
   justify-content: center;
   align-items: flex-start;
+  width: 100%;
+  height: 100%;
   background-color: #000;
-  overflow: hidden;
-  overscroll-behavior: none;
 }
 </style>
