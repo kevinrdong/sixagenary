@@ -2874,6 +2874,8 @@ button.option-item {
     text-align: center;
     text-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
     z-index: 1;
+    animation: shadowBlink 3s infinite;
+    transition: opacity 1.2s ease;
 }
 
 .p3-logo {
