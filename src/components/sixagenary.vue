@@ -1537,7 +1537,7 @@ export default {
 
                 setTimeout(() => {
                     progressWidth.value = 20 // 重置為 1/5
-                }, 1500)
+                }, 2500)
 
                 // 停止背景音樂
                 fadeBgMusicOut()
