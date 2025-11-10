@@ -2261,6 +2261,8 @@ button.option-item {
   color: #9B931D;
   -webkit-text-stroke: 5px #9B931D;
   text-stroke: 5px #9B931D;
+  filter: blur(6px);
+  opacity: 0.7;
   z-index: -1;
 }
 
