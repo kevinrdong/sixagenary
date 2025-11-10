@@ -2335,6 +2335,7 @@ button.option-item {
 @media (min-width: 768px) {
     .p0-screen {
         background-image: url('~@/assets/images/step0_main.png') !important;
+        background-position: center -250px;
         width: 100vh !important;
     }
 
