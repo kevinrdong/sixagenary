@@ -1,18 +1,6 @@
 <template>
     <div class="app-container">
-        <!-- 桌面裝置不支援提示頁面 -->
-        <div v-if="!isMobileOrTabletDevice" class="desktop-unsupported">
-            <div class="desktop-content">
-                <div class="desktop-text">
-                    <p>您的裝置目前不支援此遊戲。</p>
-                    <p>請使用支援 iOS 11 或 Android 8.0（Oreo）以上版本的手機或平板，掃描 QRcode 進入遊戲。</p>
-                </div>
-                <img :src="require('@/assets/images/desktop-qrcode.png')" alt="qrcode" class="desktop-qrcode" />
-                <img :src="require('@/assets/images/white_logo.png')" alt="Logo" class="desktop-logo" />
-            </div>
-        </div>
-
-        <transition v-else name="fade" mode="out-in">
+        <transition name="fade" mode="out-in">
             <!-- 入口 -->
             <div class="p0-screen" v-if="step == 0" @click="step = 1" key="p0">
 
@@ -397,7 +385,6 @@
 
 <script>
 import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
-import MobileDetect from 'mobile-detect'
 import calculatingSound from '@/assets/audios/calculating.mp3'
 // 萬壑松風圖音效
 import forestSound from '@/assets/audios/01_樹林環境音.mp3'
@@ -419,35 +406,6 @@ import footstepsSound from '@/assets/audios/05_腳步聲_更新.mp3'
 export default {
     name: 'sixagenary',
     setup() {
-        // 檢測是否為移動裝置或平板
-        const isMobileOrTabletDevice = ref(true)
-        const checkIsMobileOrTabletDevice = () => {
-            // 方法 1: 使用 mobile-detect 庫
-            const md = new MobileDetect(window.navigator.userAgent)
-            const isMobileDetectResult = !!(md.mobile() || md.tablet() || md.phone())
-
-            // 方法 2: 檢查觸控能力
-            const hasTouchScreen = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0)
-
-            // 方法 3: 檢查螢幕尺寸（小於 1024px 視為移動裝置）
-            const hasSmallScreen = window.innerWidth < 1024
-
-            // 方法 4: User agent 正則檢查（備用）
-            const userAgent = navigator.userAgent.toLowerCase()
-            const isMobileUA = /mobile|android|iphone|ipad|ipod|blackberry|iemobile|opera mini|tablet/i.test(userAgent)
-
-            // 組合判斷：如果任一方法檢測為移動裝置，則視為移動裝置
-            isMobileOrTabletDevice.value = isMobileDetectResult || (hasTouchScreen && hasSmallScreen) || isMobileUA
-
-            console.log('Device detection:', {
-                mobileDetect: isMobileDetectResult,
-                hasTouchScreen,
-                hasSmallScreen,
-                isMobileUA,
-                final: isMobileOrTabletDevice.value,
-                userAgent: navigator.userAgent
-            })
-        }
 
         const type = ref(1)
         const step = ref(0)
@@ -593,14 +551,7 @@ export default {
         const fadeBgMusicOut = () => {
             if (!window.bgAudio) return
 
-            if (isMobileOrTabletDevice.value) {
-                // 移動設備：直接暫停音樂
-                window.bgAudio.pause()
-                console.log('移動設備檢測：暫停背景音樂')
-                return
-            }
-
-            // 桌面設備：淡出效果
+            // 淡出效果
             const startVolume = window.bgAudio.volume
             const duration = 1000 // 1秒
             const steps = 20 // 分20步淡出
@@ -629,16 +580,7 @@ export default {
         const fadeBgMusicIn = () => {
             if (!window.bgAudio) return
 
-            if (isMobileOrTabletDevice.value) {
-                // 移動設備：直接恢復播放
-                console.log('移動設備檢測：恢復背景音樂')
-                window.bgAudio.play().catch(err => {
-                    console.log('背景音樂恢復播放失敗:', err)
-                })
-                return
-            }
-
-            // 桌面設備：淡入效果
+            // 淡入效果
             const targetVolume = 0.5
             const duration = 1000 // 1秒
             const steps = 20
@@ -1539,9 +1481,6 @@ export default {
         }
 
         onMounted(() => {
-            // 檢測設備類型
-            checkIsMobileOrTabletDevice()
-
             nextTick(() => {
                 if (textContainer.value) {
                     const height = textContainer.value.offsetHeight
@@ -1766,7 +1705,6 @@ export default {
         })
 
         return {
-            isMobileOrTabletDevice,
             type,
             step,
             options,
@@ -2092,7 +2030,7 @@ button.option-item {
 }
 
 /* 平板裝置 - 選項容器與按鈕寬度調整 */
-@media (min-width: 768px) {
+@media (min-width: 768px ) and (max-width: 1024px) {
   .options {
     width: 650px;
     top: 70%;
@@ -2184,6 +2122,19 @@ button.option-item {
     background-color: #000;
     overflow: hidden;
     overscroll-behavior: none;
+}
+
+/* RWD 斷點：桌面裝置 (≥1024px) */
+@media (min-width: 1024px) {
+    .app-container {
+        align-items: center;
+    }
+
+    .app-container > * {
+        max-width: 430px;
+        width: 100%;
+        margin: 0 auto;
+    }
 }
 
 /* P0 主視覺樣式 */
@@ -2332,7 +2283,7 @@ button.option-item {
 }
 
 /* 平板裝置 - P0 背景圖片與布局調整 */
-@media (min-width: 768px) {
+@media (min-width: 768px ) and (max-width: 1024px) {
     .p0-screen {
         background-image: url('~@/assets/images/step0_main.png') !important;
         background-position: center -250px;
@@ -2682,7 +2633,7 @@ button.option-item {
 }
 
 /* 平板裝置 - P1 內容區域位置調整 */
-@media (min-width: 768px) {
+@media (min-width: 768px ) and (max-width: 1024px) {
     .p1-content {
         top: 250px !important;
     }
@@ -3090,7 +3041,7 @@ button.option-item {
 }
 
 /* 平板裝置 - P6 背景圖片與容器高度限制 */
-@media (min-width: 768px) {
+@media (min-width: 768px ) and (max-width: 1024px) {
     .p6-background-image {
         max-height: 1265px;
     }
@@ -3285,7 +3236,7 @@ button.option-item {
 }
 
 /* 平板裝置 - P6 按鈕與文字樣式調整 */
-@media (min-width: 768px) {
+@media (min-width: 768px ) and (max-width: 1024px) {
     .p6-btn {
         width: 350px !important;
         height: 28px !important;
@@ -3365,54 +3316,15 @@ button.option-item {
     transition: width 1s ease;
 }
 
-/* 桌面裝置不支援頁面 */
-.desktop-unsupported {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+
+@media (min-width: 1025px) {
+    .p1-content {
+        top: 190px;
+    }
+
+    .p1-bottom-section {
+        bottom: 140px;
+    }
 }
-
-.desktop-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 20px;
-}
-
-.desktop-text {
-    color: #fff;
-    font-family: 'Swei B2 Sugar CJK TC', sans-serif;
-    font-size: 15px;
-    line-height: 1.8;
-    margin-bottom: 10px;
-}
-
-.desktop-text p {
-    margin: 10px 0;
-}
-
-.desktop-qrcode {
-    width: auto;
-    max-width: 100px;
-    height: auto;
-    margin: 30px 0px;
-}
-
-
-.desktop-logo {
-    width: auto;
-    max-width: 200px;
-    height: auto;
-}
-
 
 </style>
