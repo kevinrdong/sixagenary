@@ -2841,14 +2841,14 @@ button.option-item {
 }
 
 .p3-button:hover .p3-button-bg {
-    opacity: 1;
+    opacity: 0;
 }
 
 .p3-button::before {
     content: '';
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: auto;
     left: 0;
     top: 0;
     background-image: url('~@/assets/images/p3-button-bg-hover.png');
