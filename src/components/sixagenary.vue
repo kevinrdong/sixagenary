@@ -551,58 +551,106 @@ export default {
         const fadeBgMusicOut = () => {
             if (!window.bgAudio) return
 
-            // 淡出效果
-            const startVolume = window.bgAudio.volume
-            const duration = 1000 // 1秒
-            const steps = 20 // 分20步淡出
-            const stepDuration = duration / steps
-            const volumeStep = startVolume / steps
-            let currentStep = 0
-
+            // 清除可能存在的淡入淡出計時器
             if (bgMusicFadeInterval) {
                 clearInterval(bgMusicFadeInterval)
+                bgMusicFadeInterval = null
             }
 
-            bgMusicFadeInterval = setInterval(() => {
-                currentStep++
-                const newVolume = Math.max(0, startVolume - (volumeStep * currentStep))
-                window.bgAudio.volume = newVolume
+            // 嘗試使用淡出效果,如果失敗則直接暫停
+            try {
+                const startVolume = window.bgAudio.volume
+                const duration = 1000 // 1秒
+                const steps = 20 // 分20步淡出
+                const stepDuration = duration / steps
+                const volumeStep = startVolume / steps
+                let currentStep = 0
 
-                if (currentStep >= steps || newVolume <= 0) {
-                    clearInterval(bgMusicFadeInterval)
-                    bgMusicFadeInterval = null
-                    window.bgAudio.volume = 0
-                }
-            }, stepDuration)
+                bgMusicFadeInterval = setInterval(() => {
+                    currentStep++
+                    const newVolume = Math.max(0, startVolume - (volumeStep * currentStep))
+
+                    try {
+                        window.bgAudio.volume = newVolume
+                    } catch (e) {
+                        // 如果設定音量失敗(某些移動裝置),直接暫停
+                        console.log('無法調整音量,直接暫停音樂:', e)
+                        clearInterval(bgMusicFadeInterval)
+                        bgMusicFadeInterval = null
+                        window.bgAudio.pause()
+                        return
+                    }
+
+                    if (currentStep >= steps || newVolume <= 0) {
+                        clearInterval(bgMusicFadeInterval)
+                        bgMusicFadeInterval = null
+                        window.bgAudio.volume = 0
+                        window.bgAudio.pause()
+                    }
+                }, stepDuration)
+            } catch (e) {
+                // 如果淡出失敗,直接暫停
+                console.log('淡出失敗,直接暫停音樂:', e)
+                window.bgAudio.pause()
+            }
         }
 
         // 背景音樂淡入函數（恢復到0.5）
         const fadeBgMusicIn = () => {
             if (!window.bgAudio) return
 
-            // 淡入效果
-            const targetVolume = 0.5
-            const duration = 1000 // 1秒
-            const steps = 20
-            const stepDuration = duration / steps
-            const volumeStep = targetVolume / steps
-            let currentStep = 0
-
+            // 清除可能存在的淡入淡出計時器
             if (bgMusicFadeInterval) {
                 clearInterval(bgMusicFadeInterval)
+                bgMusicFadeInterval = null
             }
 
-            bgMusicFadeInterval = setInterval(() => {
-                currentStep++
-                const newVolume = Math.min(targetVolume, volumeStep * currentStep)
-                window.bgAudio.volume = newVolume
+            // 嘗試使用淡入效果,如果失敗則直接播放
+            try {
+                const targetVolume = 0.5
+                const duration = 1000 // 1秒
+                const steps = 20
+                const stepDuration = duration / steps
+                const volumeStep = targetVolume / steps
+                let currentStep = 0
 
-                if (currentStep >= steps || newVolume >= targetVolume) {
-                    clearInterval(bgMusicFadeInterval)
-                    bgMusicFadeInterval = null
-                    window.bgAudio.volume = targetVolume
-                }
-            }, stepDuration)
+                // 先播放音樂
+                window.bgAudio.play().catch(err => {
+                    console.log('背景音樂播放失敗:', err)
+                })
+
+                bgMusicFadeInterval = setInterval(() => {
+                    currentStep++
+                    const newVolume = Math.min(targetVolume, volumeStep * currentStep)
+
+                    try {
+                        window.bgAudio.volume = newVolume
+                    } catch (e) {
+                        // 如果設定音量失敗(某些移動裝置),直接設定目標音量
+                        console.log('無法調整音量,直接設定為目標音量:', e)
+                        clearInterval(bgMusicFadeInterval)
+                        bgMusicFadeInterval = null
+                        try {
+                            window.bgAudio.volume = targetVolume
+                        } catch (e2) {
+                            console.log('設定音量失敗:', e2)
+                        }
+                        return
+                    }
+
+                    if (currentStep >= steps || newVolume >= targetVolume) {
+                        clearInterval(bgMusicFadeInterval)
+                        bgMusicFadeInterval = null
+                        window.bgAudio.volume = targetVolume
+                    }
+                }, stepDuration)
+            } catch (e) {
+                // 如果淡入失敗,直接播放
+                console.log('淡入失敗,直接播放音樂:', e)
+                window.bgAudio.play().catch(err => {
+                    console.log('背景音樂播放失敗:', err)
+                })
+            }
         }
 
         // P1 文字內容
