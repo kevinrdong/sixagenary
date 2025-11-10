@@ -35,6 +35,19 @@ body {
   touch-action: manipulation;
 }
 
+/* 主容器固定/最小尺寸 */
+  .site {
+    min-height: 900px;
+    margin: 0 auto;       /* 置中（當視窗大時） */
+    box-sizing: border-box;
+    background: #f7f7f7;
+  }
+
+/* html/body 的 overflow: auto 會讓瀏覽器在必要時顯示捲軸 */
+  html, body {
+    overflow: auto;
+  }
+
 * {
   font-family: 'Swei B2 Sugar CJK TC', Avenir, Helvetica, Arial, sans-serif;
   touch-action: manipulation;
