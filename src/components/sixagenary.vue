@@ -2851,7 +2851,7 @@ button.option-item {
     height: 100%;
     left: 0;
     top: 0;
-    background-image: url('~@/assets/images/p1-button-bg-hover.png');
+    background-image: url('~@/assets/images/p3-button-bg-hover.png');
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
