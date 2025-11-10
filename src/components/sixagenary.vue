@@ -1336,7 +1336,7 @@ export default {
             p6Button1Clicked.value = true
             // 0.6 秒後執行跳轉（與動畫時間一致）
             setTimeout(() => {
-                window.location.href = 'https://theme.npm.edu.tw/EnduringLegacyS203'
+                window.location.href = 'https://pse.is/8ba8an'
             }, 600)
         }
 
