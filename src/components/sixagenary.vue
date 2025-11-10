@@ -2811,6 +2811,18 @@ button.option-item {
     transition: transform 0.2s ease;
 }
 
+.p3-button-scale-up {
+    animation: none;
+    opacity: 1 !important;
+}
+
+.p3-button-scale-up .p3-button-text {
+    animation: none;
+    transform: scale(1.3);
+    opacity: 0;
+    transition: all 0.6s ease;
+}
+
 .p3-button:hover {
     transform: scale(1.05);
 }
