@@ -1539,6 +1539,30 @@ export default {
             // 初始化視窗高度
             updateScreenSize()
 
+            // 使用 <link rel="preload"> 預載入背景視頻
+            const videoSource = isWideScreen.value
+                ? options.value.backgroundVideosTablet
+                : options.value.backgroundVideos
+
+            // 收集所有視頻 URL
+            const allVideos = [
+                ...videoSource.q1,
+                ...videoSource.q2,
+                ...videoSource.q3
+            ]
+
+            // 為每個視頻創建 preload link 標籤
+            allVideos.forEach((videoUrl) => {
+                const link = document.createElement('link')
+                link.rel = 'preload'
+                link.as = 'video'
+                link.href = videoUrl
+                link.type = 'video/webm'
+                document.head.appendChild(link)
+            })
+
+            console.log(`已添加 ${allVideos.length} 個視頻 preload 標籤`)
+
             // 添加 resize 事件監聽
             window.addEventListener('resize', updateScreenSize)
 
