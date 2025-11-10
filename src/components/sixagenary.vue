@@ -2272,7 +2272,7 @@ button.option-item {
     justify-content: center;
     align-items: center;
     padding: 6px 44px;
-    background: linear-gradient(90deg, #FFE7B3 0%, #FFFFFF 13%, #FFFFFF 88%, #FFE7B3 100%);
+    background: linear-gradient(90deg, #FFF9EE 0%, #FFFFFF 13%, #FFFFFF 88%, #FFF9EE 100%);
     border-radius: 20px;
     animation: subtleRipple 2.6s ease-in-out infinite;
     box-shadow: 0 0 15px 0 #9C6000;
