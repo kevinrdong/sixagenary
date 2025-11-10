@@ -2274,7 +2274,7 @@ button.option-item {
     background-color: #FFFFFF;
     border-radius: 20px;
     animation: subtleRipple 2.6s ease-in-out infinite;
-    box-shadow: 0 0 8px 0 rgba(91, 48, 0, 0.6);
+    box-shadow: 0 0 15px 0 #9C6000;
     transform: translateX(-50%) scale(1.2);
     z-index: 2;
 }
