@@ -3387,11 +3387,11 @@ button.option-item {
 
 @media (min-width: 1025px) {
     .p1-content {
-        top: 190px;
+        top: 120px;
     }
 
     .p1-bottom-section {
-        bottom: 140px;
+        bottom: 80px;
     }
 }
 
