@@ -2296,7 +2296,7 @@ button.option-item {
     font-weight: 900;
     font-size: 13px;
     line-height: 1em;
-    letter-spacing: 0.23077em;
+    letter-spacing: 0.12em;
     text-align: center;
     cursor: pointer;
     white-space: nowrap;
