@@ -2266,11 +2266,11 @@ button.option-item {
 .p0-subtitle-wrapper {
     position: absolute;
     left: 50%;
-    top: 240px;
+    top: 250px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    padding: 4px 25px;
+    padding: 6px 44px;
     background-color: #FFFFFF;
     border-radius: 20px;
     animation: subtleRipple 2.6s ease-in-out infinite;
