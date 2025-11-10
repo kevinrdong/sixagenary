@@ -30,18 +30,12 @@ body {
   margin: 0;
   padding: 0;
   width: 100%;
-  min-height: 100vh;
-  overflow-y: auto;    /* 允許垂直捲軸 */
-  overflow-x: auto;    /* 允許水平捲軸 */
+  height: 100%;
   background: #000;
-}
-
-/* 主容器固定/最小尺寸 */
-.site {
-  min-width: 1200px;
-  min-height: 900px;   /* 強制最小高度 */
-  background: #f7f7f7;
-  box-sizing: border-box;
+  overflow-x: auto;   /* 視窗太窄 → 出現水平捲軸 */
+  overflow-y: auto;   /* 視窗太矮 → 出現垂直捲軸 */
+  overscroll-behavior: none;
+  touch-action: manipulation;
 }
 
 * {
@@ -60,4 +54,15 @@ body {
   min-height: 100vh;
   background-color: #000;
 }
+
+  /* 主容器固定/最小尺寸 */
+.site {
+  min-width: 1200px;      /* 限定最小寬度 */
+  min-height: 900px;      /* 限定最小高度 */
+  box-sizing: border-box;
+  background: #f7f7f7;
+  margin: 0 auto;         /* 視窗大時置中 */
+}
+
+  
 </style>
