@@ -2332,7 +2332,7 @@ button.option-item {
 /* 平板裝置 - P0 背景圖片與布局調整 */
 @media (min-width: 768px) {
     .p0-screen {
-        background-image: url('~@/assets/images/step0_main_t.png') !important;
+        background-image: url('~@/assets/images/step0_main.png') !important;
         width: 100vh !important;
     }
 
