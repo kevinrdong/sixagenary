@@ -2705,7 +2705,7 @@ button.option-item {
     }
 
     .p1-bottom-section {
-        bottom: 100px !important;
+        bottom: 80px !important;
     }
 }
 
