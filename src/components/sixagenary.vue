@@ -2701,11 +2701,11 @@ button.option-item {
 /* 平板裝置 - P1 內容區域位置調整 */
 @media (min-width: 768px ) and (max-width: 1025px) {
     .p1-content {
-        top: 250px !important;
+        top: 120px !important;
     }
 
     .p1-bottom-section {
-        bottom: 190px !important;
+        bottom: 100px !important;
     }
 }
 
