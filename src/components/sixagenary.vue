@@ -2857,7 +2857,7 @@ button.option-item {
 }
 
 .p3-button:hover .p3-button-bg {
-    opacity: 0;
+    opacity: 1;
 }
 
 .p3-button::before {
