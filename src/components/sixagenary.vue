@@ -2109,7 +2109,7 @@ button.option-item {
   }
 
   .option-item {
-    width: 600px;
+    width: 500px;
   }
 
   .p3-main-content {
