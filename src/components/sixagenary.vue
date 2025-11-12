@@ -2538,11 +2538,11 @@ button.option-item {
 }
 
 .p1-text-bottom-line2::before {
-  margin-right: 6px;  /* 與文字間距 */
+  margin-right: 10px;
 }
 
 .p1-text-bottom-line2::after {
-  margin-left: 6px;
+  margin-left: 10px;
 }
 
 .p1-content-hidden {
