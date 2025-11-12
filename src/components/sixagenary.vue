@@ -2539,12 +2539,27 @@ button.option-item {
 
 .p1-text-bottom-line2::before {
   margin-right: 10px;
+  animation-delay: 0s;
 }
 
 .p1-text-bottom-line2::after {
   margin-left: 10px;
+  animation-delay: 0s;
 }
 
+    /* 浮動動畫效果 */
+@keyframes floatArrow {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+    
 .p1-content-hidden {
     opacity: 0 !important;
 }
