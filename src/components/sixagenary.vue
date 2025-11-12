@@ -657,7 +657,7 @@ export default {
         const p1TextTop1 = '忙碌的日常幾乎壓垮了你，在學校、工作、家庭間漫無目的地累積壓力——是時候讓靈魂放鬆，把腦中暫存檔歸零。';
         const p1TextTop2 = '累了不是你的錯，但你可以選擇逃跑！'
         const p1TextBottom1 = '人生太難，不如躲進異世界中'
-        const p1TextBottom2 = '▼ 點擊下方按鈕，讓靈魂暫時逃離日常 ▼'
+        const p1TextBottom2 = '點擊下方按鈕，讓靈魂暫時逃離日常'
         const p1TextTop1Display = ref(p1TextTop1)
         const p1TextTop2Display = ref(p1TextTop2)
         const p1TextBottom1Display = ref(p1TextBottom1)
