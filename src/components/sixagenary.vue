@@ -2529,6 +2529,22 @@ button.option-item {
     color: #FFFFFF;
 }
 
+.p1-text-bottom-line2::before,
+.p1-text-bottom-line2::after {
+  content: '▼';
+  color: #624E45;     /* 前後符號顏色 */
+  font-size: 0.7em;   /* 縮小符號 */
+  vertical-align: middle;
+}
+
+.p1-text-bottom-line2::before {
+  margin-right: 6px;  /* 與文字間距 */
+}
+
+.p1-text-bottom-line2::after {
+  margin-left: 6px;
+}
+
 .p1-content-hidden {
     opacity: 0 !important;
 }
